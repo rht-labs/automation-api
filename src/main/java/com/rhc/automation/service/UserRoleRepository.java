@@ -1,9 +1,10 @@
 package com.rhc.automation.service;
 
-import org.springframework.data.repository.CrudRepository;
+
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.rhc.automation.model.RoleMapping;
 
-public interface UserRoleRepository extends CrudRepository<RoleMapping, Long>{
+public interface UserRoleRepository extends PagingAndSortingRepository<RoleMapping, Long>{
 
 }

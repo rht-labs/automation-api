@@ -1,7 +1,7 @@
 package com.rhc.automation.api;
 
 import com.rhc.automation.model.User;
-import com.rhc.automation.service.CustomerService;
+import com.rhc.automation.service.UserService;
 
 import io.swagger.annotations.*;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class UsersApiController implements UsersApi {
 
     @Autowired
-    private CustomerService customerService;
+    private UserService customerService;
 
     public ResponseEntity<Void> addUser(@ApiParam(value = "User object that needs to be added to the store") @RequestBody User body) {
         customerService.addUser(body);
@@ -69,13 +69,13 @@ public class UsersApiController implements UsersApi {
     }
 
     public ResponseEntity<User> usersIdGet(@ApiParam(value = "User ID", required = true) @PathVariable("id") Long id) {
-        HttpStatus status;
+        HttpStatus status = HttpStatus.OK;
         User user = customerService.getUser(id); 
         
         if(user == null) {
             status = HttpStatus.NOT_FOUND;
         }
-        return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<User>(user, status);
     }
 
 }

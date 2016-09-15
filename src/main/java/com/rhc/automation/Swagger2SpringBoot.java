@@ -14,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
 
 import com.rhc.automation.model.Application;
 import com.rhc.automation.model.Customer;
@@ -29,12 +30,10 @@ import com.rhc.automation.service.ImageRegistryRepository;
 import com.rhc.automation.service.OpenshiftClusterRepository;
 import com.rhc.automation.service.OpenshiftResouresRepository;
 import com.rhc.automation.service.ProjectRepository;
-import com.rhc.automation.service.RoleRepository;
 import com.rhc.automation.service.ApplicationRepository;
 import com.rhc.automation.service.CustomerRepository;
+import com.rhc.automation.service.UserService;
 import com.rhc.automation.service.EngagementRepository;
-import com.rhc.automation.service.UserRespository;
-import com.rhc.automation.service.UserRoleRepository;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -56,8 +55,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
     }
 
     @Bean
-    public CommandLineRunner startUp(UserRespository userRepository, RoleRepository roleRepository,
-            UserRoleRepository userRoleRepository, ImageRegistryRepository imageRegistryRepository,
+    public CommandLineRunner startUp(UserService userService, ImageRegistryRepository imageRegistryRepository,
             ApplicationRepository applicationRepository, ProjectRepository projectRepository,
             OpenshiftResouresRepository openshiftResourcesRepository, 
             OpenshiftClusterRepository openshiftClusterRepository, EngagementRepository engagementRepository,
@@ -67,23 +65,25 @@ public class Swagger2SpringBoot implements CommandLineRunner {
             user.setEmail("kevin@mcanoy.com");
             user.setFirstName("Kevin");
             user.setLastName("mcanoy");
-            userRepository.save(user);
+            userService.addUser(user);
 
-            for (User foundUser : userRepository.findAll()) {
+            PageRequest pageRequest = new PageRequest(0, 100);
+            
+            for (User foundUser : userService.getUsers(pageRequest).getContent()) {
                 log.info(foundUser.toString());
             }
 
             Role role = new Role();
             role.setName("Admin");
 
-            roleRepository.save(role);
+            userService.addRole(role);
 
             Role anotherRole = new Role();
             anotherRole.setName("Editor");
 
-            roleRepository.save(anotherRole);
+            userService.addRole(anotherRole);
 
-            for (Role foundRole : roleRepository.findAll()) {
+            for (Role foundRole : userService.getRoles(pageRequest)) {
                 log.info(foundRole.toString());
             }
 
@@ -92,9 +92,9 @@ public class Swagger2SpringBoot implements CommandLineRunner {
             userRole.addRolesItem(role);
             userRole.addRolesItem(anotherRole);
 
-            userRoleRepository.save(userRole);
+            userService.addRoleMapping(userRole);
 
-            for (RoleMapping foundRoles : userRoleRepository.findAll()) {
+            for (RoleMapping foundRoles : userService.getRoleMappings(pageRequest)) {
                 log.info(foundRoles.toString());
             }
 
