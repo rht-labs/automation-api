@@ -1,5 +1,7 @@
 package com.rhc.automation.api;
 
+import com.rhc.automation.model.RoleMapping;
+import com.rhc.automation.model.ErrorModel;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -12,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.rhc.automation.model.RoleMapping;
-
 import java.util.List;
 
-@Api(value = "app_info", description = "the basic information API")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
+
+@Api(value = "role_mappings", description = "the role_mappings API")
 public interface RoleMappingsApi {
 
     @ApiOperation(value = "Add a new role_mapping", notes = "", response = Void.class, tags={ "role_mapping", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     @RequestMapping(value = "/role_mappings",
-        produces = { "role_mapping/json" }, 
-        consumes = { "role_mapping/json" },
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Void> addRoleMapping(
 
@@ -37,7 +39,7 @@ public interface RoleMappingsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid RoleMapping value", response = Void.class) })
     @RequestMapping(value = "/role_mappings/{id}",
-        produces = { "role_mapping/json" }, 
+        produces = { "application/json" }, 
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteRoleMapping(
 @ApiParam(value = "RoleMapping id to delete",required=true ) @PathVariable("id") Long id
@@ -81,8 +83,8 @@ public interface RoleMappingsApi {
         @ApiResponse(code = 404, message = "RoleMapping not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     @RequestMapping(value = "/role_mappings/{id}",
-        produces = { "role_mapping/json" }, 
-        consumes = { "role_mapping/json" },
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Void> updateRoleMapping(
 @ApiParam(value = "RoleMapping ID",required=true ) @PathVariable("id") Long id

@@ -25,8 +25,8 @@ public interface RolesApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     @RequestMapping(value = "/roles",
-        produces = { "role/json" }, 
-        consumes = { "role/json" },
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Void> addRole(
 
@@ -39,7 +39,7 @@ public interface RolesApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid Role value", response = Void.class) })
     @RequestMapping(value = "/roles/{id}",
-        produces = { "role/json" }, 
+        produces = { "application/json" }, 
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteRole(
 @ApiParam(value = "Role id to delete",required=true ) @PathVariable("id") Long id
@@ -83,8 +83,8 @@ public interface RolesApi {
         @ApiResponse(code = 404, message = "Role not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     @RequestMapping(value = "/roles/{id}",
-        produces = { "role/json" }, 
-        consumes = { "role/json" },
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Void> updateRole(
 @ApiParam(value = "Role ID",required=true ) @PathVariable("id") Long id

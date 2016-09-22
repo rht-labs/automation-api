@@ -1,17 +1,16 @@
 package com.rhc.automation.model;
 
 import java.util.Objects;
-
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Role
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
 
-public class Role {
-    
+public class Role implements AutomationModel {
     private Long id = null;
+
     private String name = null;
 
     public Role id(Long id) {

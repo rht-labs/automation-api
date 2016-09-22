@@ -11,9 +11,9 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Engagement
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
 
-public class Engagement {
+public class Engagement implements AutomationModel {
     private Long id = null;
 
     private String name = null;
@@ -22,7 +22,7 @@ public class Engagement {
 
     private LocalDate endDate = null;
 
-    private List<OpenshiftCluster> openshiftCluster = new ArrayList<OpenshiftCluster>();
+    private List<OpenShiftCluster> openShiftClusters = new ArrayList<OpenShiftCluster>();
 
     private List<User> team = new ArrayList<User>();
 
@@ -102,28 +102,28 @@ public class Engagement {
         this.endDate = endDate;
     }
 
-    public Engagement openshiftCluster(List<OpenshiftCluster> openshiftCluster) {
-        this.openshiftCluster = openshiftCluster;
+    public Engagement openShiftClusters(List<OpenShiftCluster> openShiftClusters) {
+        this.openShiftClusters = openShiftClusters;
         return this;
     }
 
-    public Engagement addOpenshiftClusterItem(OpenshiftCluster openshiftClusterItem) {
-        this.openshiftCluster.add(openshiftClusterItem);
+    public Engagement addOpenShiftClustersItem(OpenShiftCluster openShiftClustersItem) {
+        this.openShiftClusters.add(openShiftClustersItem);
         return this;
     }
 
     /**
-     * Get openshiftCluster
+     * Get openShiftClusters
      * 
-     * @return openshiftCluster
+     * @return openShiftClusters
      **/
     @ApiModelProperty(value = "")
-    public List<OpenshiftCluster> getOpenshiftCluster() {
-        return openshiftCluster;
+    public List<OpenShiftCluster> getOpenShiftClusters() {
+        return openShiftClusters;
     }
 
-    public void setOpenshiftCluster(List<OpenshiftCluster> openshiftCluster) {
-        this.openshiftCluster = openshiftCluster;
+    public void setOpenShiftClusters(List<OpenShiftCluster> openShiftClusters) {
+        this.openShiftClusters = openShiftClusters;
     }
 
     public Engagement team(List<User> team) {
@@ -162,13 +162,13 @@ public class Engagement {
         return Objects.equals(this.id, engagement.id) && Objects.equals(this.name, engagement.name)
                 && Objects.equals(this.startDate, engagement.startDate)
                 && Objects.equals(this.endDate, engagement.endDate)
-                && Objects.equals(this.openshiftCluster, engagement.openshiftCluster)
+                && Objects.equals(this.openShiftClusters, engagement.openShiftClusters)
                 && Objects.equals(this.team, engagement.team);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, startDate, endDate, openshiftCluster, team);
+        return Objects.hash(id, name, startDate, endDate, openShiftClusters, team);
     }
 
     @Override
@@ -180,7 +180,7 @@ public class Engagement {
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
         sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
-        sb.append("    openshiftCluster: ").append(toIndentedString(openshiftCluster)).append("\n");
+        sb.append("    openShiftClusters: ").append(toIndentedString(openShiftClusters)).append("\n");
         sb.append("    team: ").append(toIndentedString(team)).append("\n");
         sb.append("}");
         return sb.toString();

@@ -1,6 +1,6 @@
 package com.rhc.automation.api;
 
-import com.rhc.automation.model.OpenshiftCluster;
+import com.rhc.automation.model.OpenShiftCluster;
 import com.rhc.automation.model.ErrorModel;
 
 import io.swagger.annotations.*;
@@ -19,7 +19,7 @@ import java.util.List;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
 
 @Api(value = "openshift_clusters", description = "the openshift_clusters API")
-public interface OpenshiftClustersApi {
+public interface OpenShiftClustersApi {
 
     @ApiOperation(value = "Add a new openshift_cluster", notes = "", response = Void.class, tags={ "openshift_cluster", })
     @ApiResponses(value = { 
@@ -28,33 +28,33 @@ public interface OpenshiftClustersApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addOpenshiftCluster(
+    ResponseEntity<Void> addOpenShiftCluster(
 
-@ApiParam(value = "OpenshiftCluster object that needs to be added to the store"  ) @RequestBody OpenshiftCluster body
+@ApiParam(value = "OpenShiftCluster object that needs to be added to the store"  ) @RequestBody OpenShiftCluster body
 
 );
 
 
     @ApiOperation(value = "Deletes an openshift_cluster", notes = "", response = Void.class, tags={ "openshift_cluster", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid OpenshiftCluster value", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid OpenShiftCluster value", response = Void.class) })
     @RequestMapping(value = "/openshift_clusters/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteOpenshiftCluster(
-@ApiParam(value = "OpenshiftCluster id to delete",required=true ) @PathVariable("id") Long id
+    ResponseEntity<Void> deleteOpenShiftCluster(
+@ApiParam(value = "OpenShiftCluster id to delete",required=true ) @PathVariable("id") Long id
 
 
 );
 
 
-    @ApiOperation(value = "", notes = "Gets `OpenshiftCluster` objects. Optional query param of **size** determines size of returned array ", response = OpenshiftCluster.class, responseContainer = "List", tags={ "openshift_cluster", })
+    @ApiOperation(value = "", notes = "Gets `OpenShiftCluster` objects. Optional query param of **size** determines size of returned array ", response = OpenShiftCluster.class, responseContainer = "List", tags={ "openshift_cluster", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful response", response = OpenshiftCluster.class),
-        @ApiResponse(code = 200, message = "Unexpected error", response = OpenshiftCluster.class) })
+        @ApiResponse(code = 200, message = "Successful response", response = OpenShiftCluster.class),
+        @ApiResponse(code = 200, message = "Unexpected error", response = OpenShiftCluster.class) })
     @RequestMapping(value = "/openshift_clusters",
         method = RequestMethod.GET)
-    ResponseEntity<List<OpenshiftCluster>> openshiftClustersGet(@ApiParam(value = "number of results to return") @RequestParam(value = "size", required = false) Integer size
+    ResponseEntity<List<OpenShiftCluster>> openshiftClustersGet(@ApiParam(value = "number of results to return") @RequestParam(value = "size", required = false) Integer size
 
 
 
@@ -65,13 +65,13 @@ public interface OpenshiftClustersApi {
 );
 
 
-    @ApiOperation(value = "", notes = "Gets an `OpenshiftCluster` object by ID. ", response = OpenshiftCluster.class, tags={ "openshift_cluster", })
+    @ApiOperation(value = "", notes = "Gets an `OpenShiftCluster` object by ID. ", response = OpenShiftCluster.class, tags={ "openshift_cluster", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful response", response = OpenshiftCluster.class) })
+        @ApiResponse(code = 200, message = "Successful response", response = OpenShiftCluster.class) })
     @RequestMapping(value = "/openshift_clusters/{id}",
         method = RequestMethod.GET)
-    ResponseEntity<OpenshiftCluster> openshiftClustersIdGet(
-@ApiParam(value = "OpenshiftCluster ID",required=true ) @PathVariable("id") Long id
+    ResponseEntity<OpenShiftCluster> openshiftClustersIdGet(
+@ApiParam(value = "OpenShiftCluster ID",required=true ) @PathVariable("id") Long id
 
 
 );
@@ -80,19 +80,19 @@ public interface OpenshiftClustersApi {
     @ApiOperation(value = "Update an existing openshift_cluster", notes = "", response = Void.class, tags={ "openshift_cluster", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "OpenshiftCluster not found", response = Void.class),
+        @ApiResponse(code = 404, message = "OpenShiftCluster not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     @RequestMapping(value = "/openshift_clusters/{id}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateOpenshiftCluster(
-@ApiParam(value = "OpenshiftCluster ID",required=true ) @PathVariable("id") Long id
+    ResponseEntity<Void> updateOpenShiftCluster(
+@ApiParam(value = "OpenShiftCluster ID",required=true ) @PathVariable("id") Long id
 
 
 ,
 
-@ApiParam(value = "OpenshiftCluster object that needs to be updated in the store"  ) @RequestBody OpenshiftCluster body
+@ApiParam(value = "OpenShiftCluster object that needs to be updated in the store"  ) @RequestBody OpenShiftCluster body
 
 );
 

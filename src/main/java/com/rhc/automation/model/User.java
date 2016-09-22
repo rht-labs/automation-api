@@ -7,23 +7,22 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * User
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
 
-public class User {
-    
-    
-    private Long id;
+public class User implements AutomationModel {
+    private Long id = null;
+
     private String email = null;
+
     private String firstName = null;
+
     private String lastName = null;
+
+    private String userName = null;
 
     public User id(Long id) {
         this.id = id;
         return this;
-    }
-    
-    public User() {
-        //nothing
     }
 
     /**
@@ -97,6 +96,25 @@ public class User {
         this.lastName = lastName;
     }
 
+    public User userName(String userName) {
+        this.userName = userName;
+        return this;
+    }
+
+    /**
+     * Get userName
+     * 
+     * @return userName
+     **/
+    @ApiModelProperty(required = true, value = "")
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -107,12 +125,13 @@ public class User {
         }
         User user = (User) o;
         return Objects.equals(this.id, user.id) && Objects.equals(this.email, user.email)
-                && Objects.equals(this.firstName, user.firstName) && Objects.equals(this.lastName, user.lastName);
+                && Objects.equals(this.firstName, user.firstName) && Objects.equals(this.lastName, user.lastName)
+                && Objects.equals(this.userName, user.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName);
+        return Objects.hash(id, email, firstName, lastName, userName);
     }
 
     @Override
@@ -124,6 +143,7 @@ public class User {
         sb.append("    email: ").append(toIndentedString(email)).append("\n");
         sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
         sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+        sb.append("    userName: ").append(toIndentedString(userName)).append("\n");
         sb.append("}");
         return sb.toString();
     }

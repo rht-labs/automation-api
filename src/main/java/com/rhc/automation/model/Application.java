@@ -1,6 +1,8 @@
 package com.rhc.automation.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -9,14 +11,22 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Application
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
 
-public class Application {
+public class Application implements AutomationModel {
     private Long id = null;
 
     private String baseImage = null;
 
     private String baseImageTag = null;
+
+    private List<String> buildApplicationCommands = new ArrayList<String>();
+
+    private String buildTool = null;
+
+    private List<String> buildImageCommands = new ArrayList<String>();
+
+    private List<String> deployImageCommands = new ArrayList<String>();
 
     private String contextDir = null;
 
@@ -87,6 +97,97 @@ public class Application {
 
     public void setBaseImageTag(String baseImageTag) {
         this.baseImageTag = baseImageTag;
+    }
+
+    public Application buildApplicationCommands(List<String> buildApplicationCommands) {
+        this.buildApplicationCommands = buildApplicationCommands;
+        return this;
+    }
+
+    public Application addBuildApplicationCommandsItem(String buildApplicationCommandsItem) {
+        this.buildApplicationCommands.add(buildApplicationCommandsItem);
+        return this;
+    }
+
+    /**
+     * Get buildApplicationCommands
+     * 
+     * @return buildApplicationCommands
+     **/
+    @ApiModelProperty(value = "")
+    public List<String> getBuildApplicationCommands() {
+        return buildApplicationCommands;
+    }
+
+    public void setBuildApplicationCommands(List<String> buildApplicationCommands) {
+        this.buildApplicationCommands = buildApplicationCommands;
+    }
+
+    public Application buildTool(String buildTool) {
+        this.buildTool = buildTool;
+        return this;
+    }
+
+    /**
+     * Get buildTool
+     * 
+     * @return buildTool
+     **/
+    @ApiModelProperty(value = "")
+    public String getBuildTool() {
+        return buildTool;
+    }
+
+    public void setBuildTool(String buildTool) {
+        this.buildTool = buildTool;
+    }
+
+    public Application buildImageCommands(List<String> buildImageCommands) {
+        this.buildImageCommands = buildImageCommands;
+        return this;
+    }
+
+    public Application addBuildImageCommandsItem(String buildImageCommandsItem) {
+        this.buildImageCommands.add(buildImageCommandsItem);
+        return this;
+    }
+
+    /**
+     * Get buildImageCommands
+     * 
+     * @return buildImageCommands
+     **/
+    @ApiModelProperty(value = "")
+    public List<String> getBuildImageCommands() {
+        return buildImageCommands;
+    }
+
+    public void setBuildImageCommands(List<String> buildImageCommands) {
+        this.buildImageCommands = buildImageCommands;
+    }
+
+    public Application deployImageCommands(List<String> deployImageCommands) {
+        this.deployImageCommands = deployImageCommands;
+        return this;
+    }
+
+    public Application addDeployImageCommandsItem(String deployImageCommandsItem) {
+        this.deployImageCommands.add(deployImageCommandsItem);
+        return this;
+    }
+
+    /**
+     * Get deployImageCommands
+     * 
+     * @return deployImageCommands
+     **/
+    @ApiModelProperty(value = "")
+    public List<String> getDeployImageCommands() {
+        return deployImageCommands;
+    }
+
+    public void setDeployImageCommands(List<String> deployImageCommands) {
+        this.deployImageCommands = deployImageCommands;
     }
 
     public Application contextDir(String contextDir) {
@@ -243,6 +344,10 @@ public class Application {
         Application application = (Application) o;
         return Objects.equals(this.id, application.id) && Objects.equals(this.baseImage, application.baseImage)
                 && Objects.equals(this.baseImageTag, application.baseImageTag)
+                && Objects.equals(this.buildApplicationCommands, application.buildApplicationCommands)
+                && Objects.equals(this.buildTool, application.buildTool)
+                && Objects.equals(this.buildImageCommands, application.buildImageCommands)
+                && Objects.equals(this.deployImageCommands, application.deployImageCommands)
                 && Objects.equals(this.contextDir, application.contextDir)
                 && Objects.equals(this.scmUrl, application.scmUrl) && Objects.equals(this.scmType, application.scmType)
                 && Objects.equals(this.scmRef, application.scmRef) && Objects.equals(this.name, application.name)
@@ -252,8 +357,8 @@ public class Application {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, baseImage, baseImageTag, contextDir, scmUrl, scmType, scmRef, name, labels,
-                environmentVariables);
+        return Objects.hash(id, baseImage, baseImageTag, buildApplicationCommands, buildTool, buildImageCommands,
+                deployImageCommands, contextDir, scmUrl, scmType, scmRef, name, labels, environmentVariables);
     }
 
     @Override
@@ -264,6 +369,10 @@ public class Application {
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    baseImage: ").append(toIndentedString(baseImage)).append("\n");
         sb.append("    baseImageTag: ").append(toIndentedString(baseImageTag)).append("\n");
+        sb.append("    buildApplicationCommands: ").append(toIndentedString(buildApplicationCommands)).append("\n");
+        sb.append("    buildTool: ").append(toIndentedString(buildTool)).append("\n");
+        sb.append("    buildImageCommands: ").append(toIndentedString(buildImageCommands)).append("\n");
+        sb.append("    deployImageCommands: ").append(toIndentedString(deployImageCommands)).append("\n");
         sb.append("    contextDir: ").append(toIndentedString(contextDir)).append("\n");
         sb.append("    scmUrl: ").append(toIndentedString(scmUrl)).append("\n");
         sb.append("    scmType: ").append(toIndentedString(scmType)).append("\n");

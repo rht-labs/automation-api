@@ -12,7 +12,7 @@ import com.rhc.automation.model.Role;
 import com.rhc.automation.model.RoleMapping;
 import com.rhc.automation.model.User;
 
-@Component("customerService")
+@Component("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
 
@@ -44,14 +44,10 @@ public class UserServiceImpl implements UserService {
         User current = userRepository.findOne(user.getId());
         
         if(current == null) {
-            throw new NotFoundException(404, String.format("User with id %d, not found", user.getId()));
+            throw new NotFoundException(404, String.format("User with id %d not found", user.getId()));
         }
-        
-        current.setEmail(user.getEmail());
-        current.setFirstName(user.getFirstName());
-        current.setLastName(user.getLastName());
 
-        userRepository.save(current);
+        userRepository.save(user);
         
     }
     
@@ -102,6 +98,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addRoleMapping(RoleMapping roleMapping) {
+        User user = roleMapping.getUser();
+        if(user != null && (user.getId() == null || user.getId() == 0)) {
+            user.setId(null);
+            addUser(user);
+        }
+        
+        for(Role role : roleMapping.getRoles()) {
+            if(role.getId() == null || role.getId() == 0) {
+                role.setId(null);
+                addRole(role);
+            }
+        }
+        
         userRoleRepository.save(roleMapping);
         
     }

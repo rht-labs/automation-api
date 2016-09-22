@@ -14,6 +14,9 @@
             </basic>
             <basic name="firstName"/>
             <basic name="lastName"/>
+            <basic name="userName">
+                <column nullable="false"/>
+            </basic>
         </attributes>
     </entity>
     
@@ -44,18 +47,6 @@
         </attributes>
     </entity>
 
-    <entity class="com.rhc.automation.model.ImageRegistry" access="FIELD">
-        <!-- table name="tweets"/-->
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="host">
-                <column name="host" length="200"/>
-            </basic>
-        </attributes>
-    </entity>
-
     <entity class="com.rhc.automation.model.Application" access="FIELD">
         <attributes>
             <id name="id">
@@ -66,6 +57,9 @@
             </basic>
             <basic name="baseImageTag">
                 <column name="baseImageTag" length="200"/>
+            </basic>
+            <basic name="buildTool">
+                <column name="buildTool" length="50"/>
             </basic>
             <basic name="contextDir">
                 <column name="contextDir" length="200"/>
@@ -82,6 +76,24 @@
             <basic name="scmUrl">
                 <column name="scmUrl" length="200"/>
             </basic>
+            <element-collection name="buildApplicationCommands" target-class="java.lang.String" fetch="EAGER">
+                <column name="buildAppCommand"/>
+                <collection-table name="BUILD_APP_COMMAND">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+            <element-collection name="buildImageCommands" target-class="java.lang.String" fetch="EAGER">
+                <column name="buildImageCommand"/>
+                <collection-table name="BUILD_IMAGE_COMMAND">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+            <element-collection name="deployImageCommands" target-class="java.lang.String" fetch="EAGER">
+                <column name="deployImageCommand"/>
+                <collection-table name="DEPLOY_IMAGE_COMMAND">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
             <element-collection name="environmentVariables" fetch="EAGER">
                 <map-key-column name="envName"/>
                 <column name="envValue"/>
@@ -113,7 +125,7 @@
         </attributes>
     </entity>
     
-    <entity class="com.rhc.automation.model.OpenshiftResources" access="FIELD">
+    <entity class="com.rhc.automation.model.OpenShiftResources" access="FIELD">
         <attributes>
             <id name="id">
                 <generated-value strategy="AUTO"/>
@@ -122,17 +134,16 @@
         </attributes>
     </entity>
     
-    <entity class="com.rhc.automation.model.OpenshiftCluster" access="FIELD">
+    <entity class="com.rhc.automation.model.OpenShiftCluster" access="FIELD">
         <attributes>
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <basic name="openshiftHostEnv"/>
-            <one-to-one name="imageRegistry" fetch="EAGER">
-                <join-column name="imageRegistryId"/>
-            </one-to-one>
-            <one-to-one name="openshiftResourcesToCreate" fetch="EAGER">
-                <join-column name="openshiftResourcesId"/>
+            <basic name="openShiftHostEnv"/>
+            <basic name="imageRegistry" />
+            <basic name="userId"/>
+            <one-to-one name="openShiftResources" fetch="EAGER">
+                <join-column name="openShiftResourcesId"/>
             </one-to-one>
             <element-collection name="labels" fetch="EAGER">
                 <map-key-column name="labelName"/>
@@ -152,8 +163,8 @@
             <basic name="name"/>
             <basic name="endDate"/>
             <basic name="startDate"/>
-            <one-to-many name="openshiftCluster" target-entity="com.rhc.automation.model.OpenshiftCluster" fetch="EAGER"/>
-            <one-to-many name="team" target-entity="com.rhc.automation.model.User" fetch="EAGER"/>
+            <one-to-many name="openShiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="EAGER"/>
+            <many-to-many name="team" target-entity="com.rhc.automation.model.User" fetch="EAGER"/>
         </attributes>
     </entity>
     

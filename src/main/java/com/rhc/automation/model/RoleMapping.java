@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * RoleMapping
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
-@Entity
-public class RoleMapping {
-    
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
+
+public class RoleMapping implements AutomationModel {
     private Long id = null;
+
     private User user = null;
+
     private List<Role> roles = new ArrayList<Role>();
 
     public RoleMapping id(Long id) {

@@ -1,20 +1,22 @@
 package com.rhc.automation.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * ImageRegistry
+ * OpenShiftResources
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
 
-public class ImageRegistry {
+public class OpenShiftResources {
     private Long id = null;
 
-    private String host = null;
+    private List<Project> projects = new ArrayList<Project>();
 
-    public ImageRegistry id(Long id) {
+    public OpenShiftResources id(Long id) {
         this.id = id;
         return this;
     }
@@ -33,23 +35,28 @@ public class ImageRegistry {
         this.id = id;
     }
 
-    public ImageRegistry host(String host) {
-        this.host = host;
+    public OpenShiftResources projects(List<Project> projects) {
+        this.projects = projects;
+        return this;
+    }
+
+    public OpenShiftResources addProjectsItem(Project projectsItem) {
+        this.projects.add(projectsItem);
         return this;
     }
 
     /**
-     * Get host
+     * Get projects
      * 
-     * @return host
+     * @return projects
      **/
-    @ApiModelProperty(required = true, value = "")
-    public String getHost() {
-        return host;
+    @ApiModelProperty(value = "")
+    public List<Project> getProjects() {
+        return projects;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 
     @Override
@@ -60,22 +67,23 @@ public class ImageRegistry {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ImageRegistry imageRegistry = (ImageRegistry) o;
-        return Objects.equals(this.id, imageRegistry.id) && Objects.equals(this.host, imageRegistry.host);
+        OpenShiftResources openShiftResources = (OpenShiftResources) o;
+        return Objects.equals(this.id, openShiftResources.id)
+                && Objects.equals(this.projects, openShiftResources.projects);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, host);
+        return Objects.hash(id, projects);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class ImageRegistry {\n");
+        sb.append("class OpenShiftResources {\n");
 
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    host: ").append(toIndentedString(host)).append("\n");
+        sb.append("    projects: ").append(toIndentedString(projects)).append("\n");
         sb.append("}");
         return sb.toString();
     }

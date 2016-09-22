@@ -2,8 +2,8 @@ package com.rhc.automation.service;
 
 import com.rhc.automation.model.Application;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ApplicationRepository extends CrudRepository<Application, Long>{
+public interface ApplicationRepository extends PagingAndSortingRepository<Application, Long>{
 
 }

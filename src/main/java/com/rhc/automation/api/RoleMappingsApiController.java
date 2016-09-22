@@ -2,7 +2,6 @@ package com.rhc.automation.api;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -23,62 +22,39 @@ import io.swagger.annotations.ApiParam;
 @Controller
 public class RoleMappingsApiController implements RoleMappingsApi {
     
-    @Autowired
-    private UserService customerService;
+    private ApiService apiService;
+    
+    public RoleMappingsApiController(ApiService apiService) {
+        this.apiService = apiService;
+    }
 
     public ResponseEntity<Void> addRoleMapping(@ApiParam(value = "RoleMapping object that needs to be added to the store"  ) 
         @RequestBody RoleMapping body) {
         
-        customerService.addRoleMapping(body);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return apiService.add(body);
     }
 
     public ResponseEntity<Void> deleteRoleMapping(@ApiParam(value = "RoleMapping id to delete",required=true ) @PathVariable("id") Long id) {
         
-        HttpStatus status = HttpStatus.OK;
-        RoleMapping roleMapping = customerService.getRoleMapping(id);
-        
-        if(roleMapping == null) {
-            status = HttpStatus.BAD_REQUEST;
-        } else {
-            customerService.deleteRoleMapping(id);
-        }
-        return new ResponseEntity<Void>(status);
+        return apiService.delete(RoleMapping.class, id);
     }
 
     public ResponseEntity<List<RoleMapping>> roleMappingsGet(@ApiParam(value = "number of results to return") @RequestParam(value = "size", required = false) Integer size,
         @ApiParam(value = "offset in list") @RequestParam(value = "offset", required = false) Long offset) {
         
-        PageRequest pageRequest = new PageRequest(offset.intValue(), size);
-        Page<RoleMapping> roleMappings = customerService.getRoleMappings(pageRequest);
-        return new ResponseEntity<List<RoleMapping>>(roleMappings.getContent(), HttpStatus.OK);
+        List<RoleMapping> roleMappingList = apiService.getList(size, offset, RoleMapping.class);
+        return new ResponseEntity<List<RoleMapping>>(roleMappingList, HttpStatus.OK);
     }
 
     public ResponseEntity<RoleMapping> roleMappingsIdGet(@ApiParam(value = "RoleMapping ID",required=true ) @PathVariable("id") Long id) {
         
-        HttpStatus status = HttpStatus.OK;
-        RoleMapping roleMapping = customerService.getRoleMapping(id); 
-        
-        if(roleMapping == null) {
-            status = HttpStatus.NOT_FOUND;
-        }
-        return new ResponseEntity<RoleMapping>(roleMapping, status);
+        return apiService.get(id, RoleMapping.class);
     }
 
     public ResponseEntity<Void> updateRoleMapping(@ApiParam(value = "RoleMapping ID",required=true ) @PathVariable("id") Long id,
         @ApiParam(value = "RoleMapping object that needs to be updated in the store"  ) @RequestBody RoleMapping body) {
         
-        body.setId(id);
-        HttpStatus status = HttpStatus.OK;
-        try {
-            customerService.updateRoleMapping(body); 
-         } catch (NotFoundException nfe) {
-             status = HttpStatus.NOT_FOUND;
-         } catch(ValidationException ve) {
-             status = HttpStatus.METHOD_NOT_ALLOWED;
-         }
-
-        return new ResponseEntity<Void>(status);
+        return apiService.update(id, body);
     }
 
 }
