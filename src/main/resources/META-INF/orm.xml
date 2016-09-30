@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
+                 version="2.1">
+
+    <entity class="com.rhc.automation.model.User" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="email">
+                <column nullable="false"/>
+            </basic>
+            <basic name="firstName"/>
+            <basic name="lastName"/>
+            <basic name="userName">
+                <column nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.Role" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="name">
+                <column nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.RoleMapping" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <one-to-one name="user" fetch="EAGER">
+                <join-column name="userId"/>
+            </one-to-one>
+            <element-collection name="roles" fetch="EAGER">
+            <collection-table name="role_mapping_roles">
+                <join-column name="role_mapping_role_id"/>
+            </collection-table>
+        </element-collection>
+        </attributes>
+    </entity>
+
+    <entity class="com.rhc.automation.model.Application" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="baseImage">
+                <column name="baseImage" length="200"/>
+            </basic>
+            <basic name="baseImageTag">
+                <column name="baseImageTag" length="200"/>
+            </basic>
+            <basic name="buildTool">
+                <column name="buildTool" length="50"/>
+            </basic>
+            <basic name="contextDir">
+                <column name="contextDir" length="200"/>
+            </basic>
+            <basic name="name">
+                <column name="name" length="200"/>
+            </basic>
+            <basic name="scmRef">
+                <column name="scmRef" length="200"/>
+            </basic>
+            <basic name="scmType">
+                <column name="scmType" length="200"/>
+            </basic>
+            <basic name="scmUrl">
+                <column name="scmUrl" length="200"/>
+            </basic>
+            <element-collection name="buildApplicationCommands" target-class="java.lang.String" fetch="EAGER">
+                <column name="buildAppCommand"/>
+                <collection-table name="BUILD_APP_COMMAND">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+            <element-collection name="buildImageCommands" target-class="java.lang.String" fetch="EAGER">
+                <column name="buildImageCommand"/>
+                <collection-table name="BUILD_IMAGE_COMMAND">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+            <element-collection name="deployImageCommands" target-class="java.lang.String" fetch="EAGER">
+                <column name="deployImageCommand"/>
+                <collection-table name="DEPLOY_IMAGE_COMMAND">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+            <element-collection name="environmentVariables" fetch="EAGER">
+                <map-key-column name="envName"/>
+                <column name="envValue"/>
+                <collection-table name="envVariables">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+            <element-collection name="labels" fetch="EAGER">
+                <map-key-column name="labelName"/>
+                <column name="labelValue"/>
+                <collection-table name="labels">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.Project" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="buildEnvironment"/>
+            <basic name="promotionEnvironment"/>
+            <basic name="name"/>
+            <basic name="displayName"/>
+            <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="EAGER"/>
+            <one-to-many name="userToRole" target-entity="com.rhc.automation.model.RoleMapping" fetch="EAGER"/>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.OpenShiftResources" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <one-to-many name="projects" target-entity="com.rhc.automation.model.Project" fetch="EAGER"/>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.OpenShiftCluster" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="openShiftHostEnv"/>
+            <basic name="imageRegistry" />
+            <basic name="userId"/>
+            <one-to-one name="openShiftResources" fetch="EAGER">
+                <join-column name="openShiftResourcesId"/>
+            </one-to-one>
+            <element-collection name="labels" fetch="EAGER">
+                <map-key-column name="labelName"/>
+                <column name="labelValue"/>
+                <collection-table name="cluster_labels">
+                    <join-column name="application_id"/>
+                </collection-table>
+            </element-collection>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.Engagement" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="name"/>
+            <basic name="endDate"/>
+            <basic name="startDate"/>
+            <one-to-many name="openShiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="EAGER"/>
+            <many-to-many name="team" target-entity="com.rhc.automation.model.User" fetch="EAGER"/>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.Customer" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="name"/>
+            <one-to-many name="engagements" target-entity="com.rhc.automation.model.Engagement" fetch="EAGER"/>
+        </attributes>
+    </entity>
+ 
+</entity-mappings>
