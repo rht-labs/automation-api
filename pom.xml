@@ -32,6 +32,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>3.1.63</version>
+                    <executions>
+                     <execution>
+                           <goals>
+                              <goal>resource</goal>
+                          </goals>
+                        </execution>
+                    </executions>
+                </plugin>
         </plugins>
     </build>
     <dependencyManagement>
@@ -98,28 +110,5 @@
             <artifactId>joda-time</artifactId>
         </dependency>
     </dependencies>
-    
-    <profiles>
-        <!--  Allows a developer to push the code to an openshift env when the user is logged in through the oc client (bypasses jenkins) Consider deleting -->
-        <profile>
-            <id>direct-deploy</id>
-            <build>
-                <plugins>
-                    <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>3.1.63</version>
-                        <executions>
-                         <execution>
-                               <goals>
-                                  <goal>resource</goal>
-                              </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     
 </project>
