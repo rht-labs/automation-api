@@ -10,6 +10,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
+
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
@@ -44,4 +45,5 @@ public class Swagger2SpringBoot implements CommandLineRunner {
         }
 
     }
+
 }
