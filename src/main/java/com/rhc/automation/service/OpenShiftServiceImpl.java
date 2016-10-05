@@ -76,7 +76,7 @@ public class OpenShiftServiceImpl implements OpenShiftService {
     @Override
     public void addOpenShiftCluster(OpenShiftCluster openShiftCluster) {
         
-        OpenShiftResources resources = openShiftCluster.getOpenShiftResources();
+        OpenShiftResources resources = openShiftCluster.getOpenshiftResources();
         if(resources != null && (resources.getId() == null ||  resources.getId() == 0)) {
             resources.setId(null);
             addOpenShiftResources(resources);

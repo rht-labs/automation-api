@@ -139,11 +139,11 @@
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <basic name="openShiftHostEnv"/>
+            <basic name="openshiftHostEnv"/>
             <basic name="imageRegistry" />
             <basic name="userId"/>
-            <one-to-one name="openShiftResources" fetch="EAGER">
-                <join-column name="openShiftResourcesId"/>
+            <one-to-one name="openshiftResources" fetch="EAGER">
+                <join-column name="openshiftResourcesId"/>
             </one-to-one>
             <element-collection name="labels" fetch="EAGER">
                 <map-key-column name="labelName"/>
@@ -163,7 +163,7 @@
             <basic name="name"/>
             <basic name="endDate"/>
             <basic name="startDate"/>
-            <one-to-many name="openShiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="EAGER"/>
+            <one-to-many name="openshiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="EAGER"/>
             <many-to-many name="team" target-entity="com.rhc.automation.model.User" fetch="EAGER"/>
         </attributes>
     </entity>

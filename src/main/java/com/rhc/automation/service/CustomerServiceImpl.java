@@ -63,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void addEngagement(Engagement engagement) {
-        for(OpenShiftCluster cluster : engagement.getOpenShiftClusters()) {
+        for(OpenShiftCluster cluster : engagement.getOpenshiftClusters()) {
             if(cluster.getId() == null || cluster.getId() == 0) {
                 cluster.setId(null);
                 openshiftService.addOpenShiftCluster(cluster);

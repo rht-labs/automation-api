@@ -16,10 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-08T13:44:26.455-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-10-05T12:23:04.865-07:00")
 
 @Api(value = "openshift_clusters", description = "the openshift_clusters API")
-public interface OpenShiftClustersApi {
+public interface OpenshiftClustersApi {
 
     @ApiOperation(value = "Add a new openshift_cluster", notes = "", response = Void.class, tags={ "openshift_cluster", })
     @ApiResponses(value = { 
