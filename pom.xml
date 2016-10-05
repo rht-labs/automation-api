@@ -12,7 +12,6 @@
         <springfox-version>2.5.0</springfox-version>
         <spring-cloud.version>Brixton.SR4</spring-cloud.version>
         <spring-cloud-kubernetes.version>0.0.16</spring-cloud-kubernetes.version>
-        <postgres.jdbc.version>9.4-1206-jdbc42</postgres.jdbc.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -114,7 +113,6 @@
                          <execution>
                                <goals>
                                   <goal>resource</goal>
-                                  <goal>build</goal>
                               </goals>
                             </execution>
                         </executions>
