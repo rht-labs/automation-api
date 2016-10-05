@@ -81,15 +81,15 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         OpenShiftCluster openShiftCluster = new OpenShiftCluster();
         openShiftCluster.setLabels(labels);
         openShiftCluster.setImageRegistry("http://www.mcanoy.com");
-        openShiftCluster.setOpenShiftHostEnv("env1");
-        openShiftCluster.setOpenShiftResources(openshiftResource);
+        openShiftCluster.setOpenshiftHostEnv("env1");
+        openShiftCluster.setOpenshiftResources(openshiftResource);
         openShiftCluster.setUserId(String.valueOf(user.getId()));
         
         Engagement engagement = new Engagement();
         engagement.setEndDate(LocalDate.now().plusWeeks(8));
         engagement.setStartDate(LocalDate.now());
         engagement.setName("firstengage");
-        engagement.addOpenShiftClustersItem(openShiftCluster);
+        engagement.addOpenshiftClustersItem(openShiftCluster);
         List<User> team = new ArrayList<>(1);
         team.add(user);
         engagement.setTeam(team);
