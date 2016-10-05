@@ -12,7 +12,6 @@
         <springfox-version>2.5.0</springfox-version>
         <spring-cloud.version>Brixton.SR4</spring-cloud.version>
         <spring-cloud-kubernetes.version>0.0.16</spring-cloud-kubernetes.version>
-        <postgres.jdbc.version>9.4-1206-jdbc42</postgres.jdbc.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -33,6 +32,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>3.1.63</version>
+                    <executions>
+                     <execution>
+                           <goals>
+                              <goal>resource</goal>
+                          </goals>
+                        </execution>
+                    </executions>
+                </plugin>
         </plugins>
     </build>
     <dependencyManagement>
@@ -67,17 +78,11 @@
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgres.jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -105,29 +110,5 @@
             <artifactId>joda-time</artifactId>
         </dependency>
     </dependencies>
-    
-    <profiles>
-        <!--  Allows a developer to push the code to an openshift env when the user is logged in through the oc client (bypasses jenkins) Consider deleting -->
-        <profile>
-            <id>direct-deploy</id>
-            <build>
-                <plugins>
-                    <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>3.1.23</version>
-                        <executions>
-                         <execution>
-                               <goals>
-                                  <goal>resource</goal>
-                                  <goal>build</goal>
-                              </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     
 </project>

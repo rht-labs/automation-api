@@ -13,10 +13,6 @@ data:
     automationapi:
       message: openshift enabled!
     spring:
-      datasource:
-        url: jdbc:postgresql://172.30.22.174:5432/automation
-        username: autoautoauto
-        password: g155LeB6VFqipp6X
       jpa:
         properties:
           hibernate:
