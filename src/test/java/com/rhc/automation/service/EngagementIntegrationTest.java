@@ -11,13 +11,17 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rhc.automation.model.Application;
+import com.rhc.automation.model.EdgeRoute;
 import com.rhc.automation.model.Engagement;
 import com.rhc.automation.model.OpenShiftCluster;
 import com.rhc.automation.model.OpenShiftResources;
+import com.rhc.automation.model.Port;
 import com.rhc.automation.model.Project;
 import com.rhc.automation.model.Role;
 import com.rhc.automation.model.RoleMapping;
 import com.rhc.automation.model.User;
+import com.rhc.automation.model.Route.RouteTypeEnum;
+import com.rhc.automation.model.Service;
 
 public class EngagementIntegrationTest extends BaseIntegrationTest {
     
@@ -42,6 +46,29 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         userRole.setUser(user);
         userRole.addRolesItem(role);
         userRole.addRolesItem(anotherRole);
+        
+        Port port = new Port();
+        port.setPort(8080);
+        port.setProtocol("tcp");
+        port.setTargetPort(80);
+        
+        List<Port> portList = new ArrayList<>();
+        portList.add(port);
+        
+        Service service = new Service();
+        service.setPorts(portList);
+        
+        EdgeRoute edgeRoute = new EdgeRoute();
+        edgeRoute.setCaCert("caCert");
+        edgeRoute.setCert("cert");
+        edgeRoute.setHostname("hostname");
+        edgeRoute.setInsecurePolicy("insecure");
+        edgeRoute.setKey("key");
+        edgeRoute.setName("name");
+        edgeRoute.setPath("path");
+        edgeRoute.setPort(99);
+        edgeRoute.setRouteType(RouteTypeEnum.EDGE);
+        edgeRoute.setService(service);
 
         Application application = new Application();
         application.setBaseImage("baseimage");
@@ -83,7 +110,6 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         openShiftCluster.setImageRegistry("http://www.mcanoy.com");
         openShiftCluster.setOpenshiftHostEnv("env1");
         openShiftCluster.setOpenshiftResources(openshiftResource);
-        openShiftCluster.setUserId(String.valueOf(user.getId()));
         
         Engagement engagement = new Engagement();
         engagement.setEndDate(LocalDate.now().plusWeeks(8));
