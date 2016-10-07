@@ -44,6 +44,10 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<mode>openshift</mode>
+					<buildStrategy>s2i</buildStrategy>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
