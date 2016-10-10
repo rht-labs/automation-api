@@ -20,6 +20,7 @@
 		<version>1.4.0.RELEASE</version>
 	</parent>
 	<build>
+		<finalName>automation-api</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
 			<plugin>
