@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-10-06T10:52:08.748-07:00")
 
 public class Route {
-    private String id = null;
+    private Long id = null;
 
     private String name = null;
 
@@ -44,7 +44,7 @@ public class Route {
 
     private Service service = null;
 
-    public Route id(String id) {
+    public Route id(Long id) {
         this.id = id;
         return this;
     }
@@ -55,11 +55,11 @@ public class Route {
      * @return id
      **/
     @ApiModelProperty(value = "")
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

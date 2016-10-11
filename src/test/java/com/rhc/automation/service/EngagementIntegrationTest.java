@@ -9,6 +9,8 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.rhc.automation.model.Application;
 import com.rhc.automation.model.EdgeRoute;
@@ -19,6 +21,7 @@ import com.rhc.automation.model.Port;
 import com.rhc.automation.model.Project;
 import com.rhc.automation.model.Role;
 import com.rhc.automation.model.RoleMapping;
+import com.rhc.automation.model.Route;
 import com.rhc.automation.model.User;
 import com.rhc.automation.model.Route.RouteTypeEnum;
 import com.rhc.automation.model.Service;
@@ -30,6 +33,58 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void saveEngagementLegit() {
+        
+        Engagement engagement = createEngagement();
+        
+        engagementRepository.save(engagement);
+        
+        Assert.assertNotNull("Engagement was not saved", engagement.getId());
+        
+    }
+    
+    @Test
+    public void getEngagements() {
+        Engagement engagementsave = createEngagement();
+        engagementRepository.save(engagementsave);
+        
+        PageRequest pageRequest = new PageRequest(0, 10);
+        
+        Page<Engagement> engagements = engagementRepository.findAll(pageRequest);
+        
+        Assert.assertEquals(1, engagements.getContent().size());
+        
+        Long id = engagements.getContent().get(0).getId();
+        
+        Engagement engagement = engagementRepository.findOne(id);
+        
+        Assert.assertNotNull("Should have found an engagment by id", engagement);
+        
+        Assert.assertEquals(id, engagement.getId());
+        
+        Assert.assertEquals("No OpenShift Cluster", 1, engagement.getOpenshiftClusters().size());
+        Assert.assertNotNull("No OpenShift Resource", engagement.getOpenshiftClusters().get(0).getOpenshiftResources());
+        
+        List<Project> projects = engagement.getOpenshiftClusters().get(0).getOpenshiftResources().getProjects();
+        Assert.assertNotNull("No Project", projects);
+        Assert.assertEquals("There should be 1 project", 1, projects.size());
+        
+        List<Application> apps = projects.get(0).getApps();
+        Assert.assertNotNull("No Apps", apps);
+        Assert.assertEquals("There should be 1 app", 1, apps.size());
+        
+        List<Route> routes = apps.get(0).getRoutes();
+        Assert.assertNotNull("No Routes", apps);
+        Assert.assertEquals("There should be 1 route", 1, routes.size());
+        
+        Route route = routes.get(0);
+        Assert.assertEquals("Improper Route", route.getRouteType(), Route.RouteTypeEnum.EDGE);
+        Assert.assertEquals("Improper Hostname on route", "erhostname", route.getHostname());
+        
+        
+        
+    }
+    
+    private Engagement createEngagement() {
         User user = new User();
         user.setEmail("chef@tophat.com");
         user.setFirstName("Chef");
@@ -61,7 +116,7 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         EdgeRoute edgeRoute = new EdgeRoute();
         edgeRoute.setCaCert("caCert");
         edgeRoute.setCert("cert");
-        edgeRoute.setHostname("hostname");
+        edgeRoute.setHostname("erhostname");
         edgeRoute.setInsecurePolicy("insecure");
         edgeRoute.setKey("key");
         edgeRoute.setName("name");
@@ -82,6 +137,7 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         application.setScmRef("scmref");
         application.setScmType("scmtype");
         application.setScmUrl("http://github.com/rhc");
+        application.addRoutesItem(edgeRoute);
         
         Map<String, String> envs = new HashMap<>();
         envs.put("a", "b");
@@ -120,8 +176,6 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         team.add(user);
         engagement.setTeam(team);
         
-        engagementRepository.save(engagement);
-        
-        Assert.assertNotNull("Engagement was not saved", engagement.getId());
+        return engagement;
     }
 }
