@@ -3,8 +3,6 @@ package com.rhc.automation.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +36,6 @@ import com.rhc.automation.service.OpenShiftService;
 import com.rhc.automation.service.UserService;
 @Component("apiService")
 public class ApiService {
-    Logger LOG = LoggerFactory.getLogger(ApiService.class);
 
     private OpenShiftService openShiftService;
     private CustomerService customerService;
@@ -54,7 +51,6 @@ public class ApiService {
     }
     
     public ResponseEntity<Void> add(AutomationModel model) {
-        LOG.debug("Adding model: {}", model);
         ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.OK);
 
         if (model.getId() == null) {

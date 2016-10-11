@@ -3,142 +3,7 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
                  version="2.1">
-                 
-    <entity class="com.rhc.automation.model.LabelSelector" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <element-collection name="matchLabels" fetch="EAGER">
-                <map-key-column name="matchLabelName"/>
-                <column name="matchLabelValue"/>
-                <collection-table name="match_labels">
-                    <join-column name="application_id"/>
-                </collection-table>
-            </element-collection>
-        </attributes>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.ClaimType" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="kind">
-                <enumerated>STRING</enumerated>
-            </basic>
-            <basic name="name"/>
-        </attributes>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.PVCAssociation" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="name"/>
-            <basic name="mountPath"/>
-            <one-to-one name="claimType" fetch="EAGER">
-                <join-column name="claim_type_id"/>
-            </one-to-one>
-        </attributes>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.Port" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="port"/>
-            <basic name="protocol"/>
-            <basic name="targetPort"/>
-        </attributes>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.Service" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="name"/>
-            <one-to-many name="ports" target-entity="com.rhc.automation.model.Port" fetch="EAGER"/>
-        </attributes>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.Route" access="FIELD">
-        <table name="ROUTE"/>
-        <inheritence/>
-        <discriminator-column name="ROUTE_TYPE_ID"/>
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="name"/>
-            <basic name="hostname"/>
-            <basic name="port"/>
-            <one-to-one name="service" fetch="EAGER">
-                <join-column name="route_id"/>
-            </one-to-one>
-        </attributes>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.PassthroughRoute" access="FIELD">
-        <discriminator-value>passthrough</discriminator-value>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.EdgeRoute" access="FIELD">
-        <discriminator-value>edge</discriminator-value>
-    </entity>
-    
-    <entity class="com.rhc.automation.model.ReencryptRoute" access="FIELD">
-        <discriminator-value>reencrypt</discriminator-value>
-    </entity>
-   
-    <entity class="com.rhc.automation.model.PersistentVolumeClaim" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-                <basic name="name"/>
-                <basic name="storage"/>
-                <one-to-one name="selector" fetch="EAGER">
-                    <join-column name="selector_id"/>
-                </one-to-one>
-                <element-collection name="accessModes">
-                    <collection-table name="ACCESS_MODE">
-                        <join-column name="PVC_ID"/>
-                    </collection-table>
-                </element-collection>
-        </attributes>
-    </entity>
 
-    <entity class="com.rhc.automation.model.PersistentVolume" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="name"/>
-            <basic name="capacity"/>
-            <element-collection name="accessModes">
-                <collection-table name="ACCESS_MODE">
-                    <join-column name="PVC_ID"/>
-                </collection-table>
-            </element-collection>
-            <basic name="nfsPath"/>
-            <basic name="nfsServer"/>
-            <basic name="reclaimPolicy">
-                <enumerated>STRING</enumerated>
-            </basic>
-            <element-collection name="labels" fetch="EAGER">
-                <map-key-column name="labelName"/>
-                <column name="labelValue"/>
-                <collection-table name="PVC_LABELS">
-                    <join-column name="PVC_ID"/>
-                </collection-table>
-            </element-collection>
-        </attributes>
-    </entity>
-    
     <entity class="com.rhc.automation.model.User" access="FIELD">
         <attributes>
             <id name="id">
@@ -239,12 +104,10 @@
             <element-collection name="labels" fetch="EAGER">
                 <map-key-column name="labelName"/>
                 <column name="labelValue"/>
-                <collection-table name="APP_LABELS">
-                    <join-column name="APPLICATION_ID"/>
+                <collection-table name="labels">
+                    <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <one-to-many name="pvcAssociations" target-entity="com.rhc.automation.model.PVCAssociation" fetch="EAGER"/>
-            <one-to-many name="routes" target-entity="com.rhc.automation.model.Route" fetch="EAGER"/>
         </attributes>
     </entity>
     
@@ -259,7 +122,6 @@
             <basic name="displayName"/>
             <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="EAGER"/>
             <one-to-many name="userToRole" target-entity="com.rhc.automation.model.RoleMapping" fetch="EAGER"/>
-            <one-to-many name="persistentVolumeClaims" target-entity="com.rhc.automation.model.PersistentVolumeClaim" fetch="EAGER"/>
         </attributes>
     </entity>
     
@@ -290,7 +152,6 @@
                     <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <one-to-many name="persistentVolumes" target-entity="com.rhc.automation.model.PersistentVolume" fetch="EAGER"/>
         </attributes>
     </entity>
     

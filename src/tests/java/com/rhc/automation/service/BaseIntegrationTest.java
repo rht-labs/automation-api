@@ -19,7 +19,7 @@ import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace=Replace.ANY)
 @TestPropertySource(properties = "spring.jpa.properties.hibernate.default_schema=")
-public abstract class BaseIntegrationTest {
+public class BaseIntegrationTest {
 
     @MockBean
     private DocumentationPluginsBootstrapper documentationPluginsBootstrapper;

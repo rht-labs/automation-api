@@ -41,10 +41,6 @@ public class Application implements AutomationModel {
     private Map<String, String> labels = new HashMap<String, String>();
 
     private Map<String, String> environmentVariables = new HashMap<String, String>();
-    
-    private List<PVCAssociation> pvcAssociations = new ArrayList<PVCAssociation>();
-
-    private List<Route> routes = new ArrayList<Route>();
 
     public Application id(Long id) {
         this.id = id;
@@ -337,54 +333,7 @@ public class Application implements AutomationModel {
         this.environmentVariables = environmentVariables;
     }
 
-    public Application pvcAssociations(List<PVCAssociation> pvcAssociations) {
-        this.pvcAssociations = pvcAssociations;
-        return this;
-    }
-
-    public Application addPvcAssociationsItem(PVCAssociation pvcAssociationsItem) {
-        this.pvcAssociations.add(pvcAssociationsItem);
-        return this;
-    }
-
-    /**
-     * Get pvcAssociations
-     * 
-     * @return pvcAssociations
-     **/
-    @ApiModelProperty(value = "")
-    public List<PVCAssociation> getPvcAssociations() {
-        return pvcAssociations;
-    }
-
-    public void setPvcAssociations(List<PVCAssociation> pvcAssociations) {
-        this.pvcAssociations = pvcAssociations;
-    }
-
-    public Application routes(List<Route> routes) {
-        this.routes = routes;
-        return this;
-    }
-
-    public Application addRoutesItem(Route routesItem) {
-        this.routes.add(routesItem);
-        return this;
-    }
-
-    /**
-     * Get routes
-     * 
-     * @return routes
-     **/
-    @ApiModelProperty(value = "")
-    public List<Route> getRoutes() {
-        return routes;
-    }
-
-    public void setRoutes(List<Route> routes) {
-        this.routes = routes;
-    }
-
+    @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
@@ -403,16 +352,13 @@ public class Application implements AutomationModel {
                 && Objects.equals(this.scmUrl, application.scmUrl) && Objects.equals(this.scmType, application.scmType)
                 && Objects.equals(this.scmRef, application.scmRef) && Objects.equals(this.name, application.name)
                 && Objects.equals(this.labels, application.labels)
-                && Objects.equals(this.environmentVariables, application.environmentVariables)
-                && Objects.equals(this.pvcAssociations, application.pvcAssociations)
-                && Objects.equals(this.routes, application.routes);
+                && Objects.equals(this.environmentVariables, application.environmentVariables);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, baseImage, baseImageTag, buildApplicationCommands, buildTool, buildImageCommands,
-                deployImageCommands, contextDir, scmUrl, scmType, scmRef, name, labels, environmentVariables,
-                pvcAssociations, routes);
+                deployImageCommands, contextDir, scmUrl, scmType, scmRef, name, labels, environmentVariables);
     }
 
     @Override
@@ -434,8 +380,6 @@ public class Application implements AutomationModel {
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
         sb.append("    environmentVariables: ").append(toIndentedString(environmentVariables)).append("\n");
-        sb.append("    pvcAssociations: ").append(toIndentedString(pvcAssociations)).append("\n");
-        sb.append("    routes: ").append(toIndentedString(routes)).append("\n");
         sb.append("}");
         return sb.toString();
     }
