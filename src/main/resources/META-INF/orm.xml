@@ -9,7 +9,7 @@
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <element-collection name="matchLabels" fetch="EAGER">
+            <element-collection name="matchLabels" fetch="SELECT">
                 <map-key-column name="matchLabelName"/>
                 <column name="matchLabelValue"/>
                 <collection-table name="match_labels">
@@ -38,7 +38,7 @@
             </id>
             <basic name="name"/>
             <basic name="mountPath"/>
-            <one-to-one name="claimType" fetch="EAGER">
+            <one-to-one name="claimType" fetch="SELECT">
                 <join-column name="claim_type_id"/>
             </one-to-one>
         </attributes>
@@ -61,7 +61,7 @@
                 <generated-value strategy="AUTO"/>
             </id>
             <basic name="name"/>
-            <one-to-many name="ports" target-entity="com.rhc.automation.model.Port" fetch="EAGER"/>
+            <one-to-many name="ports" target-entity="com.rhc.automation.model.Port" fetch="SELECT"/>
         </attributes>
     </entity>
     
@@ -76,7 +76,7 @@
             <basic name="name"/>
             <basic name="hostname"/>
             <basic name="port"/>
-            <one-to-one name="service" fetch="EAGER">
+            <one-to-one name="service" fetch="SELECT">
                 <join-column name="route_id"/>
             </one-to-one>
         </attributes>
@@ -101,7 +101,7 @@
             </id>
                 <basic name="name"/>
                 <basic name="storage"/>
-                <one-to-one name="selector" fetch="EAGER">
+                <one-to-one name="selector" fetch="SELECT">
                     <join-column name="selector_id"/>
                 </one-to-one>
                 <element-collection name="accessModes">
@@ -129,7 +129,7 @@
             <basic name="reclaimPolicy">
                 <enumerated>STRING</enumerated>
             </basic>
-            <element-collection name="labels" fetch="EAGER">
+            <element-collection name="labels" fetch="SELECT">
                 <map-key-column name="labelName"/>
                 <column name="labelValue"/>
                 <collection-table name="PVC_LABELS">
@@ -171,10 +171,10 @@
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <one-to-one name="user" fetch="EAGER">
+            <one-to-one name="user" fetch="SELECT">
                 <join-column name="userId"/>
             </one-to-one>
-            <element-collection name="roles" fetch="EAGER">
+            <element-collection name="roles" fetch="SELECT">
             <collection-table name="role_mapping_roles">
                 <join-column name="role_mapping_role_id"/>
             </collection-table>
@@ -211,40 +211,40 @@
             <basic name="scmUrl">
                 <column name="scmUrl" length="200"/>
             </basic>
-            <element-collection name="buildApplicationCommands" target-class="java.lang.String" fetch="EAGER">
+            <element-collection name="buildApplicationCommands" target-class="java.lang.String" fetch="SELECT">
                 <column name="buildAppCommand"/>
                 <collection-table name="BUILD_APP_COMMAND">
                     <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <element-collection name="buildImageCommands" target-class="java.lang.String" fetch="EAGER">
+            <element-collection name="buildImageCommands" target-class="java.lang.String" fetch="SELECT">
                 <column name="buildImageCommand"/>
                 <collection-table name="BUILD_IMAGE_COMMAND">
                     <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <element-collection name="deployImageCommands" target-class="java.lang.String" fetch="EAGER">
+            <element-collection name="deployImageCommands" target-class="java.lang.String" fetch="SELECT">
                 <column name="deployImageCommand"/>
                 <collection-table name="DEPLOY_IMAGE_COMMAND">
                     <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <element-collection name="environmentVariables" fetch="EAGER">
+            <element-collection name="environmentVariables" fetch="SELECT">
                 <map-key-column name="envName"/>
                 <column name="envValue"/>
                 <collection-table name="envVariables">
                     <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <element-collection name="labels" fetch="EAGER">
+            <element-collection name="labels" fetch="SELECT">
                 <map-key-column name="labelName"/>
                 <column name="labelValue"/>
                 <collection-table name="APP_LABELS">
                     <join-column name="APPLICATION_ID"/>
                 </collection-table>
             </element-collection>
-            <one-to-many name="pvcAssociations" target-entity="com.rhc.automation.model.PVCAssociation" fetch="EAGER"/>
-            <one-to-many name="routes" target-entity="com.rhc.automation.model.Route" fetch="EAGER"/>
+            <one-to-many name="pvcAssociations" target-entity="com.rhc.automation.model.PVCAssociation" fetch="SELECT"/>
+            <one-to-many name="routes" target-entity="com.rhc.automation.model.Route" fetch="SELECT"/>
         </attributes>
     </entity>
     
@@ -257,9 +257,9 @@
             <basic name="promotionEnvironment"/>
             <basic name="name"/>
             <basic name="displayName"/>
-            <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="EAGER"/>
-            <one-to-many name="userToRole" target-entity="com.rhc.automation.model.RoleMapping" fetch="EAGER"/>
-            <one-to-many name="persistentVolumeClaims" target-entity="com.rhc.automation.model.PersistentVolumeClaim" fetch="EAGER"/>
+            <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="SELECT"/>
+            <one-to-many name="userToRole" target-entity="com.rhc.automation.model.RoleMapping" fetch="SELECT"/>
+            <one-to-many name="persistentVolumeClaims" target-entity="com.rhc.automation.model.PersistentVolumeClaim" fetch="SELECT"/>
         </attributes>
     </entity>
     
@@ -268,7 +268,7 @@
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <one-to-many name="projects" target-entity="com.rhc.automation.model.Project" fetch="EAGER"/>
+            <one-to-many name="projects" target-entity="com.rhc.automation.model.Project" fetch="SELECT"/>
         </attributes>
     </entity>
     
@@ -280,17 +280,17 @@
             <basic name="openshiftHostEnv"/>
             <basic name="imageRegistry" />
             <basic name="userId"/>
-            <one-to-one name="openshiftResources" fetch="EAGER">
+            <one-to-one name="openshiftResources" fetch="SELECT">
                 <join-column name="openshiftResourcesId"/>
             </one-to-one>
-            <element-collection name="labels" fetch="EAGER">
+            <element-collection name="labels" fetch="SELECT">
                 <map-key-column name="labelName"/>
                 <column name="labelValue"/>
                 <collection-table name="cluster_labels">
                     <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <one-to-many name="persistentVolumes" target-entity="com.rhc.automation.model.PersistentVolume" fetch="EAGER"/>
+            <one-to-many name="persistentVolumes" target-entity="com.rhc.automation.model.PersistentVolume" fetch="SELECT"/>
         </attributes>
     </entity>
     
@@ -302,8 +302,8 @@
             <basic name="name"/>
             <basic name="endDate"/>
             <basic name="startDate"/>
-            <one-to-many name="openshiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="EAGER"/>
-            <many-to-many name="team" target-entity="com.rhc.automation.model.User" fetch="EAGER"/>
+            <one-to-many name="openshiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="SELECT"/>
+            <many-to-many name="team" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
         </attributes>
     </entity>
     
@@ -313,7 +313,7 @@
                 <generated-value strategy="AUTO"/>
             </id>
             <basic name="name"/>
-            <one-to-many name="engagements" target-entity="com.rhc.automation.model.Engagement" fetch="EAGER"/>
+            <one-to-many name="engagements" target-entity="com.rhc.automation.model.Engagement" fetch="SELECT"/>
         </attributes>
     </entity>
  
