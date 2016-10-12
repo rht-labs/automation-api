@@ -9,18 +9,37 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Project
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-10-11T17:47:40.200-07:00")
 
 public class Project implements AutomationModel {
+
     private Long id = null;
 
     private String displayName = null;
 
     private String name = null;
 
-    private Boolean buildEnvironment = null;
+    /**
+     * Gets or Sets environmentType
+     */
+    public enum EnvironmentTypeEnum {
+        BUILD("build"),
 
-    private Boolean promotionEnvironment = null;
+        PROMOTION("promotion");
+
+        private String value;
+
+        EnvironmentTypeEnum(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+    }
+
+    private EnvironmentTypeEnum environmentType = null;
 
     private List<Application> apps = new ArrayList<Application>();
 
@@ -85,42 +104,23 @@ public class Project implements AutomationModel {
         this.name = name;
     }
 
-    public Project buildEnvironment(Boolean buildEnvironment) {
-        this.buildEnvironment = buildEnvironment;
+    public Project environmentType(EnvironmentTypeEnum environmentType) {
+        this.environmentType = environmentType;
         return this;
     }
 
     /**
-     * Get buildEnvironment
+     * Get environmentType
      * 
-     * @return buildEnvironment
+     * @return environmentType
      **/
     @ApiModelProperty(value = "")
-    public Boolean getBuildEnvironment() {
-        return buildEnvironment;
+    public EnvironmentTypeEnum getEnvironmentType() {
+        return environmentType;
     }
 
-    public void setBuildEnvironment(Boolean buildEnvironment) {
-        this.buildEnvironment = buildEnvironment;
-    }
-
-    public Project promotionEnvironment(Boolean promotionEnvironment) {
-        this.promotionEnvironment = promotionEnvironment;
-        return this;
-    }
-
-    /**
-     * Get promotionEnvironment
-     * 
-     * @return promotionEnvironment
-     **/
-    @ApiModelProperty(value = "")
-    public Boolean getPromotionEnvironment() {
-        return promotionEnvironment;
-    }
-
-    public void setPromotionEnvironment(Boolean promotionEnvironment) {
-        this.promotionEnvironment = promotionEnvironment;
+    public void setEnvironmentType(EnvironmentTypeEnum environmentType) {
+        this.environmentType = environmentType;
     }
 
     public Project apps(List<Application> apps) {
@@ -206,16 +206,14 @@ public class Project implements AutomationModel {
         Project project = (Project) o;
         return Objects.equals(this.id, project.id) && Objects.equals(this.displayName, project.displayName)
                 && Objects.equals(this.name, project.name)
-                && Objects.equals(this.buildEnvironment, project.buildEnvironment)
-                && Objects.equals(this.promotionEnvironment, project.promotionEnvironment)
+                && Objects.equals(this.environmentType, project.environmentType)
                 && Objects.equals(this.apps, project.apps) && Objects.equals(this.userToRole, project.userToRole)
                 && Objects.equals(this.persistentVolumeClaims, project.persistentVolumeClaims);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, displayName, name, buildEnvironment, promotionEnvironment, apps, userToRole,
-                persistentVolumeClaims);
+        return Objects.hash(id, displayName, name, environmentType, apps, userToRole, persistentVolumeClaims);
     }
 
     @Override
@@ -226,8 +224,7 @@ public class Project implements AutomationModel {
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    displayName: ").append(toIndentedString(displayName)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    buildEnvironment: ").append(toIndentedString(buildEnvironment)).append("\n");
-        sb.append("    promotionEnvironment: ").append(toIndentedString(promotionEnvironment)).append("\n");
+        sb.append("    environmentType: ").append(toIndentedString(environmentType)).append("\n");
         sb.append("    apps: ").append(toIndentedString(apps)).append("\n");
         sb.append("    userToRole: ").append(toIndentedString(userToRole)).append("\n");
         sb.append("    persistentVolumeClaims: ").append(toIndentedString(persistentVolumeClaims)).append("\n");
@@ -246,4 +243,3 @@ public class Project implements AutomationModel {
         return o.toString().replace("\n", "\n    ");
     }
 }
-    

@@ -253,8 +253,9 @@
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <basic name="buildEnvironment"/>
-            <basic name="promotionEnvironment"/>
+            <basic name="environmentType">
+                <enumerated>STRING</enumerated>
+            </basic>
             <basic name="name"/>
             <basic name="displayName"/>
             <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="SELECT"/>

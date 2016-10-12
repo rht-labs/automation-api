@@ -38,6 +38,7 @@ public abstract class BaseIntegrationTest {
         mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.READ_ENUMS_USING_TO_STRING, true);
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
                         .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
                         .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
