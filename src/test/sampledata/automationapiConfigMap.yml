@@ -3,7 +3,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: automationapi
+  name: automation-api
 data:
   application.yml: |-
     automation:
@@ -13,14 +13,20 @@ data:
     automationapi:
       message: openshift enabled!
     spring:
+      datasource:
+        url: jdbc:postgresql://${POSTGRESQL_SVC}:5432/${POSTGRESQL_DATABASE}
+        username: ${POSTGRESQL_USER}
+        password: ${POSTGRESQL_PASSWORD}
       jpa:
         properties:
           hibernate:
             default_schema: automation
         hibernate:
-          ddl-auto: create-drop
+          ddl-auto: none
     logging:
       level:
         org:
           hibernate:
             SQL: debug
+    flyway:
+      schemas: automation
