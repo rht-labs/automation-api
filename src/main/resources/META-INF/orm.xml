@@ -280,7 +280,6 @@
             </id>
             <basic name="openshiftHostEnv"/>
             <basic name="imageRegistry" />
-            <basic name="userId"/>
             <one-to-one name="openshiftResources" fetch="SELECT">
                 <join-column name="openshiftResourcesId"/>
             </one-to-one>

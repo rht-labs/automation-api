@@ -28,7 +28,7 @@ import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace=Replace.ANY)
-@TestPropertySource(properties = "spring.jpa.properties.hibernate.default_schema=")
+@TestPropertySource(locations="classpath:test.properties")
 public abstract class BaseIntegrationTest {
     
     private static ObjectMapper mapper;
