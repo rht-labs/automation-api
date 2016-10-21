@@ -18,11 +18,11 @@ public class Port {
 
     private Integer targetPort = null;
 
-    public Port port(Integer port) {
-        this.port = port;
+    public Port id(Long id) {
+        this.id = id;
         return this;
     }
-    
+
     /**
      * Get id
      * 
@@ -37,6 +37,10 @@ public class Port {
         this.id = id;
     }
 
+    public Port port(Integer port) {
+        this.port = port;
+        return this;
+    }
 
     /**
      * Get port
@@ -99,13 +103,13 @@ public class Port {
             return false;
         }
         Port port = (Port) o;
-        return Objects.equals(this.port, port.port) && Objects.equals(this.protocol, port.protocol)
-                && Objects.equals(this.targetPort, port.targetPort);
+        return Objects.equals(this.id, port.id) && Objects.equals(this.port, port.port)
+                && Objects.equals(this.protocol, port.protocol) && Objects.equals(this.targetPort, port.targetPort);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(port, protocol, targetPort);
+        return Objects.hash(id, port, protocol, targetPort);
     }
 
     @Override
@@ -113,6 +117,7 @@ public class Port {
         StringBuilder sb = new StringBuilder();
         sb.append("class Port {\n");
 
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    port: ").append(toIndentedString(port)).append("\n");
         sb.append("    protocol: ").append(toIndentedString(protocol)).append("\n");
         sb.append("    targetPort: ").append(toIndentedString(targetPort)).append("\n");

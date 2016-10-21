@@ -43,6 +43,8 @@ public class Project implements AutomationModel {
 
     private List<Application> apps = new ArrayList<Application>();
 
+    private List<GroupRoleMapping> groupToRole = new ArrayList<GroupRoleMapping>();
+
     private List<RoleMapping> userToRole = new ArrayList<RoleMapping>();
 
     private List<PersistentVolumeClaim> persistentVolumeClaims = new ArrayList<PersistentVolumeClaim>();
@@ -147,6 +149,30 @@ public class Project implements AutomationModel {
         this.apps = apps;
     }
 
+    public Project groupToRole(List<GroupRoleMapping> groupToRole) {
+        this.groupToRole = groupToRole;
+        return this;
+    }
+
+    public Project addGroupToRoleItem(GroupRoleMapping groupToRoleItem) {
+        this.groupToRole.add(groupToRoleItem);
+        return this;
+    }
+
+    /**
+     * Get groupToRole
+     * 
+     * @return groupToRole
+     **/
+    @ApiModelProperty(value = "")
+    public List<GroupRoleMapping> getGroupToRole() {
+        return groupToRole;
+    }
+
+    public void setGroupToRole(List<GroupRoleMapping> groupToRole) {
+        this.groupToRole = groupToRole;
+    }
+
     public Project userToRole(List<RoleMapping> userToRole) {
         this.userToRole = userToRole;
         return this;
@@ -207,13 +233,15 @@ public class Project implements AutomationModel {
         return Objects.equals(this.id, project.id) && Objects.equals(this.displayName, project.displayName)
                 && Objects.equals(this.name, project.name)
                 && Objects.equals(this.environmentType, project.environmentType)
-                && Objects.equals(this.apps, project.apps) && Objects.equals(this.userToRole, project.userToRole)
+                && Objects.equals(this.apps, project.apps) && Objects.equals(this.groupToRole, project.groupToRole)
+                && Objects.equals(this.userToRole, project.userToRole)
                 && Objects.equals(this.persistentVolumeClaims, project.persistentVolumeClaims);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, displayName, name, environmentType, apps, userToRole, persistentVolumeClaims);
+        return Objects.hash(id, displayName, name, environmentType, apps, groupToRole, userToRole,
+                persistentVolumeClaims);
     }
 
     @Override
@@ -226,6 +254,7 @@ public class Project implements AutomationModel {
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("    environmentType: ").append(toIndentedString(environmentType)).append("\n");
         sb.append("    apps: ").append(toIndentedString(apps)).append("\n");
+        sb.append("    groupToRole: ").append(toIndentedString(groupToRole)).append("\n");
         sb.append("    userToRole: ").append(toIndentedString(userToRole)).append("\n");
         sb.append("    persistentVolumeClaims: ").append(toIndentedString(persistentVolumeClaims)).append("\n");
         sb.append("}");

@@ -1,0 +1,796 @@
+{
+    "openshift_clusters": [
+        {
+            "openshift_host_env": "well.com:8443",
+            "openshift_resources": {
+                "projects": [
+                    {
+                        "name": "pipeline-dev",
+                        "display_name": "Pipeline - Development",
+                        "environment_type": "build",
+                        "apps": [
+                            {
+                                "name": "jenkins",
+                                "scm_url": "https://github.com/rht-labs/openshift-jenkins-s2i-config.git",
+                                "scm_ref": "master",
+                                "base_image": "openshift/jenkins",
+                                "build_tool": "s2i",
+                                "environment_variables": {
+                                    "JENKINS_OPTS": "'jo'",
+                                    "JENKINS_PASSWORD": "*****",
+                                    "JAVA_OPTS": "'-Djavax.net.ssl.trustStore=/etc/'"
+                                },
+                                "pvc_associations": [
+                                    {
+                                        "name": "pipeline-dev-env",
+                                        "mount_path": "/etc/pipeline-dev-env",
+                                        "claim_type": {
+                                            "kind": "claim",
+                                            "name": "pipeline-dev-env"
+                                        }
+                                    },
+                                    {
+                                        "name": "jenkins-volume-1",
+                                        "mount_path": "/var/lib/jenkins",
+                                        "claim_type": {
+                                            "kind": "claim",
+                                            "name": "pipeline-dev-jenkins"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "persistent_volume_claims": [
+                            {
+                                "name": "pipeline-dev-env",
+                                "access_modes": [
+                                    "ReadOnlyMany"
+                                ],
+                                "storage": 1,
+                                "selector": {
+                                    "match_labels": {
+                                        "pvc": "pipeline-dev-env"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "pipeline-dev-jenkins",
+                                "access_modes": [
+                                    "ReadWriteMany"
+                                ],
+                                "storage": 10,
+                                "selector": {
+                                    "match_labels": {
+                                        "pvc": "pipeline-dev-jenkins"
+                                    }
+                                }
+                            }
+                        ],
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "pipeline-uat",
+                        "display_name": "Pipeline - UAT",
+                        "environment_type": "promotion",
+                        "apps": [
+                            {
+                                "name": "jenkins",
+                                "base_image": "jenkins",
+                                "environment_variables": {
+                                    "JENKINS_OPTS": "'--httpPort=-1 --httpsPort=8443 --httpsPrivateKey=/etc/pipeline-uat-env/jenkins.uat.rht-labs.com.key'",
+                                    "JENKINS_PASSWORD": "*****",
+                                    "JAVA_OPTS": "'-Djavax.net.ssl.trustStore=/etc/pipeline-uat-env/certs/java/cacerts'"
+                                },
+                                "pvc_associations": [
+                                    {
+                                        "name": "pipeline-uat-env",
+                                        "mount_path": "/etc/pipeline-uat-env",
+                                        "claim_type": {
+                                            "kind": "claim",
+                                            "name": "pipeline-uat-env"
+                                        }
+                                    },
+                                    {
+                                        "name": "jenkins-volume-1",
+                                        "mount_path": "/var/lib/jenkins",
+                                        "claim_type": {
+                                            "kind": "claim",
+                                            "name": "pipeline-uat-jenkins"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "persistent_volume_claims": [
+                            {
+                                "name": "pipeline-uat-env",
+                                "access_modes": [
+                                    "ReadOnlyMany"
+                                ],
+                                "storage": 1,
+                                "selector": {
+                                    "match_labels": {
+                                        "pvc": "pipeline-uat-env"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "pipeline-uat-jenkins",
+                                "access_modes": [
+                                    "ReadWriteMany"
+                                ],
+                                "storage": 10,
+                                "selector": {
+                                    "match_labels": {
+                                        "pvc": "pipeline-uat-jenkins"
+                                    }
+                                }
+                            }
+                        ],
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "pipeline-delivery",
+                        "display_name": "Pipeline - Delivery",
+                        "environment_type": "promotion",
+                        "apps": [
+                            {
+                                "name": "jenkins",
+                                "base_image": "jenkins",
+                                "environment_variables": {
+                                    "JENKINS_OPTS": "'--httpPort=-1 --httpsPort=8443 --httpsCertificate=/etc/pipeline-delivery-env/rht-labs.com.crt --httpsPrivateKey=/etc/pipeline-delivery-env/certs/labs.com/jenkins.rht-labs.com.key'",
+                                    "JENKINS_PASSWORD": "*****",
+                                    "JAVA_OPTS": "'-Djavax.net.ssl.trustStore=/etc/pipeline'"
+                                },
+                                "pvc_associations": [
+                                    {
+                                        "name": "pipeline-delivery-env",
+                                        "mount_path": "/etc/pipeline-delivery-env",
+                                        "claim_type": {
+                                            "kind": "claim",
+                                            "name": "pipeline-delivery-env"
+                                        }
+                                    },
+                                    {
+                                        "name": "jenkins-volume-1",
+                                        "mount_path": "/var/lib/jenkins",
+                                        "claim_type": {
+                                            "kind": "claim",
+                                            "name": "pipeline-delivery-jenkins"
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "persistent_volume_claims": [
+                            {
+                                "name": "pipeline-delivery-env",
+                                "access_modes": [
+                                    "ReadOnlyMany"
+                                ],
+                                "storage": 1,
+                                "selector": {
+                                    "match_labels": {
+                                        "pvc": "pipeline-delivery-env"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "pipeline-delivery-jenkins",
+                                "access_modes": [
+                                    "ReadWriteMany"
+                                ],
+                                "storage": 10,
+                                "selector": {
+                                    "match_labels": {
+                                        "pvc": "pipeline-delivery-jenkins"
+                                    }
+                                }
+                            }
+                        ],
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "artifact-repository-dev",
+                        "display_name": "Artifact Repository - Development",
+                        "environment_type": "build",
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "artifact-repository-uat",
+                        "display_name": "Artifact Repository - UAT",
+                        "environment_type": "promotion",
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "artifact-repository-delivery",
+                        "display_name": "Artifact Repository - Delivery",
+                        "environment_type": "promotion",
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "labs-api-dev",
+                        "display_name": "Labs API - Development",
+                        "environment_type": "build",
+                        "apps": [
+                            {
+                                "name": "automation-api",
+                                "scm_url": "https://github.com/rht-labs/automation-api.git",
+                                "scm_ref": "master",
+                                "build_tool": "mvn-3",
+                                "build_application_commands": [
+                                    "mvn clean install"
+                                ],
+                                "build_image_commands": [
+                                    "oc login master.rht-labs.com:8443 --token=$OPENSHIFT_API_TOKEN",
+                                    "oc start-build automation-api --from-dir=. --follow -n labs-api-dev"
+                                ],
+                                "labels": {
+                                    "provider": "fabric8"
+                                }
+                            }
+                        ],
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "labs-api-uat",
+                        "display_name": "Labs API - UAT",
+                        "environment_type": "promotion",
+                        "apps": [
+                            {
+                                "name": "automation-api",
+                                "base_image": "automation-api"
+                            }
+                        ],
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "labs-api-delivery",
+                        "display_name": "Labs API - Delivery",
+                        "environment_type": "promotion",
+                        "apps": [
+                            {
+                                "name": "automation-api",
+                                "base_image": "automation-api"
+                            }
+                        ],
+                        "group_to_role": [
+                          {
+                            "group": {
+                              "name": "blah"
+                             },
+                             "roles": [
+                               {
+                                 "name": "admin"
+                               }
+                             ]
+                           }
+                        ],
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "user1"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user2"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user3"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user4"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "user5"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "view"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "persistent_volumes": [
+                {
+                    "name": "pipeline-dev-env",
+                    "capacity": 1,
+                    "access_modes": [
+                        "ReadOnlyMany"
+                    ],
+                    "nfs_path": "/delivery_env/dev",
+                    "nfs_server": "nfs.redhat.com",
+                    "reclaim_policy": "Retain"
+                },
+                {
+                    "name": "pipeline-dev-jenkins",
+                    "capacity": 10,
+                    "access_modes": [
+                        "ReadWriteMany"
+                    ],
+                    "nfs_path": "/exports/delivery_data/",
+                    "nfs_server": "nfs.rht-labs.com",
+                    "reclaim_policy": "Retain"
+                },
+                {
+                    "name": "pipeline-uat-env",
+                    "capacity": 1,
+                    "access_modes": [
+                        "ReadOnlyMany"
+                    ],
+                    "nfs_path": "/delivery_env/uat",
+                    "nfs_server": "nfs.redhat.com",
+                    "reclaim_policy": "Retain"
+                },
+                {
+                    "name": "pipeline-uat-jenkins",
+                    "capacity": 10,
+                    "access_modes": [
+                        "ReadWriteMany"
+                    ],
+                    "nfs_path": "/exports/delivery_data/uat/jenkins",
+                    "nfs_server": "nfs1.rht-labs.com",
+                    "reclaim_policy": "Retain"
+                },
+                {
+                    "name": "pipeline-delivery-env",
+                    "capacity": 1,
+                    "access_modes": [
+                        "ReadOnlyMany"
+                    ],
+                    "nfs_path": "/delivery_env/delivery",
+                    "nfs_server": "nfs1.redhat.com",
+                    "reclaim_policy": "Retain"
+                },
+                {
+                    "name": "pipeline-delivery-jenkins",
+                    "capacity": 10,
+                    "access_modes": [
+                        "ReadWriteMany"
+                    ],
+                    "nfs_path": "/exports/delivery_data/delivery/jenkins",
+                    "nfs_server": "nfs1.rht-labs.com",
+                    "reclaim_policy": "Retain"
+                }
+            ]
+        }
+    ]
+}

@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class ClaimType {
     private Long id = null;
-    
+
     /**
      * Gets or Sets kind
      */
@@ -36,11 +36,11 @@ public class ClaimType {
 
     private String name = null;
 
-    public ClaimType kind(KindEnum kind) {
-        this.kind = kind;
+    public ClaimType id(Long id) {
+        this.id = id;
         return this;
     }
-    
+
     /**
      * Get id
      * 
@@ -53,6 +53,11 @@ public class ClaimType {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ClaimType kind(KindEnum kind) {
+        this.kind = kind;
+        return this;
     }
 
     /**
@@ -97,12 +102,13 @@ public class ClaimType {
             return false;
         }
         ClaimType claimType = (ClaimType) o;
-        return Objects.equals(this.kind, claimType.kind) && Objects.equals(this.name, claimType.name);
+        return Objects.equals(this.id, claimType.id) && Objects.equals(this.kind, claimType.kind)
+                && Objects.equals(this.name, claimType.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(kind, name);
+        return Objects.hash(id, kind, name);
     }
 
     @Override
@@ -110,6 +116,7 @@ public class ClaimType {
         StringBuilder sb = new StringBuilder();
         sb.append("class ClaimType {\n");
 
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("}");

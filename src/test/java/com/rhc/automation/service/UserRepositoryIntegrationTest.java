@@ -21,26 +21,6 @@ public class UserRepositoryIntegrationTest extends BaseIntegrationTest {
     private UserRespository userRepository;
     
     @Test 
-    public void saveUserEmailRequired() throws Exception {
-
-        User user = new User();
-        user.setEmail(null);
-        user.setUserName(userNabors[1]);
-        user.setFirstName(userNabors[2]);
-        user.setLastName(userNabors[3]);
-        
-        try {
-            userRepository.save(user);
-            Assert.fail("A data integrity violation should have occurred");
-        } catch (DataIntegrityViolationException dive) {
-            Assert.assertTrue(dive.getMessage().startsWith("could not"));
-        }
-        
-        Assert.assertNull(user.getId());
-        
-    }
-    
-    @Test 
     public void saveUserUserNameRequired() throws Exception {;
 
         User user = new User();

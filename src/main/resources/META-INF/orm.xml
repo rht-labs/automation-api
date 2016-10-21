@@ -105,7 +105,7 @@
                     <join-column name="selector_id"/>
                 </one-to-one>
                 <element-collection name="accessModes">
-                    <collection-table name="ACCESS_MODE">
+                    <collection-table name="PVC_ACCESS_MODE">
                         <join-column name="PVC_ID"/>
                     </collection-table>
                 </element-collection>
@@ -120,8 +120,8 @@
             <basic name="name"/>
             <basic name="capacity"/>
             <element-collection name="accessModes">
-                <collection-table name="ACCESS_MODE">
-                    <join-column name="PVC_ID"/>
+                <collection-table name="PV_ACCESS_MODE">
+                    <join-column name="PV_ID"/>
                 </collection-table>
             </element-collection>
             <basic name="nfsPath"/>
@@ -144,14 +144,39 @@
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <basic name="email">
-                <column nullable="false"/>
-            </basic>
+            <basic name="email"/>
             <basic name="firstName"/>
             <basic name="lastName"/>
             <basic name="userName">
                 <column nullable="false"/>
             </basic>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.Group" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="name">
+                <column nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+    
+    <entity class="com.rhc.automation.model.GroupRoleMapping" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <one-to-one name="group" fetch="SELECT">
+                <join-column name="groupId"/>
+            </one-to-one>
+            <element-collection name="roles" fetch="SELECT">
+            <collection-table name="group_role_mapping_roles">
+                <join-column name="group_role_mapping_role_id"/>
+            </collection-table>
+        </element-collection>
         </attributes>
     </entity>
     
@@ -259,6 +284,7 @@
             <basic name="name"/>
             <basic name="displayName"/>
             <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="SELECT"/>
+            <one-to-many name="groupToRole" target-entity="com.rhc.automation.model.GroupRoleMapping" fetch="SELECT"/>
             <one-to-many name="userToRole" target-entity="com.rhc.automation.model.RoleMapping" fetch="SELECT"/>
             <one-to-many name="persistentVolumeClaims" target-entity="com.rhc.automation.model.PersistentVolumeClaim" fetch="SELECT"/>
         </attributes>

@@ -385,6 +385,7 @@ public class Application implements AutomationModel {
         this.routes = routes;
     }
 
+    @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
