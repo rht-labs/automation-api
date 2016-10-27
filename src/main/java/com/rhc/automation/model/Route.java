@@ -22,7 +22,9 @@ public class Route {
 
         PASSTHROUGH("passthrough"),
 
-        REENCRYPT("reencrypt");
+        REENCRYPT("reencrypt"),
+        
+        DEFAULT("default");
 
         private String value;
 

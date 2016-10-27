@@ -13,19 +13,14 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class LabelSelector {
     private Long id = null;
-    
+
     private Map<String, String> matchLabels = new HashMap<String, String>();
 
-    public LabelSelector matchLabels(Map<String, String> matchLabels) {
-        this.matchLabels = matchLabels;
+    public LabelSelector id(Long id) {
+        this.id = id;
         return this;
     }
 
-    public LabelSelector putMatchLabelsItem(String key, String matchLabelsItem) {
-        this.matchLabels.put(key, matchLabelsItem);
-        return this;
-    }
-    
     /**
      * Get id
      * 
@@ -38,6 +33,16 @@ public class LabelSelector {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LabelSelector matchLabels(Map<String, String> matchLabels) {
+        this.matchLabels = matchLabels;
+        return this;
+    }
+
+    public LabelSelector putMatchLabelsItem(String key, String matchLabelsItem) {
+        this.matchLabels.put(key, matchLabelsItem);
+        return this;
     }
 
     /**
@@ -63,12 +68,12 @@ public class LabelSelector {
             return false;
         }
         LabelSelector labelSelector = (LabelSelector) o;
-        return Objects.equals(this.matchLabels, labelSelector.matchLabels);
+        return Objects.equals(this.id, labelSelector.id) && Objects.equals(this.matchLabels, labelSelector.matchLabels);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(matchLabels);
+        return Objects.hash(id, matchLabels);
     }
 
     @Override
@@ -76,6 +81,7 @@ public class LabelSelector {
         StringBuilder sb = new StringBuilder();
         sb.append("class LabelSelector {\n");
 
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    matchLabels: ").append(toIndentedString(matchLabels)).append("\n");
         sb.append("}");
         return sb.toString();

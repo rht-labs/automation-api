@@ -2,12 +2,15 @@ package com.rhc.automation.service;
 
 
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rhc.automation.api.NotFoundException;
+import com.rhc.automation.model.Group;
+import com.rhc.automation.model.GroupRoleMapping;
 import com.rhc.automation.model.Role;
 import com.rhc.automation.model.RoleMapping;
 import com.rhc.automation.model.User;
@@ -19,17 +22,29 @@ public class UserServiceImpl implements UserService {
     private final UserRespository userRepository;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final GroupRepository groupRepository;
+    private final GroupRoleMappingRepository groupRoleRepository;
     
     public UserServiceImpl(UserRespository userRespository, RoleRepository roleRepository,
-            UserRoleRepository userRoleRepository) {
+            UserRoleRepository userRoleRepository, GroupRoleMappingRepository groupRoleRepository,
+            GroupRepository groupRepository) {
         this.userRepository = userRespository;
         this.roleRepository = roleRepository;
         this.userRoleRepository = userRoleRepository;
+        this.groupRoleRepository = groupRoleRepository;
+        this.groupRepository = groupRepository;
     }
     
     @Override
     public void addUser(User user) {
-        userRepository.save(user);
+        Example<User> ex = Example.of(user);
+        User foundUser = userRepository.findOne(ex);
+        
+        if(foundUser != null) {
+            user.setId(foundUser.getId());
+        } else {
+            userRepository.save(user);
+        }
     }
     
 
@@ -63,7 +78,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addRole(Role role) {
-        roleRepository.save(role);
+        Example<Role> ex = Example.of(role);
+        Role foundRole = roleRepository.findOne(ex);
+        
+        if(foundRole != null) {
+            role.setId(foundRole.getId());
+        } else {
+            roleRepository.save(role);
+        }
         
     }
     
@@ -106,7 +128,6 @@ public class UserServiceImpl implements UserService {
         
         for(Role role : roleMapping.getRoles()) {
             if(role.getId() == null || role.getId() == 0) {
-                role.setId(null);
                 addRole(role);
             }
         }
@@ -143,6 +164,85 @@ public class UserServiceImpl implements UserService {
     @Override
     public RoleMapping getRoleMapping(Long roleId) {
         return userRoleRepository.findOne(roleId);
+    }
+
+    @Override
+    public void addGroup(Group group) {
+        groupRepository.save(group);
+        
+    }
+
+    @Override
+    public void updateGroup(Group group) {
+        Group current = groupRepository.findOne(group.getId());
+        
+        if(current == null) {
+            throw new NotFoundException(404, String.format("Group with id %d not found", group.getId()));
+        }
+
+        groupRepository.save(group);
+        
+    }
+
+    @Override
+    public void deleteGroup(Long groupId) {
+        groupRepository.delete(groupId);
+        
+    }
+
+    @Override
+    public Page<Group> getGroups(Pageable pager) {
+        return groupRepository.findAll(pager);
+    }
+
+    @Override
+    public Group getGroup(Long groupId) {
+        return groupRepository.findOne(groupId);
+    }
+
+    @Override
+    public void addGroupMapping(GroupRoleMapping groupRoleMapping) {
+        Group group = groupRoleMapping.getGroup();
+        
+        if(group != null && (group.getId() == null || group.getId() == 0)) {
+            group.setId(null);
+            addGroup(group);
+        }
+        
+        for(Role role : groupRoleMapping.getRoles()) {
+            if(role.getId() == null || role.getId() == 0) {
+                role.setId(null);
+                addRole(role);
+            }
+        }
+        groupRoleRepository.save(groupRoleMapping);
+        
+    }
+
+    @Override
+    public void updateGroupMapping(GroupRoleMapping groupRoleMapping) {
+        GroupRoleMapping current = groupRoleRepository.findOne(groupRoleMapping.getId());
+        
+        if(current == null) {
+            throw new NotFoundException(404, String.format("Group Role with id %d not found", groupRoleMapping.getId()));
+        }
+        
+    }
+
+    @Override
+    public void deleteGroupMapping(Long groupRoleMappingId) {
+        groupRoleRepository.delete(groupRoleMappingId);
+        
+    }
+
+    @Override
+    public Page<GroupRoleMapping> getGroupRoleMappings(Pageable pager) {
+        return groupRoleRepository.findAll(pager);
+    }
+
+    @Override
+    public GroupRoleMapping getGroupRoleMapping(Long groupRoleId) {
+        return groupRoleRepository.findOne(groupRoleId);
     }
 
 

@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 
 import com.rhc.automation.model.Application;
 import com.rhc.automation.model.Engagement;
+import com.rhc.automation.model.PVCAssociation;
+import com.rhc.automation.model.PersistentVolumeClaim;
 import com.rhc.automation.model.Project;
 import com.rhc.automation.model.Route;
 
@@ -57,16 +59,24 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         
         List<Project> projects = engagement.getOpenshiftClusters().get(0).getOpenshiftResources().getProjects();
         Assert.assertNotNull("No Project", projects);
-        Assert.assertEquals("There should be 2 project", 2, projects.size());
+        Assert.assertEquals("There should be 9 project", 9, projects.size());
         
         List<Application> apps = projects.get(0).getApps();
         Assert.assertNotNull("No Apps", apps);
-        Assert.assertEquals("There should be 2 app", 2, apps.size());
+        Assert.assertEquals("There should be 2 app", 1, apps.size());
+        
+        List<PVCAssociation> pvcAssociations = apps.get(0).getPvcAssociations();
+        Assert.assertNotNull("No PVC Assocations", pvcAssociations);
+        Assert.assertEquals("There should be 2 PVC Associations", 2, pvcAssociations.size());
+        
+        List<PersistentVolumeClaim> pvcs = projects.get(0).getPersistentVolumeClaims();
+        Assert.assertNotNull("No persistent volume claims");
+        Assert.assertEquals("there should be 2 persistent volume claims", 2, pvcs.size());
         
     }
     
     public Engagement createEngagement() throws Exception {
-        Engagement eng = getJsonData(Engagement.class, "/engagement.json");
+        Engagement eng = getJsonData(Engagement.class, "/deep_engagement.json");
         return eng;
     }
 }

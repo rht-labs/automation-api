@@ -7,9 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rhc.automation.api.NotFoundException;
 import com.rhc.automation.model.OpenShiftResources;
+import com.rhc.automation.model.PVCAssociation;
+import com.rhc.automation.model.PersistentVolume;
+import com.rhc.automation.model.PersistentVolumeClaim;
 import com.rhc.automation.model.Project;
 import com.rhc.automation.model.RoleMapping;
 import com.rhc.automation.model.Application;
+import com.rhc.automation.model.GroupRoleMapping;
+import com.rhc.automation.model.LabelSelector;
 import com.rhc.automation.model.OpenShiftCluster;
 
 @Component("openshiftService")
@@ -20,16 +25,28 @@ public class OpenShiftServiceImpl implements OpenShiftService {
     private OpenShiftClusterRepository openShiftClusterRepository;
     private ProjectRepository projectRepository;
     private ApplicationRepository applicationRepository;
+    private PVCAssociationRepository pvcAssRepository;
+    private PersistentVolumeClaimRepository pvcRepository;
+    private PersistentVolumeRepository pvRepository;
+    private ClaimTypeRepository claimTypeRepository;
+    private LabelSelectorRepository labelSelectorRepository;
+    
     private UserService userService;
     
     public OpenShiftServiceImpl(OpenShiftResouresRepository openshiftResourcesRespository,
             OpenShiftClusterRepository openshiftClusterRepository, ProjectRepository projectRepository, ApplicationRepository applicationRepository,
-            UserService userService) {
+            PVCAssociationRepository pvcAssRepository, ClaimTypeRepository claimTypeRepository, LabelSelectorRepository labelSelectorRepository, 
+            PersistentVolumeClaimRepository pvcRepository, PersistentVolumeRepository pvRepository, UserService userService) {
         this.openShiftResourcesRespository = openshiftResourcesRespository;
         this.openShiftClusterRepository = openshiftClusterRepository;
         this.projectRepository = projectRepository;
         this.applicationRepository = applicationRepository;
+        this.pvcAssRepository = pvcAssRepository;
+        this.pvcRepository = pvcRepository;
+        this.pvRepository = pvRepository;
         this.userService = userService;
+        this.claimTypeRepository = claimTypeRepository;
+        this.labelSelectorRepository = labelSelectorRepository;
     }
     
     @Override
@@ -82,6 +99,11 @@ public class OpenShiftServiceImpl implements OpenShiftService {
             addOpenShiftResources(resources);
         }
         
+        if(!openShiftCluster.getPersistentVolumes().isEmpty()) {
+            pvRepository.save(openShiftCluster.getPersistentVolumes());
+        }
+        
+        
         openShiftClusterRepository.save(openShiftCluster);
     }
 
@@ -120,12 +142,27 @@ public class OpenShiftServiceImpl implements OpenShiftService {
             }
         }
         
+        for(GroupRoleMapping groupRoleMapping : project.getGroupToRole()) {
+            if(groupRoleMapping.getId() == null || groupRoleMapping.getId() == 0) {
+                groupRoleMapping.setId(null);
+                userService.addGroupMapping(groupRoleMapping);
+            }
+        }
+        
         for(RoleMapping roleMapping : project.getUserToRole()) {
             if(roleMapping.getId() == null || roleMapping.getId() == 0) {
                 roleMapping.setId(null);
                 userService.addRoleMapping(roleMapping);
             }
         }
+        
+        for(PersistentVolumeClaim pvc :project.getPersistentVolumeClaims()) {
+            if(pvc.getSelector() != null) {
+                labelSelectorRepository.save(pvc.getSelector());
+            }
+            pvcRepository.save(pvc);
+        }
+        
         projectRepository.save(project);
         
     }
@@ -160,6 +197,12 @@ public class OpenShiftServiceImpl implements OpenShiftService {
     
     @Override
     public void addApplication(Application application) {
+        for(PVCAssociation pvc : application.getPvcAssociations()) {
+            if(pvc.getClaimType() != null) {
+                claimTypeRepository.save(pvc.getClaimType());
+            }
+            pvcAssRepository.save(pvc);
+        }
         applicationRepository.save(application);
     }
 
