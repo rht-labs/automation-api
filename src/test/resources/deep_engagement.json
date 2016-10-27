@@ -20,6 +20,27 @@
                                     "JENKINS_PASSWORD": "*****",
                                     "JAVA_OPTS": "'-Djavax.net.ssl.trustStore=/etc/'"
                                 },
+                                "routes": [
+                                    {
+                                        "route_type": "passthrough",
+                                        "hostname": "jenkins.dev.core.rht-labs.com",
+                                        "port": "8443",
+                                        "service": {
+                                            "ports": [
+                                                {
+                                                    "port": 8443,
+                                                    "protocol": "TCP",
+                                                    "target_port": 8443
+                                                },
+                                                {
+                                                    "port": 50000,
+                                                    "protocol": "TCP",
+                                                    "target_port": 50000
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
                                 "pvc_associations": [
                                     {
                                         "name": "pipeline-dev-env",
@@ -665,11 +686,11 @@
                         "group_to_role": [
                           {
                             "group": {
-                              "name": "blah"
+                              "name": "system:serviceaccounts"
                              },
                              "roles": [
                                {
-                                 "name": "admin"
+                                 "name": "view"
                                }
                              ]
                            }

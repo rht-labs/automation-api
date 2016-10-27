@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rhc.automation.api.NotFoundException;
 import com.rhc.automation.model.OpenShiftResources;
 import com.rhc.automation.model.PVCAssociation;
-import com.rhc.automation.model.PersistentVolume;
 import com.rhc.automation.model.PersistentVolumeClaim;
 import com.rhc.automation.model.Project;
 import com.rhc.automation.model.RoleMapping;
+import com.rhc.automation.model.Route;
+import com.rhc.automation.model.Service;
 import com.rhc.automation.model.Application;
 import com.rhc.automation.model.GroupRoleMapping;
-import com.rhc.automation.model.LabelSelector;
 import com.rhc.automation.model.OpenShiftCluster;
 
 @Component("openshiftService")
@@ -30,13 +30,17 @@ public class OpenShiftServiceImpl implements OpenShiftService {
     private PersistentVolumeRepository pvRepository;
     private ClaimTypeRepository claimTypeRepository;
     private LabelSelectorRepository labelSelectorRepository;
+    private RouteRepository routeRepository;
+    private PortRepository portRepository;
+    private ServiceRepository serviceRepository;
     
     private UserService userService;
     
     public OpenShiftServiceImpl(OpenShiftResouresRepository openshiftResourcesRespository,
             OpenShiftClusterRepository openshiftClusterRepository, ProjectRepository projectRepository, ApplicationRepository applicationRepository,
             PVCAssociationRepository pvcAssRepository, ClaimTypeRepository claimTypeRepository, LabelSelectorRepository labelSelectorRepository, 
-            PersistentVolumeClaimRepository pvcRepository, PersistentVolumeRepository pvRepository, UserService userService) {
+            PersistentVolumeClaimRepository pvcRepository, PersistentVolumeRepository pvRepository, ServiceRepository serviceRepository,
+            RouteRepository routeRepository, PortRepository portRepository, UserService userService) {
         this.openShiftResourcesRespository = openshiftResourcesRespository;
         this.openShiftClusterRepository = openshiftClusterRepository;
         this.projectRepository = projectRepository;
@@ -47,6 +51,9 @@ public class OpenShiftServiceImpl implements OpenShiftService {
         this.userService = userService;
         this.claimTypeRepository = claimTypeRepository;
         this.labelSelectorRepository = labelSelectorRepository;
+        this.routeRepository = routeRepository;
+        this.serviceRepository = serviceRepository;
+        this.portRepository = portRepository;
     }
     
     @Override
@@ -203,6 +210,20 @@ public class OpenShiftServiceImpl implements OpenShiftService {
             }
             pvcAssRepository.save(pvc);
         }
+        
+        for(Route route : application.getRoutes()) {
+            if(route.getService() != null) {
+                Service service = route.getService();
+                if(service.getPorts() != null && !service.getPorts().isEmpty()) {
+                    portRepository.save(service.getPorts());
+                }
+                serviceRepository.save(service);
+            }
+      
+            routeRepository.save(route);
+        }
+        
+        
         applicationRepository.save(application);
     }
 
