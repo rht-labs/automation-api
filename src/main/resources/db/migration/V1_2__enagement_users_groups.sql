@@ -1,0 +1,10 @@
+drop table automation.engagement_team;
+create table automation.engagement_users (engagement_id int8 not null, users_id int8 not null);
+create table automation.engagement_groups (engagement_id int8 not null, groups_id int8 not null);
+create table automation.group_members (group_id int8 not null, members_id int8 not null);
+alter table automation.engagement_groups add constraint FK14bk8an8t70yxmuu642bugx6m foreign key (groups_id) references automation.group;
+alter table automation.engagement_groups add constraint FK5snt0dwim7xjuc8p5ipsv5hh5 foreign key (engagement_id) references automation.engagement;
+alter table automation.engagement_users add constraint FKaryggrfhxqgw8wum2gdbuvbl1 foreign key (users_id) references automation.user;
+alter table automation.engagement_users add constraint FKm9rcrjuqkfejq9riq4cr9t6je foreign key (engagement_id) references automation.engagement;
+alter table automation.group_members add constraint FKqyqxkno22bamoe5470r6a6051 foreign key (members_id) references automation.user;
+alter table automation.group_members add constraint FK63nik84yd354yuc9hd7u2hlhi foreign key (group_id) references automation.group;

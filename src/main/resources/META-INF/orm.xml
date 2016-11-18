@@ -161,6 +161,7 @@
             <basic name="name">
                 <column nullable="false"/>
             </basic>
+            <many-to-many name="members" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
         </attributes>
     </entity>
     
@@ -329,7 +330,8 @@
             <basic name="endDate"/>
             <basic name="startDate"/>
             <one-to-many name="openshiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="SELECT"/>
-            <many-to-many name="team" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
+            <many-to-many name="users" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
+            <many-to-many name="groups" target-entity="com.rhc.automation.model.Group" fetch="SELECT"/>
         </attributes>
     </entity>
     

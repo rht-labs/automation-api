@@ -1,4 +1,31 @@
 {
+    "users" : [
+        { "user_name": "gdownie" }, 
+        { "user_name": "tucansam" }, 
+        { "user_name": "mom" } 
+    ],
+    "groups": [
+        { 
+            "name": "admin",
+            "members": [
+                { "user_name": "gdownie" }, 
+                { "user_name": "tucansam" }, 
+                { "user_name": "mom" }
+            ]
+        },
+        {
+            "name": "devops",
+            "members": [
+                { "user_name": "mom" }
+            ]
+        },
+        {
+            "name": "developer",
+            "members": [
+                { "user_name": "gdownie" }
+            ]
+        }
+    ],
     "openshift_clusters": [
         {
             "openshift_host_env": "well.com:8443",

@@ -1,5 +1,7 @@
 package com.rhc.automation.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -13,6 +15,8 @@ public class Group {
     private Long id = null;
 
     private String name = null;
+    
+    private List<User> members = new ArrayList<User>();
 
     public Group id(Long id) {
         this.id = id;
@@ -52,6 +56,30 @@ public class Group {
         this.name = name;
     }
 
+    public Group members(List<User> members) {
+        this.members = members;
+        return this;
+    }
+
+    public Group addMembersItem(User membersItem) {
+        this.members.add(membersItem);
+        return this;
+    }
+
+    /**
+     * Get members
+     * 
+     * @return members
+     **/
+    @ApiModelProperty(value = "")
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -61,12 +89,13 @@ public class Group {
             return false;
         }
         Group group = (Group) o;
-        return Objects.equals(this.id, group.id) && Objects.equals(this.name, group.name);
+        return Objects.equals(this.id, group.id) && Objects.equals(this.name, group.name)
+                && Objects.equals(this.members, group.members);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, members);
     }
 
     @Override
@@ -76,6 +105,7 @@ public class Group {
 
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("    members: ").append(toIndentedString(members)).append("\n");
         sb.append("}");
         return sb.toString();
     }
