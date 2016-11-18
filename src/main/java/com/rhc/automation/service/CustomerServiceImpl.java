@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rhc.automation.api.NotFoundException;
 import com.rhc.automation.model.Customer;
 import com.rhc.automation.model.Engagement;
+import com.rhc.automation.model.Group;
 import com.rhc.automation.model.OpenShiftCluster;
 import com.rhc.automation.model.User;
 
@@ -71,10 +72,17 @@ public class CustomerServiceImpl implements CustomerService {
             
         }
         
-        for(User user : engagement.getTeam()) {
+        for(User user : engagement.getUsers()) {
             if(user.getId() == null || user.getId() == 0) {
                 user.setId(null);
                 userService.addUser(user);
+            }
+        }
+        
+        for(Group group : engagement.getGroups()) {
+            if(group.getId() == null || group.getId() == 0) {
+                group.setId(null);
+                userService.addGroup(group);
             }
         }
         

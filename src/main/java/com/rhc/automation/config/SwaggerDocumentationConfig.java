@@ -22,7 +22,7 @@ public class SwaggerDocumentationConfig {
             .license("Apache 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("https://github.com/rht-labs/api-design")
-            .version("0.2.1")
+            .version("0.3.0")
             .contact(new Contact("","", "rhc-open-innovation-labs@redhat.com"))
             .build();
     }

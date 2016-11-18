@@ -168,7 +168,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addGroup(Group group) {
-        groupRepository.save(group);
+        Example<Group> ex = Example.of(group);
+        Group foundGroup = groupRepository.findOne(ex);
+        
+        for(User user : group.getMembers()) {
+            addUser(user); //addUser will check for existence and add if necessary
+        }
+        
+        if(foundGroup == null) {
+            groupRepository.save(group);
+        } else {
+            group.setId(foundGroup.getId());
+        }
         
     }
 
