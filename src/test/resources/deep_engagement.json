@@ -4,7 +4,7 @@
         { "user_name": "tucansam" }, 
         { "user_name": "mom" } 
     ],
-    "groups": [
+    "user_groups": [
         { 
             "name": "admin",
             "members": [
