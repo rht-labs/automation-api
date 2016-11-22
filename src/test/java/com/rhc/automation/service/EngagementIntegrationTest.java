@@ -56,6 +56,10 @@ public class EngagementIntegrationTest extends BaseIntegrationTest {
         
         Assert.assertEquals(id, engagement.getId());
         
+        Assert.assertEquals("There should be 3 users", 3, engagement.getUsers().size());
+        
+        Assert.assertEquals("There should be 3 groups", 3, engagement.getUserGroups().size());
+        
         Assert.assertEquals("No OpenShift Cluster", 1, engagement.getOpenshiftClusters().size());
         Assert.assertNotNull("No OpenShift Resource", engagement.getOpenshiftClusters().get(0).getOpenshiftResources());
         

@@ -26,7 +26,7 @@ public class Engagement implements AutomationModel {
 
     private List<User> users = new ArrayList<User>();
     
-    private List<Group> groups = new ArrayList<Group>();
+    private List<Group> userGroups = new ArrayList<Group>();
 
     public Engagement id(Long id) {
         this.id = id;
@@ -152,13 +152,13 @@ public class Engagement implements AutomationModel {
         this.users = users;
     }
     
-    public Engagement groups(List<Group> groups) {
-        this.groups = groups;
+    public Engagement userGroups(List<Group> groups) {
+        this.userGroups = groups;
         return this;
     }
 
-    public Engagement addGroupsItem(Group groupsItem) {
-        this.groups.add(groupsItem);
+    public Engagement addUserGroupsItem(Group groupsItem) {
+        this.userGroups.add(groupsItem);
         return this;
     }
 
@@ -168,12 +168,12 @@ public class Engagement implements AutomationModel {
      * @return groups
      **/
     @ApiModelProperty(value = "")
-    public List<Group> getGroups() {
-        return groups;
+    public List<Group> getUserGroups() {
+        return userGroups;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setUserGroups(List<Group> groups) {
+        this.userGroups = groups;
     }
 
     @Override
@@ -189,12 +189,12 @@ public class Engagement implements AutomationModel {
                 && Objects.equals(this.startDate, engagement.startDate)
                 && Objects.equals(this.endDate, engagement.endDate)
                 && Objects.equals(this.openshiftClusters, engagement.openshiftClusters)
-                && Objects.equals(this.users, engagement.users) && Objects.equals(this.groups, engagement.groups);
+                && Objects.equals(this.users, engagement.users) && Objects.equals(this.userGroups, engagement.userGroups);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, startDate, endDate, openshiftClusters, users, groups);
+        return Objects.hash(id, name, startDate, endDate, openshiftClusters, users, userGroups);
     }
 
     @Override
@@ -208,7 +208,7 @@ public class Engagement implements AutomationModel {
         sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
         sb.append("    openshiftClusters: ").append(toIndentedString(openshiftClusters)).append("\n");
         sb.append("    users: ").append(toIndentedString(users)).append("\n");
-        sb.append("    groups: ").append(toIndentedString(groups)).append("\n");
+        sb.append("    userGroups: ").append(toIndentedString(userGroups)).append("\n");
         sb.append("}");
         return sb.toString();
     }

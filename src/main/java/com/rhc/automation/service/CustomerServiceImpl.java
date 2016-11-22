@@ -79,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
             }
         }
         
-        for(Group group : engagement.getGroups()) {
+        for(Group group : engagement.getUserGroups()) {
             if(group.getId() == null || group.getId() == 0) {
                 group.setId(null);
                 userService.addGroup(group);

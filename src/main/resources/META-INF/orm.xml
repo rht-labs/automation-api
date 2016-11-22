@@ -331,7 +331,11 @@
             <basic name="startDate"/>
             <one-to-many name="openshiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="SELECT"/>
             <many-to-many name="users" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
-            <many-to-many name="groups" target-entity="com.rhc.automation.model.Group" fetch="SELECT"/>
+            <many-to-many name="userGroups" target-entity="com.rhc.automation.model.Group" fetch="SELECT">
+                <join-table name="engagement_groups">
+                    <inverse-join-column name="groups_id"/>
+                </join-table>
+            </many-to-many>
         </attributes>
     </entity>
     
