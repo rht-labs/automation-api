@@ -1,6 +1,11 @@
 {
+    "start_date": "2017-01-01",
+    "end_date": "2017-11-30",
     "users" : [
-        { "user_name": "gdownie" }, 
+        { 
+            "user_name": "gdownie", 
+            "expiration_date": "2016-11-30T22:38:40.326Z"    
+        }, 
         { "user_name": "tucansam" }, 
         { "user_name": "mom" } 
     ],

@@ -38,6 +38,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
         b.featuresToEnable(DeserializationFeature.READ_ENUMS_USING_TO_STRING , SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         b.serializationInclusion(JsonInclude.Include.NON_NULL);
         b.serializationInclusion(JsonInclude.Include.NON_EMPTY);
+        b.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return b;
     }
 

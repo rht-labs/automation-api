@@ -20,8 +20,8 @@ public class BaseTest {
     @BeforeClass
     public static void initJsonMapper() {
         mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(DeserializationFeature.READ_ENUMS_USING_TO_STRING, true);
         mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
@@ -31,6 +31,7 @@ public class BaseTest {
                         .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
         mapper.setSerializationInclusion( JsonInclude.Include.NON_NULL );
         mapper.setSerializationInclusion( JsonInclude.Include.NON_EMPTY );
+        mapper.findAndRegisterModules();
     }
     
     protected <T> String getJsonString(Class<T> clazz, String jsonFile) {
