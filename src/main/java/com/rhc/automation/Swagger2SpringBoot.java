@@ -1,5 +1,6 @@
 package com.rhc.automation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -35,7 +36,8 @@ public class Swagger2SpringBoot implements CommandLineRunner {
         Jackson2ObjectMapperBuilder b = new Jackson2ObjectMapperBuilder();
         b.propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         b.featuresToEnable(DeserializationFeature.READ_ENUMS_USING_TO_STRING , SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-        
+        b.serializationInclusion(JsonInclude.Include.NON_NULL);
+        b.serializationInclusion(JsonInclude.Include.NON_EMPTY);
         return b;
     }
 
