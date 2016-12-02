@@ -30,6 +30,49 @@
                                 "base_image": "openshift/php",
                                 "scm_url": "https://github.com/sherl0cks/files.git"
                             }
+                        ],
+
+                        "user_to_role": [
+                            {
+                                "user": {
+                                    "user_name": "obedin"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "jholmes"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "mdanter"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            },
+                            {
+                                "user": {
+                                    "user_name": "kmcanoy"
+                                },
+                                "roles": [
+                                    {
+                                        "name": "admin"
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {

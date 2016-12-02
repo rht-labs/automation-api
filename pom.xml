@@ -5,7 +5,7 @@
     <artifactId>automation-api</artifactId>
     <packaging>jar</packaging>
     <name>automation-api</name>
-    <version>0.3.0</version>
+    <version>0.3.0-SNAPSHOT</version>
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -140,19 +140,6 @@
                     <version>${flyway.version}</version>
                 </dependency>
             </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <profiles>
-                                <profile>postgresql</profile>
-                            </profiles>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
         <profile>
             <id>local</id>
