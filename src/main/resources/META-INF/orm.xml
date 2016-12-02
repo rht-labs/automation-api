@@ -173,11 +173,11 @@
             <one-to-one name="group" fetch="SELECT">
                 <join-column name="groupId"/>
             </one-to-one>
-            <element-collection name="roles" fetch="SELECT">
-            <collection-table name="group_role_mapping_roles">
-                <join-column name="group_role_mapping_role_id"/>
-            </collection-table>
-        </element-collection>
+            <many-to-many name="roles" target-entity="com.rhc.automation.model.Role" fetch="SELECT">
+                <join-table name="group_role_mapping_roles">
+                    <inverse-join-column name="group_role_mapping_role_id"/>
+                </join-table>
+            </many-to-many>
         </attributes>
     </entity>
     
@@ -200,11 +200,11 @@
             <one-to-one name="user" fetch="SELECT">
                 <join-column name="userId"/>
             </one-to-one>
-            <element-collection name="roles" fetch="SELECT">
-            <collection-table name="role_mapping_roles">
-                <join-column name="role_mapping_role_id"/>
-            </collection-table>
-        </element-collection>
+            <many-to-many name="roles" target-entity="com.rhc.automation.model.Role" fetch="SELECT">
+                <join-table name="role_mapping_roles">
+                    <inverse-join-column name="role_mapping_role_id"/>
+                </join-table>
+            </many-to-many>
         </attributes>
     </entity>
 
