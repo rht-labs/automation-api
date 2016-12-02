@@ -35,6 +35,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
         Jackson2ObjectMapperBuilder b = new Jackson2ObjectMapperBuilder();
         b.propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         b.featuresToEnable(DeserializationFeature.READ_ENUMS_USING_TO_STRING , SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+        b.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         
         return b;
     }
