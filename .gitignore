@@ -3,4 +3,5 @@
 .settings
 bin/
 .project
-
+.idea
+*.iml

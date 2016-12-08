@@ -3,6 +3,7 @@ package com.rhc.automation;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.junit.BeforeClass;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -28,6 +29,8 @@ public class BaseTest {
                         .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
                         .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                         .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        mapper.setSerializationInclusion( JsonInclude.Include.NON_NULL );
+        mapper.setSerializationInclusion( JsonInclude.Include.NON_EMPTY );
     }
     
     protected <T> String getJsonString(Class<T> clazz, String jsonFile) {
