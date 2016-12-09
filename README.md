@@ -23,3 +23,4 @@ This application has two maven profiles that switch the way persistence works
 2. The `local` profile which connects to an in memory hsqldb. You can run this profile with *either* of the following commands:
   * `mvn spring-boot:run -D local` or
   * `mvn clean install -D local && java -jar -Dspring.profiles.active=hsql automation-api.jar`
+ 
