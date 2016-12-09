@@ -1,4 +1,12 @@
 {
+    "users" : [
+        { 
+            "user_name": "gdownie", 
+            "expiration_date": "2016-11-30T22:38:40.326Z"    
+        }
+    ],
+    "start_date": "2017-01-01",
+    "end_date": "2016-11-30",
     "openshift_clusters": [
         {
             "openshift_host_env": "10.1.2.2:8443",

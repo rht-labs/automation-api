@@ -2,6 +2,8 @@ package com.rhc.automation.model;
 
 import java.util.Objects;
 
+import org.joda.time.DateTime;
+
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -19,6 +21,8 @@ public class User implements AutomationModel {
     private String lastName = null;
 
     private String userName = null;
+    
+    private DateTime expirationDate = null;
 
     public User id(Long id) {
         this.id = id;
@@ -114,6 +118,25 @@ public class User implements AutomationModel {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+    
+    public User expirationDate(DateTime expirationDate) {
+        this.expirationDate = expirationDate;
+        return this;
+    }
+
+    /**
+     * Get expirationDate
+     * 
+     * @return expirationDate
+     **/
+    @ApiModelProperty(value = "")
+    public DateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(DateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
     @Override
     public boolean equals(java.lang.Object o) {
@@ -126,12 +149,13 @@ public class User implements AutomationModel {
         User user = (User) o;
         return Objects.equals(this.id, user.id) && Objects.equals(this.email, user.email)
                 && Objects.equals(this.firstName, user.firstName) && Objects.equals(this.lastName, user.lastName)
-                && Objects.equals(this.userName, user.userName);
+                && Objects.equals(this.userName, user.userName)
+                && Objects.equals(this.expirationDate, user.expirationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, userName);
+        return Objects.hash(id, email, firstName, lastName, userName, expirationDate);
     }
 
     @Override
@@ -144,6 +168,7 @@ public class User implements AutomationModel {
         sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
         sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
         sb.append("    userName: ").append(toIndentedString(userName)).append("\n");
+        sb.append("    expirationDate: ").append(toIndentedString(expirationDate)).append("\n");
         sb.append("}");
         return sb.toString();
     }

@@ -219,7 +219,7 @@ public class ApiService {
             location = "/customers/{id}";
         } else if(model instanceof Engagement) {
             customerService.addEngagement((Engagement) model);
-            location = "/enagements/{id}";
+            location = "/engagements/{id}";
         } else if(model instanceof Role) {
             userService.addRole((Role) model);
             location = "/roles/{id}";
