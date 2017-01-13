@@ -3,28 +3,28 @@ package com.rhc.automation.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.rhc.automation.model.ClaimType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.joda.time.LocalDate;
 
 
 
 
 /**
- * PVCAssociation
+ * EngagementSummary
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-12T13:59:49.822-08:00")
 
-public class PVCAssociation   {
+public class EngagementSummary   {
   private Long id = null;
 
   private String name = null;
 
-  private String mountPath = null;
+  private LocalDate startDate = null;
 
-  private ClaimType claimType = null;
+  private LocalDate endDate = null;
 
-  public PVCAssociation id(Long id) {
+  public EngagementSummary id(Long id) {
     this.id = id;
     return this;
   }
@@ -33,7 +33,7 @@ public class PVCAssociation   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public Long getId() {
     return id;
   }
@@ -42,7 +42,7 @@ public class PVCAssociation   {
     this.id = id;
   }
 
-  public PVCAssociation name(String name) {
+  public EngagementSummary name(String name) {
     this.name = name;
     return this;
   }
@@ -51,7 +51,7 @@ public class PVCAssociation   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getName() {
     return name;
   }
@@ -60,40 +60,40 @@ public class PVCAssociation   {
     this.name = name;
   }
 
-  public PVCAssociation mountPath(String mountPath) {
-    this.mountPath = mountPath;
+  public EngagementSummary startDate(LocalDate startDate) {
+    this.startDate = startDate;
     return this;
   }
 
    /**
-   * Get mountPath
-   * @return mountPath
+   * Get startDate
+   * @return startDate
   **/
   @ApiModelProperty(value = "")
-  public String getMountPath() {
-    return mountPath;
+  public LocalDate getStartDate() {
+    return startDate;
   }
 
-  public void setMountPath(String mountPath) {
-    this.mountPath = mountPath;
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
   }
 
-  public PVCAssociation claimType(ClaimType claimType) {
-    this.claimType = claimType;
+  public EngagementSummary endDate(LocalDate endDate) {
+    this.endDate = endDate;
     return this;
   }
 
    /**
-   * Get claimType
-   * @return claimType
+   * Get endDate
+   * @return endDate
   **/
   @ApiModelProperty(value = "")
-  public ClaimType getClaimType() {
-    return claimType;
+  public LocalDate getEndDate() {
+    return endDate;
   }
 
-  public void setClaimType(ClaimType claimType) {
-    this.claimType = claimType;
+  public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
   }
 
 
@@ -105,27 +105,27 @@ public class PVCAssociation   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PVCAssociation pVCAssociation = (PVCAssociation) o;
-    return Objects.equals(this.id, pVCAssociation.id) &&
-        Objects.equals(this.name, pVCAssociation.name) &&
-        Objects.equals(this.mountPath, pVCAssociation.mountPath) &&
-        Objects.equals(this.claimType, pVCAssociation.claimType);
+    EngagementSummary engagementSummary = (EngagementSummary) o;
+    return Objects.equals(this.id, engagementSummary.id) &&
+        Objects.equals(this.name, engagementSummary.name) &&
+        Objects.equals(this.startDate, engagementSummary.startDate) &&
+        Objects.equals(this.endDate, engagementSummary.endDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, mountPath, claimType);
+    return Objects.hash(id, name, startDate, endDate);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PVCAssociation {\n");
+    sb.append("class EngagementSummary {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    mountPath: ").append(toIndentedString(mountPath)).append("\n");
-    sb.append("    claimType: ").append(toIndentedString(claimType)).append("\n");
+    sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
+    sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
