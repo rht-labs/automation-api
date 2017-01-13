@@ -10,7 +10,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-09-19T17:04:30.676-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-12T13:59:49.822-08:00")
 
 @Configuration
 public class SwaggerDocumentationConfig {
@@ -22,7 +22,7 @@ public class SwaggerDocumentationConfig {
             .license("Apache 2.0")
             .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("https://github.com/rht-labs/api-design")
-            .version("0.3.0")
+            .version("0.4.0-alpha")
             .contact(new Contact("","", "rhc-open-innovation-labs@redhat.com"))
             .build();
     }
@@ -35,7 +35,9 @@ public class SwaggerDocumentationConfig {
                     .build()
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo())
+                .useDefaultResponseMessages( false );
+
     }
 
 }

@@ -1,19 +1,21 @@
 package com.rhc.automation.model;
 
+import java.util.Objects;
+
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.joda.time.LocalDate;
 
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Engagement
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-10-05T12:23:04.865-07:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-12T13:59:49.822-08:00")
 
-public class Engagement implements AutomationModel {
+public class Engagement {
     private Long id = null;
 
     private String name = null;
@@ -25,17 +27,49 @@ public class Engagement implements AutomationModel {
     private List<OpenShiftCluster> openshiftClusters = new ArrayList<OpenShiftCluster>();
 
     private List<User> users = new ArrayList<User>();
-    
+
     private List<Group> userGroups = new ArrayList<Group>();
 
-    public Engagement id(Long id) {
+    public Engagement id( Long id ) {
         this.id = id;
         return this;
     }
 
+    public boolean nameContainsSearchTerm( String searchTerm ) {
+        return getName().toLowerCase().contains( searchTerm.toLowerCase() );
+    }
+
+    /**
+     * If this is written as isValid, Jackson thinks its part of the Java Bean... TODO clean that up
+     *
+     * @return
+     */
+    public boolean determineIfValid() {
+        return determineInvalidFields().size() == 0 ? true : false;
+    }
+
+    /**
+     * If this is written as getInvalidFields, Jackson thinks its part of the Java Bean... TODO clean that up
+     *
+     * @return
+     */
+    public List<String> determineInvalidFields() {
+        List<String> invalidFields = new ArrayList<>();
+        if ( id == null ) {
+            invalidFields.add( "id is null" );
+        }
+        if ( id != null && id < 0 ){
+            invalidFields.add( "id is negative" );
+        }
+        if ( name == null || name.isEmpty() ) {
+            invalidFields.add( "name is null or empty" );
+        }
+        return invalidFields;
+    }
+
     /**
      * Get id
-     * 
+     *
      * @return id
      **/
     @ApiModelProperty(required = true, value = "")
@@ -43,18 +77,18 @@ public class Engagement implements AutomationModel {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId( Long id ) {
         this.id = id;
     }
 
-    public Engagement name(String name) {
+    public Engagement name( String name ) {
         this.name = name;
         return this;
     }
 
     /**
      * Get name
-     * 
+     *
      * @return name
      **/
     @ApiModelProperty(required = true, value = "")
@@ -62,18 +96,18 @@ public class Engagement implements AutomationModel {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name ) {
         this.name = name;
     }
 
-    public Engagement startDate(LocalDate startDate) {
+    public Engagement startDate( LocalDate startDate ) {
         this.startDate = startDate;
         return this;
     }
 
     /**
      * Get startDate
-     * 
+     *
      * @return startDate
      **/
     @ApiModelProperty(value = "")
@@ -81,18 +115,18 @@ public class Engagement implements AutomationModel {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate( LocalDate startDate ) {
         this.startDate = startDate;
     }
 
-    public Engagement endDate(LocalDate endDate) {
+    public Engagement endDate( LocalDate endDate ) {
         this.endDate = endDate;
         return this;
     }
 
     /**
      * Get endDate
-     * 
+     *
      * @return endDate
      **/
     @ApiModelProperty(value = "")
@@ -100,23 +134,23 @@ public class Engagement implements AutomationModel {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate( LocalDate endDate ) {
         this.endDate = endDate;
     }
 
-    public Engagement openshiftClusters(List<OpenShiftCluster> openshiftClusters) {
+    public Engagement openshiftClusters( List<OpenShiftCluster> openshiftClusters ) {
         this.openshiftClusters = openshiftClusters;
         return this;
     }
 
-    public Engagement addOpenshiftClustersItem(OpenShiftCluster openshiftClustersItem) {
-        this.openshiftClusters.add(openshiftClustersItem);
+    public Engagement addOpenshiftClustersItem( OpenShiftCluster openshiftClustersItem ) {
+        this.openshiftClusters.add( openshiftClustersItem );
         return this;
     }
 
     /**
      * Get openshiftClusters
-     * 
+     *
      * @return openshiftClusters
      **/
     @ApiModelProperty(value = "")
@@ -124,23 +158,23 @@ public class Engagement implements AutomationModel {
         return openshiftClusters;
     }
 
-    public void setOpenshiftClusters(List<OpenShiftCluster> openshiftClusters) {
+    public void setOpenshiftClusters( List<OpenShiftCluster> openshiftClusters ) {
         this.openshiftClusters = openshiftClusters;
     }
 
-    public Engagement users(List<User> users) {
+    public Engagement users( List<User> users ) {
         this.users = users;
         return this;
     }
 
-    public Engagement addUsersItem(User usersItem) {
-        this.users.add(usersItem);
+    public Engagement addUsersItem( User usersItem ) {
+        this.users.add( usersItem );
         return this;
     }
 
     /**
      * Get users
-     * 
+     *
      * @return users
      **/
     @ApiModelProperty(value = "")
@@ -148,68 +182,71 @@ public class Engagement implements AutomationModel {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers( List<User> users ) {
         this.users = users;
     }
-    
-    public Engagement userGroups(List<Group> groups) {
-        this.userGroups = groups;
+
+    public Engagement userGroups( List<Group> userGroups ) {
+        this.userGroups = userGroups;
         return this;
     }
 
-    public Engagement addUserGroupsItem(Group groupsItem) {
-        this.userGroups.add(groupsItem);
+    public Engagement addUserGroupsItem( Group userGroupsItem ) {
+        this.userGroups.add( userGroupsItem );
         return this;
     }
 
     /**
-     * Get groups
-     * 
-     * @return groups
+     * Get userGroups
+     *
+     * @return userGroups
      **/
     @ApiModelProperty(value = "")
     public List<Group> getUserGroups() {
         return userGroups;
     }
 
-    public void setUserGroups(List<Group> groups) {
-        this.userGroups = groups;
+    public void setUserGroups( List<Group> userGroups ) {
+        this.userGroups = userGroups;
     }
 
+
     @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
+    public boolean equals( java.lang.Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
         Engagement engagement = (Engagement) o;
-        return Objects.equals(this.id, engagement.id) && Objects.equals(this.name, engagement.name)
-                && Objects.equals(this.startDate, engagement.startDate)
-                && Objects.equals(this.endDate, engagement.endDate)
-                && Objects.equals(this.openshiftClusters, engagement.openshiftClusters)
-                && Objects.equals(this.users, engagement.users) && Objects.equals(this.userGroups, engagement.userGroups);
+        return Objects.equals( this.id, engagement.id ) &&
+                Objects.equals( this.name, engagement.name ) &&
+                Objects.equals( this.startDate, engagement.startDate ) &&
+                Objects.equals( this.endDate, engagement.endDate ) &&
+                Objects.equals( this.openshiftClusters, engagement.openshiftClusters ) &&
+                Objects.equals( this.users, engagement.users ) &&
+                Objects.equals( this.userGroups, engagement.userGroups );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, startDate, endDate, openshiftClusters, users, userGroups);
+        return Objects.hash( id, name, startDate, endDate, openshiftClusters, users, userGroups );
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class Engagement {\n");
+        sb.append( "class Engagement {\n" );
 
-        sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
-        sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
-        sb.append("    openshiftClusters: ").append(toIndentedString(openshiftClusters)).append("\n");
-        sb.append("    users: ").append(toIndentedString(users)).append("\n");
-        sb.append("    userGroups: ").append(toIndentedString(userGroups)).append("\n");
-        sb.append("}");
+        sb.append( "    id: " ).append( toIndentedString( id ) ).append( "\n" );
+        sb.append( "    name: " ).append( toIndentedString( name ) ).append( "\n" );
+        sb.append( "    startDate: " ).append( toIndentedString( startDate ) ).append( "\n" );
+        sb.append( "    endDate: " ).append( toIndentedString( endDate ) ).append( "\n" );
+        sb.append( "    openshiftClusters: " ).append( toIndentedString( openshiftClusters ) ).append( "\n" );
+        sb.append( "    users: " ).append( toIndentedString( users ) ).append( "\n" );
+        sb.append( "    userGroups: " ).append( toIndentedString( userGroups ) ).append( "\n" );
+        sb.append( "}" );
         return sb.toString();
     }
 
@@ -217,10 +254,11 @@ public class Engagement implements AutomationModel {
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
      */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
+    private String toIndentedString( java.lang.Object o ) {
+        if ( o == null ) {
             return "null";
         }
-        return o.toString().replace("\n", "\n    ");
+        return o.toString().replace( "\n", "\n    " );
     }
 }
+
