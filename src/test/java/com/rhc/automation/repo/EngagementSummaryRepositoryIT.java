@@ -1,4 +1,4 @@
-package com.rhc.automation.service;
+package com.rhc.automation.repo;
 
 import com.rhc.automation.exception.InvalidEngagementException;
 import com.rhc.automation.model.Engagement;
@@ -9,27 +9,25 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class EngagementSummaryServiceTest {
+public class EngagementSummaryRepositoryIT extends BaseIntegrationTst {
 
-    EngagementService engagementService = new EngagementService();
-    EngagementSummaryService engagementSummaryService = new EngagementSummaryService( engagementService );
 
     @Test
     public void shouldReturnAllEngagementSummariesWithSearchTermInTheirName() throws InvalidEngagementException {
         // given
         Engagement e1 = ObjectMother.getBasicValidEngagement( " customer 1" );
-        engagementService.addEngagement( e1 );
+        engagementRepository.save( e1 );
 
         Engagement e2 = ObjectMother.getBasicValidEngagement( "customer 2" );
-        engagementService.addEngagement( e2 );
+        engagementRepository.save( e2 );
 
         Engagement e3 = ObjectMother.getBasicValidEngagement( "do not find me" );
-        engagementService.addEngagement( e3 );
+        engagementRepository.save( e3 );
 
         String searchTerm = "CUSTOMER";
 
         // when
-        List<EngagementSummary> engagementSummariesList = engagementSummaryService.engagementSummariesList( searchTerm );
+        List<EngagementSummary> engagementSummariesList = engagementSummaryRepository.findByNameContainingIgnoreCase( searchTerm );
 
         // then
         Assert.assertEquals( 2, engagementSummariesList.size() );

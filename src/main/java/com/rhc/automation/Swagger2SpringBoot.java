@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.rhc.automation.config.JacksonMapperBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -32,13 +32,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Bean
     public Jackson2ObjectMapperBuilder jacksonBuilder() {
-        Jackson2ObjectMapperBuilder b = new Jackson2ObjectMapperBuilder();
-        b.propertyNamingStrategy( PropertyNamingStrategy.SNAKE_CASE );
-        b.featuresToEnable( DeserializationFeature.READ_ENUMS_USING_TO_STRING, SerializationFeature.WRITE_ENUMS_USING_TO_STRING );
-        b.serializationInclusion( JsonInclude.Include.NON_NULL );
-        b.serializationInclusion( JsonInclude.Include.NON_EMPTY );
-        b.featuresToDisable( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS );
-        return b;
+        return JacksonMapperBuilder.get();
     }
 
     class ExitException extends RuntimeException implements ExitCodeGenerator {

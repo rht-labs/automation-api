@@ -1,16 +1,13 @@
 package com.rhc.automation.api;
 
-import com.rhc.automation.exception.DuplicateEngagementIdsException;
 import com.rhc.automation.exception.EngagementNotFoundException;
 import com.rhc.automation.exception.InvalidEngagementException;
 import com.rhc.automation.model.Engagement;
 import com.rhc.automation.model.ErrorModel;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.stream.Location;
 import java.util.List;
 
 /**
@@ -49,7 +46,7 @@ public interface EngagementsApi {
             @ApiResponse(code = 404, message = "`Engagement` of the given `id` not found", response = Void.class),
             @ApiResponse(code = 500, message = "Unexpected Server Error", response = ErrorModel.class)})
     @RequestMapping(value = "/engagements/{id}", method = RequestMethod.GET)
-    ResponseEntity<Engagement> engagementsIdGet( @ApiParam(value = "", required = true) @PathVariable("id") Long id ) throws EngagementNotFoundException, DuplicateEngagementIdsException;
+    ResponseEntity<Engagement> engagementsIdGet( @ApiParam(value = "", required = true) @PathVariable("id") Long id ) throws EngagementNotFoundException;
 
 
     @ApiOperation(value = "", notes = "", response = Void.class, tags = {"engagement",})

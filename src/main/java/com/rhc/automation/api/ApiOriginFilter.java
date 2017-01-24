@@ -1,9 +1,8 @@
 package com.rhc.automation.api;
 
-import java.io.IOException;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-12T13:59:49.822-08:00")
 

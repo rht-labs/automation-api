@@ -18,7 +18,7 @@
             </element-collection>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.ClaimType" access="FIELD">
         <attributes>
             <id name="id">
@@ -30,7 +30,7 @@
             <basic name="name"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.PVCAssociation" access="FIELD">
         <attributes>
             <id name="id">
@@ -43,7 +43,7 @@
             </one-to-one>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Port" access="FIELD">
         <attributes>
             <id name="id">
@@ -54,7 +54,7 @@
             <basic name="targetPort"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Service" access="FIELD">
         <attributes>
             <id name="id">
@@ -64,7 +64,7 @@
             <one-to-many name="ports" target-entity="com.rhc.automation.model.Port" fetch="SELECT"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Route" access="FIELD">
         <table name="ROUTE"/>
         <inheritence/>
@@ -81,19 +81,19 @@
             </one-to-one>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.PassthroughRoute" access="FIELD">
         <discriminator-value>passthrough</discriminator-value>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.EdgeRoute" access="FIELD">
         <discriminator-value>edge</discriminator-value>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.ReencryptRoute" access="FIELD">
         <discriminator-value>reencrypt</discriminator-value>
     </entity>
-   
+
     <entity class="com.rhc.automation.model.PersistentVolumeClaim" access="FIELD">
         <attributes>
             <id name="id">
@@ -138,7 +138,7 @@
             </element-collection>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.User" access="FIELD">
         <attributes>
             <id name="id">
@@ -152,7 +152,7 @@
             </basic>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Group" access="FIELD">
         <attributes>
             <id name="id">
@@ -164,7 +164,7 @@
             <many-to-many name="members" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.GroupRoleMapping" access="FIELD">
         <attributes>
             <id name="id">
@@ -180,7 +180,7 @@
             </many-to-many>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Role" access="FIELD">
         <attributes>
             <id name="id">
@@ -191,7 +191,7 @@
             </basic>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.RoleMapping" access="FIELD">
         <attributes>
             <id name="id">
@@ -273,7 +273,7 @@
             <one-to-many name="routes" target-entity="com.rhc.automation.model.Route" fetch="SELECT"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Project" access="FIELD">
         <attributes>
             <id name="id">
@@ -290,7 +290,7 @@
             <one-to-many name="persistentVolumeClaims" target-entity="com.rhc.automation.model.PersistentVolumeClaim" fetch="SELECT"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.OpenShiftResources" access="FIELD">
         <attributes>
             <id name="id">
@@ -299,7 +299,7 @@
             <one-to-many name="projects" target-entity="com.rhc.automation.model.Project" fetch="SELECT"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.OpenShiftCluster" access="FIELD">
         <attributes>
             <id name="id">
@@ -320,7 +320,7 @@
             <one-to-many name="persistentVolumes" target-entity="com.rhc.automation.model.PersistentVolume" fetch="SELECT"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Engagement" access="FIELD">
         <attributes>
             <id name="id">
@@ -338,15 +338,6 @@
             </many-to-many>
         </attributes>
     </entity>
-    
-    <entity class="com.rhc.automation.model.Customer" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="name"/>
-            <one-to-many name="engagements" target-entity="com.rhc.automation.model.Engagement" fetch="SELECT"/>
-        </attributes>
-    </entity>
+
  
 </entity-mappings>

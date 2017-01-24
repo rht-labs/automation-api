@@ -1,8 +1,6 @@
 package com.rhc.automation.model;
 
 import java.util.Objects;
-import com.rhc.automation.model.Route;
-import com.rhc.automation.model.Service;
 
 
 

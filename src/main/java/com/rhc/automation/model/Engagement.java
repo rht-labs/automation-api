@@ -1,13 +1,11 @@
 package com.rhc.automation.model;
 
-import java.util.Objects;
-
 import io.swagger.annotations.ApiModelProperty;
+import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.joda.time.LocalDate;
+import java.util.Objects;
 
 
 /**
