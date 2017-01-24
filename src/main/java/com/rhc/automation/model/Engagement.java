@@ -1,19 +1,29 @@
 package com.rhc.automation.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.LocalDate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
 /**
- * Engagement
+ * Engagement uses annotations because it realizes on Hibernate Features, not pure JPA like the other entities
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-12T13:59:49.822-08:00")
+@javax.annotation.Generated( value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-12T13:59:49.822-08:00" )
 
+@Entity
 public class Engagement {
+
+
+    @Id
+    @GenericGenerator( name = "custom_generator", strategy = "com.rhc.automation.repo.IdKeepingSequenceGenerator" )
+    @GeneratedValue( generator = "custom_generator" )
     private Long id = null;
 
     private String name = null;
@@ -22,10 +32,17 @@ public class Engagement {
 
     private LocalDate endDate = null;
 
+    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    @Fetch( value = FetchMode.SELECT )
     private List<OpenShiftCluster> openshiftClusters = new ArrayList<OpenShiftCluster>();
 
+    @ManyToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    @Fetch( value = FetchMode.SELECT )
     private List<User> users = new ArrayList<User>();
 
+    @ManyToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    @Fetch( value = FetchMode.SELECT )
+    @JoinTable( name = "engagement_groups", inverseJoinColumns = { @JoinColumn( name = "groups_id" ) } )
     private List<Group> userGroups = new ArrayList<Group>();
 
     public Engagement id( Long id ) {
@@ -56,7 +73,7 @@ public class Engagement {
         if ( id == null ) {
             invalidFields.add( "id is null" );
         }
-        if ( id != null && id < 0 ){
+        if ( id != null && id < 0 ) {
             invalidFields.add( "id is negative" );
         }
         if ( name == null || name.isEmpty() ) {
@@ -70,7 +87,7 @@ public class Engagement {
      *
      * @return id
      **/
-    @ApiModelProperty(required = true, value = "")
+    @ApiModelProperty( required = true, value = "" )
     public Long getId() {
         return id;
     }
@@ -89,7 +106,7 @@ public class Engagement {
      *
      * @return name
      **/
-    @ApiModelProperty(required = true, value = "")
+    @ApiModelProperty( required = true, value = "" )
     public String getName() {
         return name;
     }
@@ -108,7 +125,7 @@ public class Engagement {
      *
      * @return startDate
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty( value = "" )
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -127,7 +144,7 @@ public class Engagement {
      *
      * @return endDate
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty( value = "" )
     public LocalDate getEndDate() {
         return endDate;
     }
@@ -151,7 +168,7 @@ public class Engagement {
      *
      * @return openshiftClusters
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty( value = "" )
     public List<OpenShiftCluster> getOpenshiftClusters() {
         return openshiftClusters;
     }
@@ -175,7 +192,7 @@ public class Engagement {
      *
      * @return users
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty( value = "" )
     public List<User> getUsers() {
         return users;
     }
@@ -199,7 +216,7 @@ public class Engagement {
      *
      * @return userGroups
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty( value = "" )
     public List<Group> getUserGroups() {
         return userGroups;
     }

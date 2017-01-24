@@ -1,1 +1,0 @@
-alter table automation.user add column expiration_date bytea;

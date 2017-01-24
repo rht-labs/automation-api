@@ -5,13 +5,14 @@ import com.rhc.automation.exception.InvalidEngagementException;
 import com.rhc.automation.model.Engagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Repository
+@Transactional( rollbackOn = { InvalidEngagementException.class, } )
 public class EngagementRepositoryImpl implements EngagementRepository {
 
     @Autowired
@@ -30,11 +31,11 @@ public class EngagementRepositoryImpl implements EngagementRepository {
     @Override
     public boolean save( Engagement engagement, Long id ) throws InvalidEngagementException {
         boolean newEngagementCreated = true;
-        if ( db.exists( id ) ){
+        if ( db.exists( id ) ) {
             newEngagementCreated = false;
         }
         engagement.setId( id );
-        save(engagement);
+        save( engagement );
         return newEngagementCreated;
     }
 
@@ -62,7 +63,7 @@ public class EngagementRepositoryImpl implements EngagementRepository {
     public List<Engagement> getAll() {
         List<Engagement> engagements = new ArrayList<>();
         Iterator<Engagement> it = db.findAll().iterator();
-        while ( it.hasNext() ){
+        while ( it.hasNext() ) {
             engagements.add( it.next() );
         }
         return engagements;
@@ -76,12 +77,12 @@ public class EngagementRepositoryImpl implements EngagementRepository {
 
     @Override
     public List<Engagement> findByNameContainingIgnoreCase( String nameSearchTerm, Integer size, Long offset ) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException( "size and offset not yet implimented" );
     }
 
     @Override
     public Engagement findById( Long id ) throws EngagementNotFoundException {
-        if ( db.exists( id ) ){
+        if ( db.exists( id ) ) {
             return db.findOne( id );
         } else {
             throw new EngagementNotFoundException( id );

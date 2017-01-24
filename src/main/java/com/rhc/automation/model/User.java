@@ -1,8 +1,9 @@
 package com.rhc.automation.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
 
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -24,7 +25,7 @@ public class User   {
 
   private String userName = null;
 
-  private DateTime expirationDate = null;
+  private LocalDateTime expirationDate = null;
 
   public User id(Long id) {
     this.id = id;
@@ -116,7 +117,7 @@ public class User   {
     this.userName = userName;
   }
 
-  public User expirationDate(DateTime expirationDate) {
+  public User expirationDate(LocalDateTime expirationDate) {
     this.expirationDate = expirationDate;
     return this;
   }
@@ -126,11 +127,11 @@ public class User   {
    * @return expirationDate
   **/
   @ApiModelProperty(value = "")
-  public DateTime getExpirationDate() {
+  public LocalDateTime getExpirationDate() {
     return expirationDate;
   }
 
-  public void setExpirationDate(DateTime expirationDate) {
+  public void setExpirationDate(LocalDateTime expirationDate) {
     this.expirationDate = expirationDate;
   }
 

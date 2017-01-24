@@ -1,101 +1,101 @@
 {
-    "users" : [
-        { 
-            "user_name": "gdownie", 
-            "expiration_date": "2016-11-30T22:38:40.326Z"    
-        }
-    ],
-    "start_date": "2017-01-01",
-    "end_date": "2016-11-30",
-    "openshift_clusters": [
-        {
-            "openshift_host_env": "10.1.2.2:8443",
-            "openshift_resources": {
-                "projects": [
-                    {
-                        "name": "labs-api-dev",
-                        "display_name": "Labs API - Dev",
-                        "environment_type": "build",
-                        "apps": [
-                            {
-                                "name": "automation-api",
-                                "scm_url": "https://github.com/sherl0cks/automation-api.git",
-                                "scm_ref": "updates-to-build",
-                                "build_tool": "mvn-3",
-                                "build_application_commands": [
-                                    "mvn clean install"
-                                ],
-                                "build_image_commands": [
-                                    "oc login 10.1.2.2:8443 --token=$OPENSHIFT_API_TOKEN --insecure-skip-tls-verify",
-                                    "oc start-build automation-api --from-dir=. --follow -n labs-api-dev"
-                                ],
-                                "labels": {
-                                    "provider": "fabric8"
-                                }
-                            },
-                            {
-                                "name": "files",
-                                "base_image": "openshift/php",
-                                "scm_url": "https://github.com/sherl0cks/files.git"
-                            }
-                        ],
-
-                        "user_to_role": [
-                            {
-                                "user": {
-                                    "user_name": "obedin"
-                                },
-                                "roles": [
-                                    {
-                                        "name": "admin"
-                                    }
-                                ]
-                            },
-                            {
-                                "user": {
-                                    "user_name": "jholmes"
-                                },
-                                "roles": [
-                                    {
-                                        "name": "admin"
-                                    }
-                                ]
-                            },
-                            {
-                                "user": {
-                                    "user_name": "mdanter"
-                                },
-                                "roles": [
-                                    {
-                                        "name": "admin"
-                                    }
-                                ]
-                            },
-                            {
-                                "user": {
-                                    "user_name": "kmcanoy"
-                                },
-                                "roles": [
-                                    {
-                                        "name": "admin"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "name": "labs-api-delivery",
-                        "display_name": "Labs API - Delivery",
-                        "environment_type": "promotion",
-                        "apps": [
-                            {
-                                "name": "automation-api",
-                                "base_image": "automation-api"
-                            }
-                        ]
-                    }
+  "users": [
+    {
+      "user_name": "gdownie",
+      "expiration_date": "2016-11-30T22:38:40.326Z"
+    }
+  ],
+  "start_date": "2017-01-01",
+  "end_date": "2016-11-30",
+  "name": "engagement with a name",
+  "openshift_clusters": [
+    {
+      "openshift_host_env": "10.1.2.2:8443",
+      "openshift_resources": {
+        "projects": [
+          {
+            "name": "labs-api-dev",
+            "display_name": "Labs API - Dev",
+            "environment_type": "build",
+            "apps": [
+              {
+                "name": "automation-api",
+                "scm_url": "https://github.com/sherl0cks/automation-api.git",
+                "scm_ref": "updates-to-build",
+                "build_tool": "mvn-3",
+                "build_application_commands": [
+                  "mvn clean install"
+                ],
+                "build_image_commands": [
+                  "oc login 10.1.2.2:8443 --token=$OPENSHIFT_API_TOKEN --insecure-skip-tls-verify",
+                  "oc start-build automation-api --from-dir=. --follow -n labs-api-dev"
+                ],
+                "labels": {
+                  "provider": "fabric8"
+                }
+              },
+              {
+                "name": "files",
+                "base_image": "openshift/php",
+                "scm_url": "https://github.com/sherl0cks/files.git"
+              }
+            ],
+            "user_to_role": [
+              {
+                "user": {
+                  "user_name": "obedin"
+                },
+                "roles": [
+                  {
+                    "name": "admin"
+                  }
                 ]
-            }
-        }
-    ]
+              },
+              {
+                "user": {
+                  "user_name": "jholmes"
+                },
+                "roles": [
+                  {
+                    "name": "admin"
+                  }
+                ]
+              },
+              {
+                "user": {
+                  "user_name": "mdanter"
+                },
+                "roles": [
+                  {
+                    "name": "admin"
+                  }
+                ]
+              },
+              {
+                "user": {
+                  "user_name": "kmcanoy"
+                },
+                "roles": [
+                  {
+                    "name": "admin"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "labs-api-delivery",
+            "display_name": "Labs API - Delivery",
+            "environment_type": "promotion",
+            "apps": [
+              {
+                "name": "automation-api",
+                "base_image": "automation-api"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }

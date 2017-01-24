@@ -153,16 +153,37 @@ public class EngagementRepositoryIT extends BaseIntegrationTst {
     }
 
     @Test
-    public void shouldSaveRealisticRepository() throws IOException, InvalidEngagementException {
+    public void shouldSaveRealisticEngagement() throws IOException, InvalidEngagementException {
         // given
         Engagement engagement = new ObjectMother().getEngagementFromJsonFile( "/deep_engagement.json" );
 
         // when
         engagementRepository.save( engagement );
+        testEntityManager.flush();
 
         // then
         List<Engagement> searchResults = engagementRepository.findByNameContainingIgnoreCase( "deep" );
         Assert.assertEquals( 1, searchResults.size() );
+    }
+
+    @Test
+    public void shouldSaveRealisticEngagementToSpecificID() throws IOException, InvalidEngagementException {
+        // given
+        Engagement engagement = new ObjectMother().getEngagementFromJsonFile( "/deep_engagement.json" );
+
+        // when
+        engagementRepository.save( engagement, 10l );
+        testEntityManager.flush();
+
+        // then
+        try {
+            Engagement searchResults = engagementRepository.findById( 10l );
+            Assert.assertNotNull( searchResults );
+            Assert.assertEquals( new Long(10l), searchResults.getId() );
+        } catch ( EngagementNotFoundException e ) {
+            Assert.fail( "did not find engagement at id 10" );
+        }
+
     }
 
 }
