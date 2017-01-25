@@ -1,6 +1,0 @@
-alter table group_role_mapping_roles drop constraint UK_hsv19fbb7gvc7s88qcrb9bpxy;
-alter table group_role_mapping_roles rename column group_role_mapping_role_id to group_role_mapping_id;
-alter table group_role_mapping_roles rename column roles_id to group_role_mapping_role_id;
-alter table role_mapping_roles drop constraint UK_r1bepg4uvptn27sujipx54hbj;
-alter table role_mapping_roles rename column role_mapping_role_id  to role_mapping_id;
-alter table role_mapping_roles rename column roles_id to role_mapping_role_id;

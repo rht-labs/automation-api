@@ -3,7 +3,7 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_1.xsd"
                  version="2.1">
-                 
+
     <entity class="com.rhc.automation.model.LabelSelector" access="FIELD">
         <attributes>
             <id name="id">
@@ -18,7 +18,7 @@
             </element-collection>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.ClaimType" access="FIELD">
         <attributes>
             <id name="id">
@@ -30,7 +30,7 @@
             <basic name="name"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.PVCAssociation" access="FIELD">
         <attributes>
             <id name="id">
@@ -40,10 +40,13 @@
             <basic name="mountPath"/>
             <one-to-one name="claimType" fetch="SELECT">
                 <join-column name="claim_type_id"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </one-to-one>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Port" access="FIELD">
         <attributes>
             <id name="id">
@@ -54,17 +57,21 @@
             <basic name="targetPort"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Service" access="FIELD">
         <attributes>
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
             <basic name="name"/>
-            <one-to-many name="ports" target-entity="com.rhc.automation.model.Port" fetch="SELECT"/>
+            <one-to-many name="ports" target-entity="com.rhc.automation.model.Port" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Route" access="FIELD">
         <table name="ROUTE"/>
         <inheritence/>
@@ -78,37 +85,43 @@
             <basic name="port"/>
             <one-to-one name="service" fetch="SELECT">
                 <join-column name="route_id"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </one-to-one>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.PassthroughRoute" access="FIELD">
         <discriminator-value>passthrough</discriminator-value>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.EdgeRoute" access="FIELD">
         <discriminator-value>edge</discriminator-value>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.ReencryptRoute" access="FIELD">
         <discriminator-value>reencrypt</discriminator-value>
     </entity>
-   
+
     <entity class="com.rhc.automation.model.PersistentVolumeClaim" access="FIELD">
         <attributes>
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-                <basic name="name"/>
-                <basic name="storage"/>
-                <one-to-one name="selector" fetch="SELECT">
-                    <join-column name="selector_id"/>
-                </one-to-one>
-                <element-collection name="accessModes">
-                    <collection-table name="PVC_ACCESS_MODE">
-                        <join-column name="PVC_ID"/>
-                    </collection-table>
-                </element-collection>
+            <basic name="name"/>
+            <basic name="storage"/>
+            <one-to-one name="selector" fetch="SELECT">
+                <join-column name="selector_id"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-one>
+            <element-collection name="accessModes">
+                <collection-table name="PVC_ACCESS_MODE">
+                    <join-column name="PVC_ID"/>
+                </collection-table>
+            </element-collection>
         </attributes>
     </entity>
 
@@ -138,7 +151,7 @@
             </element-collection>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.User" access="FIELD">
         <attributes>
             <id name="id">
@@ -150,9 +163,10 @@
             <basic name="userName">
                 <column nullable="false"/>
             </basic>
+            <basic name="expirationDate"/>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Group" access="FIELD">
         <attributes>
             <id name="id">
@@ -161,10 +175,14 @@
             <basic name="name">
                 <column nullable="false"/>
             </basic>
-            <many-to-many name="members" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
+            <many-to-many name="members" target-entity="com.rhc.automation.model.User" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </many-to-many>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.GroupRoleMapping" access="FIELD">
         <attributes>
             <id name="id">
@@ -172,15 +190,21 @@
             </id>
             <one-to-one name="group" fetch="SELECT">
                 <join-column name="groupId"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </one-to-one>
             <many-to-many name="roles" target-entity="com.rhc.automation.model.Role" fetch="SELECT">
                 <join-table name="group_role_mapping_roles">
                     <inverse-join-column name="group_role_mapping_role_id"/>
                 </join-table>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </many-to-many>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Role" access="FIELD">
         <attributes>
             <id name="id">
@@ -191,7 +215,7 @@
             </basic>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.RoleMapping" access="FIELD">
         <attributes>
             <id name="id">
@@ -199,11 +223,17 @@
             </id>
             <one-to-one name="user" fetch="SELECT">
                 <join-column name="userId"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </one-to-one>
             <many-to-many name="roles" target-entity="com.rhc.automation.model.Role" fetch="SELECT">
                 <join-table name="role_mapping_roles">
                     <inverse-join-column name="role_mapping_role_id"/>
                 </join-table>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </many-to-many>
         </attributes>
     </entity>
@@ -269,11 +299,19 @@
                     <join-column name="APPLICATION_ID"/>
                 </collection-table>
             </element-collection>
-            <one-to-many name="pvcAssociations" target-entity="com.rhc.automation.model.PVCAssociation" fetch="SELECT"/>
-            <one-to-many name="routes" target-entity="com.rhc.automation.model.Route" fetch="SELECT"/>
+            <one-to-many name="pvcAssociations" target-entity="com.rhc.automation.model.PVCAssociation" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many name="routes" target-entity="com.rhc.automation.model.Route" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.Project" access="FIELD">
         <attributes>
             <id name="id">
@@ -284,31 +322,55 @@
             </basic>
             <basic name="name"/>
             <basic name="displayName"/>
-            <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="SELECT"/>
-            <one-to-many name="groupToRole" target-entity="com.rhc.automation.model.GroupRoleMapping" fetch="SELECT"/>
-            <one-to-many name="userToRole" target-entity="com.rhc.automation.model.RoleMapping" fetch="SELECT"/>
-            <one-to-many name="persistentVolumeClaims" target-entity="com.rhc.automation.model.PersistentVolumeClaim" fetch="SELECT"/>
+            <one-to-many name="apps" target-entity="com.rhc.automation.model.Application" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many name="groupToRole" target-entity="com.rhc.automation.model.GroupRoleMapping" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+
+            <one-to-many name="userToRole" target-entity="com.rhc.automation.model.RoleMapping" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <one-to-many name="persistentVolumeClaims" target-entity="com.rhc.automation.model.PersistentVolumeClaim" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.OpenShiftResources" access="FIELD">
         <attributes>
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
-            <one-to-many name="projects" target-entity="com.rhc.automation.model.Project" fetch="SELECT"/>
+            <one-to-many name="projects" target-entity="com.rhc.automation.model.Project" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
-    
+
     <entity class="com.rhc.automation.model.OpenShiftCluster" access="FIELD">
         <attributes>
             <id name="id">
                 <generated-value strategy="AUTO"/>
             </id>
             <basic name="openshiftHostEnv"/>
-            <basic name="imageRegistry" />
+            <basic name="imageRegistry"/>
             <one-to-one name="openshiftResources" fetch="SELECT">
                 <join-column name="openshiftResourcesId"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </one-to-one>
             <element-collection name="labels" fetch="SELECT">
                 <map-key-column name="labelName"/>
@@ -317,36 +379,46 @@
                     <join-column name="application_id"/>
                 </collection-table>
             </element-collection>
-            <one-to-many name="persistentVolumes" target-entity="com.rhc.automation.model.PersistentVolume" fetch="SELECT"/>
+            <one-to-many name="persistentVolumes" target-entity="com.rhc.automation.model.PersistentVolume" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
         </attributes>
     </entity>
-    
+
+    <!--
+
+    Engagement uses annotations because it requires a custom generator.
+
     <entity class="com.rhc.automation.model.Engagement" access="FIELD">
         <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
+            <id name="id" >
+                <generated-value strategy="AUTO" />
             </id>
             <basic name="name"/>
             <basic name="endDate"/>
             <basic name="startDate"/>
-            <one-to-many name="openshiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="SELECT"/>
-            <many-to-many name="users" target-entity="com.rhc.automation.model.User" fetch="SELECT"/>
+            <one-to-many name="openshiftClusters" target-entity="com.rhc.automation.model.OpenShiftCluster" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <many-to-many name="users" target-entity="com.rhc.automation.model.User" fetch="SELECT">
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </many-to-many>
             <many-to-many name="userGroups" target-entity="com.rhc.automation.model.Group" fetch="SELECT">
                 <join-table name="engagement_groups">
                     <inverse-join-column name="groups_id"/>
                 </join-table>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
             </many-to-many>
         </attributes>
     </entity>
-    
-    <entity class="com.rhc.automation.model.Customer" access="FIELD">
-        <attributes>
-            <id name="id">
-                <generated-value strategy="AUTO"/>
-            </id>
-            <basic name="name"/>
-            <one-to-many name="engagements" target-entity="com.rhc.automation.model.Engagement" fetch="SELECT"/>
-        </attributes>
-    </entity>
- 
+-->
+
 </entity-mappings>

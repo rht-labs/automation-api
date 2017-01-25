@@ -9,7 +9,6 @@ Built with
 - Spring Cloud Kubernetes
 - Postgres
 - JPA
-- Flyway
 - Swagger Code Generation.
 
 # Usage
@@ -21,5 +20,12 @@ This application has two maven profiles that switch the way persistence works
   * `mvn clean install && java -jar target/automation-api.jar`
 
 2. The `local` profile which connects to an in memory hsqldb. You can run this profile with *either* of the following commands:
-  * `mvn spring-boot:run -D local` or
-  * `mvn clean install -D local && java -jar -Dspring.profiles.active=hsql target/automation-api.jar`
+  * `mvn spring-boot:run -D hsql` or
+  * `mvn clean install -D hsql && java -jar -Dspring.profiles.active=hsql target/automation-api.jar`
+ 
+ # Testing
+ 
+ For simplicity, this codebase is maintained in a single maven module and thus unit and integration tests are separated out using the maven phases. Anything using spring (e.g. for data or MVC or just plain on dependency injection) is considered integration.  
+ 
+ ## Running Tests
+Unit test are run via [surefire](https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html), their classes are post fixed with `Test` and bound to maven phase `test`. Integration tests are run via [failsafe](https://maven.apache.org/surefire/maven-failsafe-plugin/integration-test-mojo.html), their classes are post fixed with `IT` and bound to maven phase `integration-test`.
