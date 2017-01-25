@@ -9,7 +9,6 @@ Built with
 - Spring Cloud Kubernetes 
 - Postgres
 - JPA
-- Flyway
 - Swagger Code Generation.
 
 # Usage
