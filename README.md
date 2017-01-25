@@ -3,10 +3,10 @@
 A simple application to store data that enables Red Hat Open Innovation Labs to automate deployment infrastructure and applications. This application was defined use Swagger. https://github.com/rht-labs/api-design.
 
 
-Built with 
+Built with
 
 - Spring Boot
-- Spring Cloud Kubernetes 
+- Spring Cloud Kubernetes
 - Postgres
 - JPA
 - Flyway
@@ -22,6 +22,4 @@ This application has two maven profiles that switch the way persistence works
 
 2. The `local` profile which connects to an in memory hsqldb. You can run this profile with *either* of the following commands:
   * `mvn spring-boot:run -D local` or
-  * `mvn clean install -D local && java -jar -Dspring.profiles.active=hsql automation-api.jar`
- 
-  
+  * `mvn clean install -D local && java -jar -Dspring.profiles.active=hsql target/automation-api.jar`
