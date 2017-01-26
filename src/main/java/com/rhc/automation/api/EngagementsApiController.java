@@ -24,6 +24,12 @@ public class EngagementsApiController implements EngagementsApi {
     @Autowired
     private EngagementRepository engagementRepository;
 
+
+    /**
+     * Engagements
+     */
+
+
     public ResponseEntity<List<Engagement>> engagementsGet(
             @RequestParam( value = "nameIncludes", required = false ) String nameIncludes,
             @RequestParam( value = "size", required = false ) Integer size,
@@ -67,6 +73,27 @@ public class EngagementsApiController implements EngagementsApi {
         engagementRepository.save( engagement );
         return new ResponseEntity<Void>( createdHeadersWithLocation( engagement ), HttpStatus.CREATED );
     }
+
+
+    /**
+     * Jenkinsfile
+     */
+
+
+    public ResponseEntity<String> engagementsIdJenkinsfileGet(
+            @PathVariable( "id" ) Long id,
+            @RequestParam( value = "applicationName", required = true ) String applicationName,
+            @RequestParam( value = "declarative", required = false, defaultValue = "false" ) Boolean declarative
+    ) {
+        // do some magic!
+        return new ResponseEntity<String>( HttpStatus.OK );
+    }
+
+
+    /**
+     * Error handlers
+     */
+
 
     @ExceptionHandler( { InvalidEngagementException.class } )
     public ResponseEntity<ErrorModel> handleInvalidEngagementException( InvalidEngagementException e ) {
