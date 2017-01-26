@@ -42,11 +42,11 @@ public class CommonJenkinsfileScriptsGenerator {
 
     public static String createBuildImageScript( final Engagement engagement, final String applicationName ) {
         StringBuilder script = new StringBuilder();
-        Application app = EngagementDAO.getApplicationFromBuildProject( engagement, applicationName );
+        Application app = engagement.getApplicationFromBuildProject( applicationName );
         if ( isS2IBinaryBuild( app ) ) {
             script.append( "    echo 'Found label \"provider=fabric8\" or \"s2i=binary\", we are generating the s2i binary build commands'\n" );
-            script.append( String.format( "    sh 'oc login %s --token=$OPENSHIFT_API_TOKEN --insecure-skip-tls-verify'%n", EngagementDAO.getBuildCluster( engagement ).getOpenshiftHostEnv() ) );
-            script.append( String.format( "    sh 'oc start-build %s --from-dir=. --follow -n %s'", applicationName, EngagementDAO.getBuildProjectForApplication( engagement, applicationName ).getName() ) );
+            script.append( String.format( "    sh 'oc login %s --token=$OPENSHIFT_API_TOKEN --insecure-skip-tls-verify'%n", engagement.getBuildCluster().getOpenshiftHostEnv() ) );
+            script.append( String.format( "    sh 'oc start-build %s --from-dir=. --follow -n %s'", applicationName, engagement.getBuildProjectForApplication( applicationName ).getName() ) );
         } else if ( app.getBuildImageCommands() == null || app.getBuildImageCommands().isEmpty() ) {
             script.append( "    echo 'No buildImageCommands, using default OpenShift image build and deploy'\n" );
             script.append( createDefaultOpenShiftBuildAndDeployScript( engagement, applicationName ) );
@@ -65,7 +65,7 @@ public class CommonJenkinsfileScriptsGenerator {
         StringBuilder script = new StringBuilder();
         script.append( "    input 'Deploy to " ).append( destProject.getName() ).append( "?'\n" );
 
-        Application app = EngagementDAO.getApplicationFromBuildProject( engagement, applicationName );
+        Application app = engagement.getApplicationFromBuildProject( applicationName );
 
         if ( app.getDeployImageCommands() == null || app.getDeployImageCommands().isEmpty() ) {
 
@@ -142,8 +142,8 @@ public class CommonJenkinsfileScriptsGenerator {
     public static String createDefaultOpenShiftBuildAndDeployScript( final Engagement engagement, final String applicationName ) {
         StringBuilder script = new StringBuilder();
 
-        Project buildProject = EngagementDAO.getBuildProjectForApplication( engagement, applicationName );
-        OpenShiftCluster buildProjectCluser = EngagementDAO.getClusterWithBuildProject( engagement );
+        Project buildProject = engagement.getBuildProjectForApplication( applicationName );
+        OpenShiftCluster buildProjectCluser = engagement.getClusterWithBuildProject();
 
         script.append( String.format(
                 "    openshiftBuild apiURL: '%s', authToken: $OPENSHIFT_API_TOKEN, bldCfg: '%s', checkForTriggeredDeployments: 'true', namespace: '%s', showBuildLogs: 'true'%n",

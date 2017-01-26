@@ -2,9 +2,13 @@ package com.rhc.automation.api;
 
 import com.rhc.automation.exception.EngagementNotFoundException;
 import com.rhc.automation.exception.InvalidEngagementException;
+import com.rhc.automation.jenkinsfile.PipelineDialect;
+import com.rhc.automation.jenkinsfile.ReleasePipelineGenerator;
 import com.rhc.automation.model.Engagement;
 import com.rhc.automation.model.ErrorModel;
 import com.rhc.automation.repo.EngagementRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +24,8 @@ import java.util.List;
 
 @Controller
 public class EngagementsApiController implements EngagementsApi {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger( EngagementsApiController.class.getName() );
 
     @Autowired
     private EngagementRepository engagementRepository;
@@ -84,9 +90,19 @@ public class EngagementsApiController implements EngagementsApi {
             @PathVariable( "id" ) Long id,
             @RequestParam( value = "applicationName", required = true ) String applicationName,
             @RequestParam( value = "declarative", required = false, defaultValue = "false" ) Boolean declarative
-    ) {
-        // do some magic!
-        return new ResponseEntity<String>( HttpStatus.OK );
+    ) throws EngagementNotFoundException {
+
+        Engagement engagement = engagementRepository.findById( id );
+        String jenkinsfile;
+        if ( declarative ){
+           jenkinsfile = ReleasePipelineGenerator.generate( engagement, applicationName, PipelineDialect.JENKINSFILE_DECLARATIVE );
+        } else {
+            jenkinsfile = ReleasePipelineGenerator.generate( engagement, applicationName, PipelineDialect.JENKINSFILE_ORIGINAL );
+        }
+
+        LOGGER.info( jenkinsfile );
+
+        return new ResponseEntity<String>( jenkinsfile, HttpStatus.OK );
     }
 
 

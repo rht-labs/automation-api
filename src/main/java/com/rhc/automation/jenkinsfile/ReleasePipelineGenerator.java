@@ -51,7 +51,7 @@ public class ReleasePipelineGenerator {
         if ( applicationName == null || applicationName.isEmpty() ) {
             throw new RuntimeException( "applicationName cannot be null or empty" );
         }
-        Application app = EngagementDAO.getApplicationFromBuildProject( engagement, applicationName );
+        Application app = engagement.getApplicationFromBuildProject( applicationName );
         if ( app == null ) {
             throw new RuntimeException( String.format( "Unable to find application '%s' in your Engagement object. Double check your data and configuration. Be aware that search is currently case sensitive.", applicationName ) );
         }

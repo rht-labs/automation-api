@@ -45,7 +45,7 @@ public class ReleasePipelineDeclarativeJenkinsfileGenerator implements ReleasePi
     @Override
     public String generateBuildAppStage( Engagement engagement, String applicationName ) {
         StringBuilder script = new StringBuilder();
-        Application app = EngagementDAO.getApplicationFromBuildProject( engagement, applicationName );
+        Application app = engagement.getApplicationFromBuildProject( applicationName );
 
         // s2i builds here assume there is no app build, only a container image build
         if ( app.getBuildTool().equals( "s2i" ) ) {
@@ -77,11 +77,11 @@ public class ReleasePipelineDeclarativeJenkinsfileGenerator implements ReleasePi
     @Override
     public String generateAllPromotionStages( Engagement engagement, String applicationName ) {
         StringBuilder script = new StringBuilder();
-        OpenShiftCluster srcCluster = EngagementDAO.getBuildCluster( engagement );
-        Project srcProject = EngagementDAO.getBuildProjectForApplication( engagement, applicationName );
+        OpenShiftCluster srcCluster = engagement.getBuildCluster();
+        Project srcProject = engagement.getBuildProjectForApplication( applicationName );
 
         for ( OpenShiftCluster cluster : engagement.getOpenshiftClusters() ) {
-            for ( Project project : EngagementDAO.getPromotionProjectsForApplication( engagement, applicationName ) ) {
+            for ( Project project : engagement.getPromotionProjectsForApplication( applicationName ) ) {
                 script.append( "    stage ('Deploy to " ).append( project.getName() ).append( "') {\n" );
                 script.append( "      steps {\n" );
                 script.append( String.format( "      %s", CommonJenkinsfileScriptsGenerator.createPromotionStageScript( engagement, cluster, project, srcCluster, srcProject, applicationName ) ) );

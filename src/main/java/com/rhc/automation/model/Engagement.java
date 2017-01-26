@@ -82,6 +82,71 @@ public class Engagement {
         return invalidFields;
     }
 
+    public Application getApplicationFromBuildProject( final String applicationName ) {
+        for ( OpenShiftCluster cluster : getOpenshiftClusters() ) {
+            for ( Project project : cluster.getOpenshiftResources().getProjects() ) {
+                if ( project.getEnvironmentType().equals( Project.EnvironmentTypeEnum.BUILD ) ) {
+                    for ( Application app : project.getApps() ) {
+                        if ( app.getName() != null && app.getName().equals( applicationName ) ) {
+                            return app;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Project getBuildProjectForApplication( final String applicationName ) {
+        for ( OpenShiftCluster cluster : getOpenshiftClusters() ) {
+            for ( Project project : cluster.getOpenshiftResources().getProjects() ) {
+                if ( project.getEnvironmentType().equals( Project.EnvironmentTypeEnum.BUILD ) ) {
+                    for ( Application app : project.getApps() ) {
+                        if ( app.getName() != null && app.getName().equals( applicationName ) ) {
+                            return project;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Project> getPromotionProjectsForApplication( final String applicationName ) {
+        List<Project> projects = new ArrayList<>();
+
+        for ( OpenShiftCluster cluster : getOpenshiftClusters() ) {
+            for ( Project project : cluster.getOpenshiftResources().getProjects() ) {
+                if ( project.getEnvironmentType().equals( Project.EnvironmentTypeEnum.PROMOTION ) ) {
+                    for ( Application app : project.getApps() ) {
+                        if ( app.getName() != null && app.getName().equals( applicationName ) ) {
+                            projects.add( project );
+                        }
+                    }
+                }
+            }
+        }
+        return projects;
+    }
+
+    /**
+     * There should only be a single build project declared across all clusters. It is invalid to have more than one.
+     */
+    public OpenShiftCluster getClusterWithBuildProject() {
+        for ( OpenShiftCluster cluster : getOpenshiftClusters() ) {
+            for ( Project project : cluster.getOpenshiftResources().getProjects() ) {
+                if ( project.getEnvironmentType().equals( Project.EnvironmentTypeEnum.BUILD ) ) {
+                    return cluster;
+                }
+            }
+        }
+        return null;
+    }
+
+    public OpenShiftCluster getBuildCluster() {
+        return getOpenshiftClusters().get( 0 );
+    }
+
     /**
      * Get id
      *
