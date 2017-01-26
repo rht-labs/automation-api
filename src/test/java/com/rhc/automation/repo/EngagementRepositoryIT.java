@@ -155,7 +155,7 @@ public class EngagementRepositoryIT extends BaseIntegrationTst {
     @Test
     public void shouldSaveRealisticEngagement() throws IOException, InvalidEngagementException {
         // given
-        Engagement engagement = new ObjectMother().getEngagementFromJsonFile( "/deep_engagement.json" );
+        Engagement engagement = new ObjectMother().getEngagementFromJsonFile( "engagements/deep_engagement.json" );
 
         // when
         engagementRepository.save( engagement );
@@ -169,7 +169,7 @@ public class EngagementRepositoryIT extends BaseIntegrationTst {
     @Test
     public void shouldSaveRealisticEngagementToSpecificID() throws IOException, InvalidEngagementException {
         // given
-        Engagement engagement = new ObjectMother().getEngagementFromJsonFile( "/deep_engagement.json" );
+        Engagement engagement = new ObjectMother().getEngagementFromJsonFile( "engagements/deep_engagement.json" );
 
         // when
         engagementRepository.save( engagement, 10l );

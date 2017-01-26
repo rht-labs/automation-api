@@ -1,0 +1,67 @@
+{
+	"openshift_clusters": [
+		{
+			"id": 1,
+			"labels": {
+				
+			},
+			"openshift_resources": {
+				"projects": [
+					{
+						"name": "dev-project",
+						"environment_type": "build",
+						"apps": [
+							{
+								"build_application_commands": ["mvn clean deploy"],
+								"build_image_commands": [],
+								"deploy_image_commands": [],
+								"context_dir": "",
+								"build_tool": "mvn-3",
+								"scm_url": "https://foo.bar.com/justin.git",
+								"name": "cool-application-name",
+								"labels": {
+									"s2i": "binary"
+								},
+								"environment_variables": {
+									
+								}
+							}
+						],
+						"user_to_role": []
+					},
+					{
+						"name": "stage-project",
+						"environment_type": "promotion",
+						"apps": [
+							{
+								"name": "cool-application-name"
+							}
+						],
+						"user_to_role": []
+					},
+					{
+						"name": "prod-project",
+						"environment_type": "promotion",
+						"apps": [
+							{
+								"build_application_commands": [],
+								"build_image_commands": [],
+								"deploy_image_commands": [],
+								"name": "cool-application-name",
+								"labels": {
+									
+								},
+								"environment_variables": {
+									
+								}
+							}
+						],
+						"user_to_role": []
+					}
+				]
+			},
+			"openshift_host_env": "10.1.2.2:8443"
+		}
+	],
+	"team": []
+}
