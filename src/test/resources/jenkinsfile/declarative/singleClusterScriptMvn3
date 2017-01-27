@@ -22,7 +22,7 @@ pipeline{
 		stage ('Build Image and Deploy to Dev') {
 			steps {
 				echo 'Found label "provider=fabric8" or "s2i=binary", we are generating the s2i binary build commands'
-				sh 'oc login 10.1.2.2:8443 --token=$OPENSHIFT_API_TOKEN --insecure-skip-tls-verify'
+				sh 'oc login 10.1.2.2:8443 --token="${env.OPENSHIFT_API_TOKEN}" --insecure-skip-tls-verify'
 				sh 'oc start-build cool-application-name --from-dir=. --follow -n dev-project'
 			}
 		}
@@ -30,16 +30,16 @@ pipeline{
 		stage ('Deploy to stage-project') {
 			steps{
 				input 'Deploy to stage-project?'
-				openshiftTag apiURL: '10.1.2.2:8443', authToken: $OPENSHIFT_API_TOKEN, destStream: 'cool-application-name', destTag: 'latest', destinationAuthToken: $OPENSHIFT_API_TOKEN, destinationNamespace: 'stage-project', namespace: 'dev-project', srcStream: 'cool-application-name', srcTag: 'latest'
-				openshiftVerifyDeployment apiURL: '10.1.2.2:8443', authToken: $OPENSHIFT_API_TOKEN, depCfg: 'cool-application-name', namespace: 'stage-project'
+				openshiftTag apiURL: '10.1.2.2:8443', authToken: "${env.OPENSHIFT_API_TOKEN}", destStream: 'cool-application-name', destTag: 'latest', destinationAuthToken: "${env.OPENSHIFT_API_TOKEN}", destinationNamespace: 'stage-project', namespace: 'dev-project', srcStream: 'cool-application-name', srcTag: 'latest'
+				openshiftVerifyDeployment apiURL: '10.1.2.2:8443', authToken: "${env.OPENSHIFT_API_TOKEN}", depCfg: 'cool-application-name', namespace: 'stage-project'
 			}
 		}
 
 		stage ('Deploy to prod-project') {
 			steps {
 				input 'Deploy to prod-project?'
-				openshiftTag apiURL: '10.1.2.2:8443', authToken: $OPENSHIFT_API_TOKEN, destStream: 'cool-application-name', destTag: 'latest', destinationAuthToken: $OPENSHIFT_API_TOKEN, destinationNamespace: 'prod-project', namespace: 'stage-project', srcStream: 'cool-application-name', srcTag: 'latest'
-				openshiftVerifyDeployment apiURL: '10.1.2.2:8443', authToken: $OPENSHIFT_API_TOKEN, depCfg: 'cool-application-name', namespace: 'prod-project'
+				openshiftTag apiURL: '10.1.2.2:8443', authToken: "${env.OPENSHIFT_API_TOKEN}", destStream: 'cool-application-name', destTag: 'latest', destinationAuthToken: "${env.OPENSHIFT_API_TOKEN}", destinationNamespace: 'prod-project', namespace: 'stage-project', srcStream: 'cool-application-name', srcTag: 'latest'
+				openshiftVerifyDeployment apiURL: '10.1.2.2:8443', authToken: "${env.OPENSHIFT_API_TOKEN}", depCfg: 'cool-application-name', namespace: 'prod-project'
 			}
 		}
 	}

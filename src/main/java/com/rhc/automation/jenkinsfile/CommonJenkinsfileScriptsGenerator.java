@@ -45,7 +45,7 @@ public class CommonJenkinsfileScriptsGenerator {
         Application app = engagement.getApplicationFromBuildProject( applicationName );
         if ( isS2IBinaryBuild( app ) ) {
             script.append( "    echo 'Found label \"provider=fabric8\" or \"s2i=binary\", we are generating the s2i binary build commands'\n" );
-            script.append( String.format( "    sh 'oc login %s --token=$OPENSHIFT_API_TOKEN --insecure-skip-tls-verify'%n", engagement.getBuildCluster().getOpenshiftHostEnv() ) );
+            script.append( String.format( "    sh 'oc login %s --token=\"${env.OPENSHIFT_API_TOKEN}\" --insecure-skip-tls-verify'%n", engagement.getBuildCluster().getOpenshiftHostEnv() ) );
             script.append( String.format( "    sh 'oc start-build %s --from-dir=. --follow -n %s'", applicationName, engagement.getBuildProjectForApplication( applicationName ).getName() ) );
         } else if ( app.getBuildImageCommands() == null || app.getBuildImageCommands().isEmpty() ) {
             script.append( "    echo 'No buildImageCommands, using default OpenShift image build and deploy'\n" );
@@ -71,11 +71,11 @@ public class CommonJenkinsfileScriptsGenerator {
 
             // TODO this where we can support image tags that aren't latest
             script.append( String.format(
-                    "    openshiftTag apiURL: '%s', authToken: $OPENSHIFT_API_TOKEN, destStream: '%s', destTag: 'latest', destinationAuthToken: $OPENSHIFT_API_TOKEN, destinationNamespace: '%s', namespace: '%s', srcStream: '%s', srcTag: 'latest'%n",
+                    "    openshiftTag apiURL: '%s', authToken: \"${env.OPENSHIFT_API_TOKEN}\", destStream: '%s', destTag: 'latest', destinationAuthToken: \"${env.OPENSHIFT_API_TOKEN}\", destinationNamespace: '%s', namespace: '%s', srcStream: '%s', srcTag: 'latest'%n",
                     srcCluster.getOpenshiftHostEnv(), applicationName, destProject.getName(), srcProject.getName(),
                     applicationName ) );
             script.append( String.format(
-                    "    openshiftVerifyDeployment apiURL: '%s', authToken: $OPENSHIFT_API_TOKEN, depCfg: '%s', namespace: '%s'%n",
+                    "    openshiftVerifyDeployment apiURL: '%s', authToken: \"${env.OPENSHIFT_API_TOKEN}\", depCfg: '%s', namespace: '%s'%n",
                     srcCluster.getOpenshiftHostEnv(), applicationName, destProject.getName() ) );
 
         } else {
@@ -146,11 +146,11 @@ public class CommonJenkinsfileScriptsGenerator {
         OpenShiftCluster buildProjectCluser = engagement.getClusterWithBuildProject();
 
         script.append( String.format(
-                "    openshiftBuild apiURL: '%s', authToken: $OPENSHIFT_API_TOKEN, bldCfg: '%s', checkForTriggeredDeployments: 'true', namespace: '%s', showBuildLogs: 'true'%n",
+                "    openshiftBuild apiURL: '%s', authToken: \"${env.OPENSHIFT_API_TOKEN}\", bldCfg: '%s', checkForTriggeredDeployments: 'true', namespace: '%s', showBuildLogs: 'true'%n",
                 buildProjectCluser.getOpenshiftHostEnv(), applicationName, buildProject.getName() ) );
 
         script.append( String.format(
-                "    openshiftVerifyDeployment apiURL: '%s', authToken: $OPENSHIFT_API_TOKEN, depCfg: '%s', namespace: '%s'%n",
+                "    openshiftVerifyDeployment apiURL: '%s', authToken: \"${env.OPENSHIFT_API_TOKEN}\", depCfg: '%s', namespace: '%s'%n",
                 buildProjectCluser.getOpenshiftHostEnv(), applicationName, buildProject.getName() ) );
 
         return script.toString();
