@@ -26,7 +26,7 @@ public class Project   {
    */
   public enum EnvironmentTypeEnum {
     BUILD("build"),
-    
+
     PROMOTION("promotion");
 
     private String value;
@@ -244,7 +244,7 @@ public class Project   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Project {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    displayName: ").append(toIndentedString(displayName)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

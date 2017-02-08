@@ -1,0 +1,133 @@
+{
+  "openshift_clusters": [
+    {
+      "openshift_host_env": "10.1.2.2:8443",
+      "openshift_resources": {
+        "projects": [
+          {
+            "name": "pipeline-dev",
+            "display_name": "Pipeline - Development",
+            "environment_type": "build",
+            "apps": [
+              {
+                "name": "jenkins",
+                "scm_url": "https://github.com/rht-labs/openshift-jenkins-s2i-config.git",
+                "scm_ref": "master",
+                "base_image": "openshift/jenkins",
+                "build_tool": "s2i"
+              }
+            ]
+          },
+          {
+            "name": "pipeline-uat",
+            "display_name": "Pipeline - UAT",
+            "environment_type": "promotion",
+            "apps": [
+              {
+                "name": "jenkins",
+                "base_image": "jenkins"
+              }
+            ]
+          },
+          {
+            "name": "pipeline-delivery",
+            "display_name": "Pipeline - Delivery",
+            "environment_type": "promotion",
+            "apps": [
+              {
+                "name": "jenkins",
+                "base_image": "jenkins"
+              }
+            ]
+          },
+          {
+            "name": "labs-api-dev",
+            "display_name": "Labs API - Development",
+            "environment_type": "build",
+            "apps": [
+              {
+                "name": "automation-api-db",
+                "base_image": "openshift/postgresql",
+                "environment_variables": {
+                  "POSTGRESQL_USER": "foo",
+                  "POSTGRESQL_PASSWORD": "bar",
+                  "POSTGRESQL_DATABASE": "automation_api_dev"
+                }
+              },
+              {
+                "name": "automation-api",
+                "scm_url": "https://github.com/rht-labs/automation-api.git",
+                "scm_ref": "master",
+                "build_tool": "mvn-3",
+                "build_application_commands": [
+                  "mvn clean install"
+                ],
+                "labels": {
+                  "provider": "fabric8"
+                },
+                "environment_variables": {
+                  "POSTGRESQL_USER": "foo",
+                  "POSTGRESQL_PASSWORD": "bar",
+                  "POSTGRESQL_DATABASE": "automation_api_dev",
+                  "POSTGRESQL_SVC": "automation-api-db.labs-api-dev.svc.cluster.local"
+                }
+              }
+            ]
+          },
+          {
+            "name": "labs-api-uat",
+            "display_name": "Labs API - UAT",
+            "environment_type": "promotion",
+            "apps": [
+              {
+                "name": "automation-api-db",
+                "base_image": "openshift/postgresql",
+                "environment_variables": {
+                  "POSTGRESQL_USER": "foo",
+                  "POSTGRESQL_PASSWORD": "bar",
+                  "POSTGRESQL_DATABASE": "automation_api_uat"
+                }
+              },
+              {
+                "name": "automation-api",
+                "base_image": "automation-api",
+                "environment_variables": {
+                  "POSTGRESQL_USER": "foo",
+                  "POSTGRESQL_PASSWORD": "bar",
+                  "POSTGRESQL_DATABASE": "automation_api_uat",
+                  "POSTGRESQL_SVC": "automation-api-db.labs-api-uat.svc.cluster.local"
+                }
+              }
+            ]
+          },
+          {
+            "name": "labs-api-delivery",
+            "display_name": "Labs API - Delivery",
+            "environment_type": "promotion",
+            "apps": [
+              {
+                "name": "automation-api",
+                "base_image": "automation-api",
+                "environment_variables": {
+                  "POSTGRESQL_USER": "foo",
+                  "POSTGRESQL_PASSWORD": "bar",
+                  "POSTGRESQL_DATABASE": "automation_api_delivery",
+                  "POSTGRESQL_SVC": "automation-api-db.labs-api-delivery.svc.cluster.local"
+                }
+              },
+              {
+                "name": "automation-api-db",
+                "base_image": "openshift/postgresql",
+                "environment_variables": {
+                  "POSTGRESQL_USER": "foo",
+                  "POSTGRESQL_PASSWORD": "bar",
+                  "POSTGRESQL_DATABASE": "automation_api_delivery"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

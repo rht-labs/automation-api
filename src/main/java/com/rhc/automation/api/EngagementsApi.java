@@ -19,6 +19,10 @@ import java.util.List;
 @Api( value = "engagements", description = "the engagements API" )
 public interface EngagementsApi {
 
+    /**
+     * Engagements
+     */
+
     @ApiOperation( value = "", notes = "", response = Engagement.class, responseContainer = "List", tags = { "engagement", } )
     @ApiResponses( value = {
             @ApiResponse( code = 200, message = "Collection of `Engagement` objects", response = Engagement.class ),
@@ -69,5 +73,25 @@ public interface EngagementsApi {
             @ApiResponse( code = 500, message = "Unexpected Error", response = ErrorModel.class ) } )
     @RequestMapping( value = "/engagements", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST )
     ResponseEntity<Void> engagementsPost( @ApiParam( value = "`Engagement` object to save", required = true ) @RequestBody Engagement body ) throws InvalidEngagementException;
+
+
+    /**
+     * Jenkinsfile
+     */
+
+    @ApiOperation( value = "", notes = "Generates a [Jenkinsfile](https://jenkins.io/doc/book/pipeline/) from the specified `Engagement`", response = String.class, tags = { "engagement", "jenkinsfile", } )
+    @ApiResponses( value = {
+            @ApiResponse( code = 200, message = "Successful response", response = String.class ),
+            @ApiResponse( code = 400, message = "Bad request", response = ErrorModel.class ),
+            @ApiResponse( code = 404, message = "`Engagement` of the given `id` not found", response = Void.class ),
+            @ApiResponse( code = 500, message = "Unexpected Server Error", response = ErrorModel.class ) } )
+    @RequestMapping( value = "/engagements/{id}/jenkinsfile",
+            produces = { "text/plain", "application/json" },
+            method = RequestMethod.GET )
+    ResponseEntity<String> engagementsIdJenkinsfileGet(
+            @ApiParam( value = "Identifies which engagement to use", required = true ) @PathVariable( "id" ) Long id,
+            @ApiParam( value = "`Application` in the `Engagement` to produce the Jenkinsfile for", required = true ) @RequestParam( value = "applicationName", required = true ) String applicationName,
+            @ApiParam( value = "Whether to use [declarative syntax](https://jenkins.io/blog/2017/01/12/declarative-pipeline-beta-2/). Defaults to `false`", defaultValue = "false" ) @RequestParam( value = "declarative", required = false, defaultValue = "false" ) Boolean declarative
+    ) throws EngagementNotFoundException;
 
 }

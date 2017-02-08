@@ -31,12 +31,12 @@ public class ObjectMother {
         return engagement;
     }
 
-    public Engagement getEngagementFromJsonFile( String jsonFile ) throws IOException {
+    public static Engagement getEngagementFromJsonFile( String jsonFile ) throws IOException {
         Engagement engagement = getJsonData( Engagement.class, jsonFile );
         return engagement;
     }
 
-    protected <T> String getJsonString( Class<T> clazz, String jsonFile ) {
+    protected static <T> String getJsonString( Class<T> clazz, String jsonFile ) {
         String json = null;
         try {
             Object obj = getJsonData( clazz, jsonFile );
@@ -49,8 +49,8 @@ public class ObjectMother {
 
     }
 
-    protected <T> T getJsonData( Class<T> clazz, String jsonFile ) throws JsonParseException, JsonMappingException, IOException {
-        InputStream stream = getClass().getResourceAsStream( jsonFile );
+    protected static  <T> T getJsonData( Class<T> clazz, String jsonFile ) throws JsonParseException, JsonMappingException, IOException {
+        InputStream stream = ObjectMother.class.getClassLoader().getResourceAsStream( jsonFile );
         T data = mapper.readValue( stream, clazz );
         return data;
     }

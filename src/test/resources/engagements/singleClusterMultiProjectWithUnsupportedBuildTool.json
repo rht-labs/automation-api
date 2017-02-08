@@ -1,0 +1,75 @@
+{
+	"openshift_clusters": [
+		{
+			"id": 1,
+			"labels": {
+				
+			},
+			"openshift_resources": {
+				"projects": [
+					{
+						"name": "dev-project",
+						"environment_type": "build",
+						"apps": [
+							{
+								"build_application_commands": [],
+								"build_image_commands": [],
+								"deploy_image_commands": [],
+								"context_dir": "build-home-dir",
+								"build_tool": "gradle-3",
+								"name": "cool-application-name",
+								"labels": {
+									
+								},
+								"environment_variables": {
+									
+								}
+							}
+						],
+						"user_to_role": []
+					},
+					{
+						"name": "stage-project",
+						"environment_type": "promotion",
+						"apps": [
+							{
+								"build_application_commands": [],
+								"build_image_commands": [],
+								"deploy_image_commands": [],
+								"name": "cool-application-name",
+								"labels": {
+									
+								},
+								"environment_variables": {
+									
+								}
+							}
+						],
+						"user_to_role": []
+					},
+					{
+						"name": "prod-project",
+						"environment_type": "promotion",
+						"apps": [
+							{
+								"build_application_commands": [],
+								"build_image_commands": [],
+								"deploy_image_commands": [],
+								"name": "cool-application-name",
+								"labels": {
+									
+								},
+								"environment_variables": {
+									
+								}
+							}
+						],
+						"user_to_role": []
+					}
+				]
+			},
+			"openshift_host_env": "10.1.2.2:8443"
+		}
+	],
+	"team": []
+}

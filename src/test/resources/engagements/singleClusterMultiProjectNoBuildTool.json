@@ -1,0 +1,35 @@
+{
+	"openshift_clusters": [
+		{
+			"id": 1,
+			"labels": {
+				
+			},
+			"openshift_resources": {
+				"projects": [
+					{
+						"name": "dev-project",
+						"environment_type": "build",
+						"apps": [
+							{
+								
+								"scm_ref": "master",
+								"scm_url": "https://foo.bar.com/justin.git",
+								"name": "cool-application-name",
+								"labels": {
+									
+								},
+								"environment_variables": {
+									
+								}
+							}
+						],
+						"user_to_role": []
+					}
+				]
+			},
+			"openshift_host_env": "10.1.2.2:8443"
+		}
+	],
+	"team": []
+}
