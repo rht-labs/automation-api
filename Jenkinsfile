@@ -23,8 +23,8 @@ node (''){
     these are used to configure which repository maven deploys
     the ci-cd starter will create a nexus that has this repos available
     **/
-    env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/labs-snapshots"
-    env.MVN_RELEASE_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/labs-releases"
+    env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/maven-snapshots"
+    env.MVN_RELEASE_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/maven-releases"
 
     /**
     this value assumes the following convention, which is enforced by our default templates:
