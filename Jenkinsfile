@@ -53,11 +53,7 @@ node('mvn-build-pod') {
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
       // TODO - introduce a variable here
-      if ( true ) {
-        sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
-      } else {
-        sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${env.MVN_RELEASE_DEPLOYMENT_REPOSITORY}"
-      }
+      sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
     }
 
     // assumes uber jar is created
