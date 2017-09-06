@@ -78,7 +78,7 @@ node('') {
   }
 }
 
-node('zap') {
+node('owasp-zap-openshift') {
   stage ('ZAP Scan Dev Environment') {
     dir('/zap') {
       def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-dev:8080/'
@@ -96,19 +96,7 @@ node('') {
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.TEST_PROJECT}", verifyReplicaCount: true)
   }
-}
 
-node('zap') {
-  stage ('ZAP Scan Test Environment') {
-    dir('/zap') {
-      def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-test:8080/'
-      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan - Test', reportTitles: 'ZAP Baseline Scan - Test'])
-      echo "Return value is: ${retVal}"
-    }
-  }
-}
-
-node('') {
   stage ('Deploy to UAT') {
     input "Promote Application to UAT?"
 
@@ -117,14 +105,3 @@ node('') {
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.UAT_PROJECT}", verifyReplicaCount: true)
   }
 }
-
-node('zap') {
-  stage ('ZAP Scan UAT Environment') {
-    dir('/zap') {
-      def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-uat:8080/'
-      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan - UAT', reportTitles: 'ZAP Baseline Scan - UAT'])
-      echo "Return value is: ${retVal}"
-    }
-  }
-}
-
