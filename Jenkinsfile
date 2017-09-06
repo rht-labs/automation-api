@@ -65,7 +65,9 @@ node('mvn-build-pod') {
       sh "oc start-build ${env.APP_NAME} --from-dir=${env.UBER_JAR_CONTEXT_DIR} --follow"
     }
   }
+}
 
+node('') {
   // no user changes should be needed below this point
   stage ('Deploy to Dev') {
     input "Promote Application to Dev?"
@@ -74,7 +76,19 @@ node('mvn-build-pod') {
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.DEV_PROJECT}", verifyReplicaCount: true)
   }
+}
 
+node('owasp-zap-openshift') {
+  stage ('Scan Dev Environment') 
+    dir('/zap') {
+      def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-dev:8080/'
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan', reportTitles: 'ZAP Baseline Scan'])
+      echo "Return value is: ${retVal}"
+    }
+  }
+}
+
+node('') {
   stage ('Deploy to Test') {
     input "Promote Application to Test?"
 
@@ -82,7 +96,19 @@ node('mvn-build-pod') {
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.TEST_PROJECT}", verifyReplicaCount: true)
   }
+}
 
+node('owasp-zap-openshift') {
+  stage ('Scan Test Environment') 
+    dir('/zap') {
+      def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-test:8080/'
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan', reportTitles: 'ZAP Baseline Scan'])
+      echo "Return value is: ${retVal}"
+    }
+  }
+}
+
+node('') {
   stage ('Deploy to UAT') {
     input "Promote Application to UAT?"
 
@@ -90,5 +116,15 @@ node('mvn-build-pod') {
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.UAT_PROJECT}", verifyReplicaCount: true)
   }
-
 }
+
+node('owasp-zap-openshift') {
+  stage ('Scan UAT Environment') 
+    dir('/zap') {
+      def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-uat:8080/'
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan', reportTitles: 'ZAP Baseline Scan'])
+      echo "Return value is: ${retVal}"
+    }
+  }
+}
+
