@@ -76,7 +76,7 @@ node('') {
 
 node('owasp-zap-openshift') {
   stage ('ZAP Scan Dev Environment') {
-    def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r /zap/wrk/baseline.html -t http://java-app-labs-dev:8080/'
+    def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r /zap/wrk/baseline.html -t https://java-app-labs-dev.apps/'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan - Dev', reportTitles: 'ZAP Baseline Scan - Dev'])
     echo "Return value is: ${retVal}"
   }
