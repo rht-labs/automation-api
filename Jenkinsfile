@@ -63,7 +63,7 @@ node('mvn-build-pod') {
   }
 }
 
-input "Promote Application to Dev?"
+echo "Deploying Application to Dev"
 stage ('Deploy to Dev') {
   node('') {
     // no user changes should be needed below this point
