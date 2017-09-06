@@ -82,7 +82,7 @@ node('zap') {
   stage ('ZAP Scan Dev Environment') {
     dir('/zap') {
       def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-dev:8080/'
-      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan', reportTitles: 'ZAP Baseline Scan'])
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan - Dev', reportTitles: 'ZAP Baseline Scan - Dev'])
       echo "Return value is: ${retVal}"
     }
   }
@@ -102,7 +102,7 @@ node('zap') {
   stage ('ZAP Scan Test Environment') {
     dir('/zap') {
       def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-test:8080/'
-      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan', reportTitles: 'ZAP Baseline Scan'])
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan - Test', reportTitles: 'ZAP Baseline Scan - Test'])
       echo "Return value is: ${retVal}"
     }
   }
@@ -122,7 +122,7 @@ node('zap') {
   stage ('ZAP Scan UAT Environment') {
     dir('/zap') {
       def retVal = sh returnStatus: true, script: '/zap/zap-baseline.py -r baseline.html -t http://java-app-labs-uat:8080/'
-      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan', reportTitles: 'ZAP Baseline Scan'])
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'baseline.html', reportName: 'ZAP Baseline Scan - UAT', reportTitles: 'ZAP Baseline Scan - UAT'])
       echo "Return value is: ${retVal}"
     }
   }
