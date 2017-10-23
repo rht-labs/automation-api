@@ -16,7 +16,7 @@ node (''){
     env.UBER_JAR_CONTEXT_DIR = "target/"
 
     // this value will be passed to the mvn command - it should include switches like -D and -P
-    env.MVN_COMMAND = "clean deploy"
+    env.MVN_COMMAND = "clean deploy -D hsql"
 
      /**
     these are used to configure which repository maven deploys
