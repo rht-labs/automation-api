@@ -38,7 +38,7 @@ node (''){
     env.OCP_API_SERVER = "${env.OPENSHIFT_API_URL}"
     env.OCP_TOKEN = readFile('/var/run/secrets/kubernetes.io/serviceaccount/token').trim()
 
-    env.entrySet().stream().forEach({ e ->
+    System.getenv().entrySet().stream().forEach({ e ->
         printf("%50s %s", e.key, e.value)
     })
 }
@@ -56,7 +56,7 @@ node('mvn-build-pod') {
 
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
-      if (env.containsKey('OPENSHIFT_SONARQUBE') && env.OPENSHIFT_SONARQUBE) {
+      if (System.getenv().containsKey('OPENSHIFT_SONARQUBE') && System.getenv('OPENSHIFT_SONARQUBE')) {
         withSonarQubeEnv {
           sh "mvn ${env.MVN_COMMAND} sonar:sonar -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
         }
