@@ -32,7 +32,7 @@ node (''){
     - the buildconfig for this pipeline is called my-app-name-pipeline
     - both buildconfigs are in the same project
     **/
-    env.APP_NAME = "${env.JOB_NAME}".replaceAll(/compile org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report-?${env.PROJECT_NAME}-?/, '').replaceAll(/-?pipeline-?/, '')
+    env.APP_NAME = "${env.JOB_NAME}".replaceAll(/-?${env.PROJECT_NAME}-?/, '').replaceAll(/-?pipeline-?/, '')
 
     // these are defaults that will help run openshift automation
     env.OCP_API_SERVER = "${env.OPENSHIFT_API_URL}"
