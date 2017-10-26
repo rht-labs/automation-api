@@ -53,7 +53,7 @@ node('mvn-build-pod') {
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
 
-      if (env.OPENSHIFT_SONARQUBE) {
+      if (System.getenv('OPENSHIFT_SONARQUBE')) {
         withSonarQubeEnv {
           sh "mvn ${env.MVN_COMMAND} sonar:sonar -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
         }
