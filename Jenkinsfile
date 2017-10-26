@@ -17,7 +17,7 @@ node (''){
     env.UBER_JAR_CONTEXT_DIR = "target/"
 
     // this value will be passed to the mvn command - it should include switches like -D and -P
-    env.MVN_COMMAND = "clean deploy"
+    env.MVN_COMMAND = "compile org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report"
 
      /**
     these are used to configure which repository maven deploys
@@ -32,7 +32,7 @@ node (''){
     - the buildconfig for this pipeline is called my-app-name-pipeline
     - both buildconfigs are in the same project
     **/
-    env.APP_NAME = "${env.JOB_NAME}".replaceAll(/-?${env.PROJECT_NAME}-?/, '').replaceAll(/-?pipeline-?/, '')
+    env.APP_NAME = "${env.JOB_NAME}".replaceAll(/compile org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report-?${env.PROJECT_NAME}-?/, '').replaceAll(/-?pipeline-?/, '')
 
     // these are defaults that will help run openshift automation
     env.OCP_API_SERVER = "${env.OPENSHIFT_API_URL}"
@@ -53,7 +53,7 @@ node('mvn-build-pod') {
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
       withSonarQubeEnv {
-        sh "mvn ${env.MVN_COMMAND} sonar:sonar -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
+        sh "mvn ${env.MVN_COMMAND} sonar:sonar -Dhsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
       }
     }
 
