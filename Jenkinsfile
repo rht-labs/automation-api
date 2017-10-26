@@ -38,8 +38,9 @@ node (''){
     env.OCP_API_SERVER = "${env.OPENSHIFT_API_URL}"
     env.OCP_TOKEN = readFile('/var/run/secrets/kubernetes.io/serviceaccount/token').trim()
 
+    println('Printing environment variables')
     System.getenv().entrySet().stream().each { e ->
-        printf("%50s %s", e.key, e.value)
+        printf('%50s %s\n', e.key, e.value)
     }
 }
 
