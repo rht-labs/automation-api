@@ -55,6 +55,15 @@ node('mvn-build-pod') {
       withSonarQubeEnv {
         sh "mvn ${env.MVN_COMMAND} sonar:sonar -Dhsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
       }
+      publishHTML([  // Publish JaCoCo Coverage Report
+        allowMissing: false,
+        alwaysLinkToLastBuild: false,
+        keepAll: false,
+        reportDir: 'target/site/jacoco',
+        reportFiles: 'index.html',
+        reportName: 'JaCoCo Test Coverage Report',
+        reportTitles: 'JaCoCo Test Coverage Report'
+      ])
     }
 
     // assumes uber jar is created
