@@ -17,7 +17,7 @@ node (''){
     env.UBER_JAR_CONTEXT_DIR = "target/"
 
     // this value will be passed to the mvn command - it should include switches like -D and -P
-    env.MVN_COMMAND = "clean sonar:sonar deploy"
+    env.MVN_COMMAND = "clean deploy"
 
      /**
     these are used to configure which repository maven deploys
@@ -52,8 +52,12 @@ node('mvn-build-pod') {
 
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
-      // TODO - introduce a variable here
-      withSonarQubeEnv {
+
+      if (env.OPENSHIFT_SONARQUBE) {
+        withSonarQubeEnv {
+          sh "mvn ${env.MVN_COMMAND} sonar:sonar -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
+        }
+      } else {
         sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
       }
     }
