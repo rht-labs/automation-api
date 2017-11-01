@@ -1,3 +1,6 @@
+
+# This component is deprecated. We keep the code base around as an example Java / Spring Boot App
+
 # Automation API Server
 
 A simple application to store data that enables Red Hat Open Innovation Labs to automate deployment infrastructure and applications. This application was defined use Swagger. https://github.com/rht-labs/api-design.
