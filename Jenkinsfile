@@ -10,4 +10,3 @@ node (''){
 node ('mvn-build-pod'){
     echo env.getEnvironment().toString()
 }
-}
