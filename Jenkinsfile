@@ -17,7 +17,7 @@ node (''){
     env.UBER_JAR_CONTEXT_DIR = "target/"
 
     // this value will be passed to the mvn command - it should include switches like -D and -P
-    env.MVN_COMMAND = "clean deploy"
+    env.MVN_COMMAND = "compile org.jacoco:jacoco-maven-plugin:prepare-agent package org.jacoco:jacoco-maven-plugin:report deploy"
 
      /**
     these are used to configure which repository maven deploys
@@ -52,8 +52,18 @@ node('mvn-build-pod') {
 
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
-      // TODO - introduce a variable here
-      sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
+      withSonarQubeEnv {
+        sh "mvn ${env.MVN_COMMAND} sonar:sonar -Dhsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
+      }
+      publishHTML([  // Publish JaCoCo Coverage Report
+        allowMissing: false,
+        alwaysLinkToLastBuild: false,
+        keepAll: false,
+        reportDir: 'target/site/jacoco',
+        reportFiles: 'index.html',
+        reportName: 'JaCoCo Test Coverage Report',
+        reportTitles: 'JaCoCo Test Coverage Report'
+      ])
     }
 
     // assumes uber jar is created
