@@ -51,6 +51,17 @@ node('mvn-build-pod') {
 
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
+        // verify nexus is up or the build will fail with a strange error
+      openshiftVerifyDeployment ( 
+                        apiURL: "${env.OCP_API_SERVER}", 
+                        authToken: "${env.OCP_TOKEN}", 
+                        depCfg: 'nexus, 
+                        namespace: 'labs-ci-cd', 
+                        verifyReplicaCount: true,
+                        waitTime: '3', 
+                        waitUnit: 'min'
+                    ) 
+        
       // TODO - introduce a variable here
       sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
     }
