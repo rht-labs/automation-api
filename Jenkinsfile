@@ -37,6 +37,8 @@ node (''){
     // these are defaults that will help run openshift automation
     env.OCP_API_SERVER = "${env.OPENSHIFT_API_URL}"
     env.OCP_TOKEN = readFile('/var/run/secrets/kubernetes.io/serviceaccount/token').trim()
+    
+    
 }
 
 
@@ -52,7 +54,19 @@ node('mvn-build-pod') {
 
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Build App') {
-      // TODO - introduce a variable here
+      
+      // verify nexus is up or the build will fail with a strange error
+      openshiftVerifyDeployment ( 
+                        apiURL: "${env.OCP_API_SERVER}", 
+                        authToken: "${env.OCP_TOKEN}", 
+                        depCfg: 'nexus, 
+                        namespace: 'labs-ci-cd', 
+                        verifyReplicaCount: true,
+                        waitTime: '3', 
+                        waitUnit: 'min'
+                    )  
+        
+      // TODO - introduce a variable here  
       sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
     }
 
