@@ -55,7 +55,7 @@ node('mvn-build-pod') {
       openshiftVerifyDeployment ( 
                         apiURL: "${env.OCP_API_SERVER}", 
                         authToken: "${env.OCP_TOKEN}", 
-                        depCfg: 'nexus, 
+                        depCfg: 'nexus', 
                         namespace: 'labs-ci-cd', 
                         verifyReplicaCount: true,
                         waitTime: '3', 
