@@ -56,7 +56,7 @@ node('mvn-build-pod') {
                         apiURL: "${env.OCP_API_SERVER}", 
                         authToken: "${env.OCP_TOKEN}", 
                         depCfg: 'nexus', 
-                        namespace: "${env.OPENSHIFT_BUILD_NAMESPACE}, 
+                        namespace: "${env.OPENSHIFT_BUILD_NAMESPACE}", 
                         verifyReplicaCount: true,
                         waitTime: '3', 
                         waitUnit: 'min'
