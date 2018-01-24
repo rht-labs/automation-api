@@ -66,7 +66,7 @@ node('jenkins-slave-mvn') {
         if ( returnCode == '200'){
           break
         } else {
-          echo "returnCode"
+            echo "${returnCode}"
           sleep time: 10, unit: 'SECONDS'
         }
       }
