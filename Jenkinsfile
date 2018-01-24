@@ -49,18 +49,29 @@ node('jenkins-slave-mvn') {
   }
 
   dir ("${env.SOURCE_CONTEXT_DIR}") {
-    stage('Build App') {
-        // verify nexus is up or the build will fail with a strange error
+    stage('Wait for Nexus'){
+      // verify nexus is up or the build will fail with a strange error
       openshiftVerifyDeployment ( 
-                        apiURL: "${env.OCP_API_SERVER}", 
-                        authToken: "${env.OCP_TOKEN}", 
-                        depCfg: 'nexus', 
-                        namespace: "${env.OPENSHIFT_BUILD_NAMESPACE}", 
-                        verifyReplicaCount: true,
-                        waitTime: '3', 
-                        waitUnit: 'min'
-                    ) 
-        
+        apiURL: "${env.OCP_API_SERVER}", 
+        authToken: "${env.OCP_TOKEN}", 
+        depCfg: 'nexus', 
+        namespace: "${env.OPENSHIFT_BUILD_NAMESPACE}", 
+        verifyReplicaCount: true,
+        waitTime: '3', 
+        waitUnit: 'min'
+      ) 
+      // now make sure the automation completed to set up the repos
+      while (true){
+        def returnCode = sh(returnStdout: true, script: "curl -s -o /dev/null -w \"%{http_code}\" http://nexus:8081/service/siesta/repository/browse/redhat-public")
+        if ( returnCode == '200'){
+          break
+        } else {
+          echo "returnCode"
+          sleep time: 10, unit: 'SECONDS'
+        }
+      }
+    }
+    stage('Build App') {        
       // TODO - introduce a variable here
       sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
     }
