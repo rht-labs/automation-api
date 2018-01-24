@@ -62,7 +62,7 @@ node('jenkins-slave-mvn') {
       ) 
       // now make sure the automation completed to set up the repos
       while (true){
-        def returnCode = sh(returnStdout: true, script: "curl -s -o /dev/null -w \"%{http_code}\" http://nexus:8081/service/siesta/repository/browse/redhat-public")
+        def returnCode = sh(returnStdout: true, script: "curl -s -o /dev/null -w \"%{http_code}\" http://nexus:8081/service/siesta/repository/browse/redhat-public/")
         if ( returnCode == '200'){
           break
         } else {
