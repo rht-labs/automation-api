@@ -4,21 +4,9 @@
     this section of the pipeline executes on the master, which has a lot of useful variables that we can leverage to configure our pipeline
 **/
 node (''){
-    // dynamic to handle PR testing
-    env.NAMESPACE = env.OPENSHIFT_BUILD_NAMESPACE
-    if ( env.NAMESPACE.contains('-ci-cd') ){
-        env.NAMESPACE = env.NAMESPACE.replace('-ci-cd', '')
-    }
-    if ( env.NAMESPACE.contains('-pr') ){
-        env.NAMESPACE = env.NAMESPACE.replace('-pr', '')
-    }
+    env.DEV_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','dev')
+    env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','demo')
     
-    env.DEV_PROJECT = "${env.NAMESPACE}-dev"
-    env.DEMO_PROJECT = "${env.NAMESPACE}-demo"
-    if (env.OPENSHIFT_BUILD_NAMESPACE.contains('-pr') ){
-        env.DEV_PROJECT = "${env.DEV_PROJECT}-pr"
-        env.DEMO_PROJECT = "${env.DEV_PROJECT}-pr"
-    }
 
     // this value should be set to the root directory of your source code within the git repository.
     // if the root of the source is the root of the repo, leave this value as ""
