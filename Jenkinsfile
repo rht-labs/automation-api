@@ -60,16 +60,6 @@ node('jenkins-slave-mvn') {
         waitTime: '3', 
         waitUnit: 'min'
       ) 
-      // now make sure the automation completed to set up the repos
-      while (true){
-        def returnCode = sh(returnStdout: true, script: "curl -s -o /dev/null -w \"%{http_code}\" http://nexus:8081/service/siesta/repository/browse/redhat-public/")
-        if ( returnCode == '200'){
-          break
-        } else {
-            echo "${returnCode}"
-          sleep time: 10, unit: 'SECONDS'
-        }
-      }
     }
     stage('Build App') {        
       // TODO - introduce a variable here
