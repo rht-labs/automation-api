@@ -75,30 +75,43 @@ node('mvn-build-pod') {
       sh "oc start-build ${env.APP_NAME} --from-dir=${env.UBER_JAR_CONTEXT_DIR} --follow"
     }
   }
+}
 
-  // no user changes should be needed below this point
-  stage ('Deploy to Dev') {
-    input "Promote Application to Dev?"
+echo "Deploying Application to Dev"
+stage ('Deploy to Dev') {
+  node('') {
+    // no user changes should be needed below this point
 
     openshiftTag (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", destStream: "${env.APP_NAME}", destTag: 'latest', destinationAuthToken: "${env.OCP_TOKEN}", destinationNamespace: "${env.DEV_PROJECT}", namespace: "${env.OPENSHIFT_BUILD_NAMESPACE}", srcStream: "${env.APP_NAME}", srcTag: 'latest')
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.DEV_PROJECT}", verifyReplicaCount: true)
   }
+}
 
+node('owasp-zap-openshift') {
+  stage ('ZAP Scan Dev Environment') {
+    def reportFile = "baseline-${env.BUILD_NUMBER}.html"
+    def retVal = sh returnStatus: true, script: "cd /zap; ./zap-baseline.py -r ${reportFile} -t https://java-app-labs-dev.apps/"
+    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: reportFile, reportName: 'ZAP Baseline Scan - Dev', reportTitles: 'ZAP Baseline Scan - Dev'])
+    echo "Return value is: ${retVal}"
+    retVal = sh returnStatus: true, script: "rm -f /zap/wrk/${reportFile}"
+  }
+}
+
+input "Promote Application to Test?"
+node('') {
   stage ('Deploy to Test') {
-    input "Promote Application to Test?"
 
     openshiftTag (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", destStream: "${env.APP_NAME}", destTag: 'latest', destinationAuthToken: "${env.OCP_TOKEN}", destinationNamespace: "${env.TEST_PROJECT}", namespace: "${env.DEV_PROJECT}", srcStream: "${env.APP_NAME}", srcTag: 'latest')
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.TEST_PROJECT}", verifyReplicaCount: true)
   }
 
+  input "Promote Application to UAT?"
   stage ('Deploy to UAT') {
-    input "Promote Application to UAT?"
 
     openshiftTag (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", destStream: "${env.APP_NAME}", destTag: 'latest', destinationAuthToken: "${env.OCP_TOKEN}", destinationNamespace: "${env.UAT_PROJECT}", namespace: "${env.TEST_PROJECT}", srcStream: "${env.APP_NAME}", srcTag: 'latest')
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.UAT_PROJECT}", verifyReplicaCount: true)
   }
-
 }
