@@ -7,6 +7,8 @@ node (''){
     env.DEV_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','dev')
     env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','demo')
     
+    env.CI_CD_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE
+    
 
     // this value should be set to the root directory of your source code within the git repository.
     // if the root of the source is the root of the repo, leave this value as ""
@@ -55,7 +57,7 @@ node('jenkins-slave-mvn') {
         apiURL: "${env.OCP_API_SERVER}", 
         authToken: "${env.OCP_TOKEN}", 
         depCfg: 'nexus', 
-        namespace: "${env.OPENSHIFT_BUILD_NAMESPACE}", 
+        namespace: "${env.CI_CD_PROJECT}", 
         verifyReplicaCount: true,
         waitTime: '3', 
         waitUnit: 'min'
