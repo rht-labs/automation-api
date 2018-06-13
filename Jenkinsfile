@@ -6,9 +6,9 @@
 node (''){
     env.DEV_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','dev')
     env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','demo')
-    
+
     env.CI_CD_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE
-    
+
 
     // this value should be set to the root directory of your source code within the git repository.
     // if the root of the source is the root of the repo, leave this value as ""
@@ -53,24 +53,29 @@ node('jenkins-slave-mvn') {
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Wait for Nexus'){
       // verify nexus is up or the build will fail with a strange error
-      openshiftVerifyDeployment ( 
-        apiURL: "${env.OCP_API_SERVER}", 
-        authToken: "${env.OCP_TOKEN}", 
-        depCfg: 'nexus', 
-        namespace: "${env.CI_CD_PROJECT}", 
+      openshiftVerifyDeployment (
+        apiURL: "${env.OCP_API_SERVER}",
+        authToken: "${env.OCP_TOKEN}",
+        depCfg: 'nexus',
+        namespace: "${env.CI_CD_PROJECT}",
         verifyReplicaCount: true,
-        waitTime: '3', 
+        waitTime: '3',
         waitUnit: 'min'
-      ) 
+      )
     }
-    stage('Build App') {        
+    stage('Build App') {
       // TODO - introduce a variable here
       sh "mvn ${env.MVN_COMMAND} -D hsql -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
     }
 
     // assumes uber jar is created
     stage('Build Image') {
-      sh "oc start-build ${env.APP_NAME} --from-dir=${env.UBER_JAR_CONTEXT_DIR} --follow"
+      sh "oc start-build ${env.APP_NAME} --from-dir=${env.UBER_JAR_CONTEXT_DIR} -w"
+      openshiftVerifyBuild (bldCfg: "${env.APP_NAME}",
+                     checkForTriggeredDeployments: 'false',
+                     namespace: "${env.CI_CD_PROJECT}",
+                     verbose: 'false',
+                     waitTime: '')
     }
   }
 
